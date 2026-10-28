@@ -74,6 +74,22 @@
     .return-hooks{display:grid;grid-template-columns:repeat(4,1fr);gap:2.5vw;margin-top:55px}.return-hooks div{border-top:1px solid rgba(131,241,234,.25);padding-top:17px}.return-hooks b{display:block;color:var(--gold);font-size:11px;font-weight:500;margin-bottom:9px}.return-hooks span{font-size:12px;line-height:1.65;color:#abc4c7}
     @media(max-width:850px){.engine-heading,.engine-grid,.method-head,.method-stage{grid-template-columns:1fr}.engine-output{min-height:auto}.engine-output h3{margin-top:60px}.method-visual{min-height:290px}.return-hooks{grid-template-columns:1fr 1fr;gap:24px}}
     @media(max-width:560px){.engine,.methods{padding:90px 0}.engine-output,.method-copy{padding:25px}.output-item{grid-template-columns:70px 1fr;gap:10px}.method-tabs button{padding:10px 13px}.device-detail{padding:30px}.return-hooks{grid-template-columns:1fr 1fr;gap:18px}}
+
+    .care{padding:90px 0 110px;background:linear-gradient(140deg,#04090e,#0a1b28 60%,#04090e)}
+    .care-head{display:grid;grid-template-columns:1fr 1fr;gap:7vw;align-items:end;margin-bottom:40px}
+    .care-head small{color:var(--cyan);font:10px monospace;letter-spacing:.18em}
+    .care-head h2{font:400 clamp(36px,5vw,66px)/1.1 Georgia,"Songti SC",serif;margin:15px 0 0}
+    .care-head p{color:#a9bec2;font-size:14px;line-height:1.8;margin:0}
+    .care-steps{display:grid;grid-template-columns:repeat(7,minmax(100px,1fr));gap:7px;margin-bottom:14px}
+    .care-steps button{min-height:70px;text-align:left;background:transparent;color:#b7c9cc;border:0;border-top:1px solid rgba(131,241,234,.25);padding:12px 6px;cursor:pointer;font:12px inherit}
+    .care-steps button span{display:block;font:10px monospace;color:#638e98;margin-bottom:8px}
+    .care-steps button:hover,.care-steps button.active{color:white;border-top-color:var(--gold);background:linear-gradient(180deg,rgba(255,199,131,.09),transparent)}
+    .care-view{display:grid;grid-template-columns:1.05fr .95fr;gap:6vw;min-height:260px;padding:30px 34px;background:linear-gradient(110deg,rgba(15,49,63,.58),rgba(5,16,24,.82)),url('assets/generative-corridor.webp') center/cover}
+    .care-view small{color:var(--cyan);font:10px monospace}.care-view h3{font:400 clamp(27px,3vw,43px) Georgia,"Songti SC",serif;margin:13px 0}
+    .care-view p{font-size:13px;line-height:1.7;color:#d3e1e2;margin:0}.care-view aside{align-self:end}
+    .care-view aside p{color:#a9c5c8}.care-view a{display:inline-block;color:var(--gold);font-size:11px;text-underline-offset:3px;margin-top:20px;margin-right:18px}
+    @media(max-width:850px){.care-head,.care-view{grid-template-columns:1fr}.care-steps{grid-template-columns:repeat(4,1fr)}}
+    @media(max-width:560px){.care{padding:75px 0}.care-steps{grid-template-columns:repeat(2,1fr)}.care-view{padding:25px}}
   </style>
 </head>
 <body>
@@ -83,6 +99,11 @@
     <section class="hero"><div class="hero-bg" aria-hidden="true"></div><div class="hero-copy"><div class="eyebrow">GENERATIVE ISLANDS</div><h1>生成式群岛<span>梓笙园AI体验中心</span></h1><div class="hero-tag">每一次航行，群岛重新生长</div></div><div class="scroll-cue">沿航线进入</div></section>
     <section class="about" id="about"><div class="wrap about-grid"><div><div class="section-no">00 / CENTER</div><h2>把治疗目标，<br>变成可以行动的空间。</h2><p class="about-lead">面向经评估并自愿参与的青少年与家庭，AI在专业目标与安全边界内，结合当下选择即时生成不同的岛屿、角色和互动情境。每次进入都有完整体验，复访时依据新的状态与上次练习重新生成，持续练习同一项现实技能。</p></div><div class="foundation"><div class="base"><b>01</b><h3>连续个案管理基础</h3><p>以 Copilot 为既有入口，整合经核验、经授权的病史、量表、治疗与专业计划，不另建一套医疗记录。</p></div><div class="base"><b>02</b><h3>现有 AI 产品与终端</h3><p>衔接利笙筛查、随访机器人、陪伴机器人和采集设备；公开体验使用演示身份，临床路径依专业方案进入。</p></div><div class="base"><b>03</b><h3>新增沉浸式服务</h3><p>AI把专业目标即时转译为群岛、角色与技能任务。同一目标可呈现为不同场景；本次行动与反馈经本人确认、治疗师复核，成为下次生成的依据。</p></div></div><div class="about-note">评估与授权 · 沉浸练习 · 专业复盘 · 生活迁移</div></div></section>
 
+
+    <section class="care" id="care"><div class="wrap"><div class="care-head"><div><small>CARE CONTINUUM / 产品与专业路径</small><h2>从第一次评估，<br>到下一次登岛。</h2></div><p>各产品各有职责。点选任一环节，看它发生在动线的哪里、参与者做什么、专业依据如何约束生成。</p></div>
+      <div class="care-steps" role="group" aria-label="照护路径"><button type="button" class="active" data-care="screen"><span>01 / 进入前</span>利笙筛查</button><button type="button" data-care="goal"><span>02 / 目标约束</span>Copilot</button><button type="button" data-care="robot"><span>03 / 现场互动</span>具身机器人</button><button type="button" data-care="scene"><span>04 / 体验内容</span>生成式群岛</button><button type="button" data-care="moment"><span>05 / 即时支持</span>EMA / JITAI</button><button type="button" data-care="review"><span>06 / 体验后</span>专业复盘</button><button type="button" data-care="between"><span>07 / 两次之间</span>晚星与随访</button></div>
+      <div class="care-view" aria-live="polite"><div><small id="carePlace">进入前 · 私密评估</small><h3 id="careTitle">先知道什么需要被保护</h3><p id="careAction">利笙在独立流程中完成筛查与风险识别；需要临床处理的信息进入专业路径，不被当作故事素材公开。</p></div><aside><small>专业依据与边界</small><p id="careBasis">标准化筛查与分层管理；研究支持的是量表方法，不等于利笙设备效能。体验资格和风险处置由临床人员决定。</p><a id="careRoute" href="#s01">查看动线位置 ↗</a><a id="careSource" href="https://pubmed.ncbi.nlm.nih.gov/22193671/" target="_blank" rel="noopener">查看相关研究 ↗</a></aside></div>
+    </div></section>
     <div class="simulation-drawer" id="simulation"><div class="simulation-heading"><span>INTERACTIVE PREVIEW / 体验动线</span><h2>模拟体验</h2></div><div class="simulation-content" id="simulationContent">
 
     <section class="engine" id="engine"><div class="wrap">
@@ -133,6 +154,17 @@
     const videoObserver=new IntersectionObserver(entries=>{entries.forEach(({target,isIntersecting,intersectionRatio})=>{if(isIntersecting&&intersectionRatio>=.45)playVisible(target);else target.pause()})},{threshold:[0,.45,.75]});videos.forEach(v=>videoObserver.observe(v));
     function unlockSound(){soundUnlocked=true;const v=videos.find(x=>{const r=x.getBoundingClientRect();return r.top<innerHeight*.8&&r.bottom>innerHeight*.2});if(v){v.muted=false;playVisible(v)}}
     document.addEventListener('pointerdown',unlockSound,{once:true});document.addEventListener('keydown',unlockSound,{once:true});
+
+    const careStages={
+      screen:['进入前 · 私密评估','先知道什么需要被保护','利笙在独立流程中完成筛查与风险识别；需要临床处理的信息进入专业路径，不被当作故事素材公开。','标准化筛查与分层管理；研究支持的是量表方法，不等于利笙设备效能。体验资格和风险处置由临床人员决定。','s01','https://pubmed.ncbi.nlm.nih.gov/22193671/'],
+      goal:['入口确认 · 专业目标','世界先有临床边界','Copilot只调用经授权的个案资料、阶段目标与沟通偏好，形成可由本人确认的练习方向。','个案概念化、共同决策与测量反馈；AI不自行设定诊断或治疗目标。','s02','https://pubmed.ncbi.nlm.nih.gov/40014505/'],
+      robot:['入口至共创 · 可暂停互动','等待也是有效的回应','具身机器人确认意思、等待回答，提供说、画、观察、暂停、修改与不分享的选择。','自主支持表达与青少年参与有关；这一原则尚需在机器人交互中验证。','s06','https://pubmed.ncbi.nlm.nih.gov/37003139/'],
+      scene:['个人岛与共创区 · 技能练习','世界承载心理行为','空间让调节刺激、人际协商、小步行动和正念练习可见；角色不发布任务，也不替人作解释。','借鉴 CBT、DBT、IPT 与第三波方法中的具体技术；整套生成体验的效果待验证。','s07','https://pubmed.ncbi.nlm.nih.gov/29926087/'],
+      moment:['体验途中 · 最小支持','只在需要时靠近','EMA询问当下状态；确认需要后，JITAI才提供一个可拒绝的短提示或暂停建议。','情境化适配逻辑；触发规则、负担与收益需在青少年人群单独研究。','s05','https://pubmed.ncbi.nlm.nih.gov/36408963/'],
+      review:['报告出口 · 人工核验','把过程写成可修改的草稿','Copilot整理本人确认的行为与过程线索，专业人员复核临床记录，再共同决定下一步。','测量反馈治疗与人工监督；体验纪念与临床报告分开。','s08','https://pubmed.ncbi.nlm.nih.gov/40014505/'],
+      between:['院外与复访 · 连续接续','现实变化进入下一航次','复诊机器人、晚星和小程序承接本人愿意记录的尝试、阻碍与变化，复访时再由本人决定是否调用。','混合式连续照护；现场之外的反馈不自动改写诊疗计划。','s09','https://pubmed.ncbi.nlm.nih.gov/22193788/']
+    };
+    document.querySelectorAll('[data-care]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('[data-care]').forEach(x=>x.classList.toggle('active',x===b));const [place,title,action,basis,route,source]=careStages[b.dataset.care];document.getElementById('carePlace').textContent=place;document.getElementById('careTitle').textContent=title;document.getElementById('careAction').textContent=action;document.getElementById('careBasis').textContent=basis;document.getElementById('careRoute').href='#'+route;document.getElementById('careSource').href=source}));
     const variants={explore:['未知岛已出现','下一站：主题岛。海岸会依据你的选择改变。'],connect:['对话航线已展开','下一站：共创空间。试着选择关系的距离。'],pause:['安静港口已点亮','下一站：个人岛。可以停留、观察，之后再继续。']};
     document.querySelectorAll('[data-voyage]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('[data-voyage]').forEach(x=>x.classList.toggle('selected',x===b));const [title,detail]=variants[b.dataset.voyage];document.querySelector('.choice-result').innerHTML='<strong>'+title+'</strong><span>'+detail+'</span>';document.querySelector('.sea-map').dataset.voyage=b.dataset.voyage}));
 
