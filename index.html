@@ -214,6 +214,21 @@ button,input{font-family:inherit}
 .sensory{padding:100px 0;background:radial-gradient(ellipse at 70% 10%,#16332f,#07131d 55%,#04090e)}
 .sensory-head{max-width:800px}.sensory small{color:var(--cyan);font:11px monospace;letter-spacing:.14em}.sensory h2{font:400 clamp(34px,5vw,64px)/1.2 Georgia,"Songti SC",serif;margin:18px 0 24px}.sensory p{color:#b9ccce;line-height:1.85;font-size:15px}.sensory-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px;margin-top:42px}.sensory-grid article{border-top:1px solid #6ca99c;padding-top:24px}.sensory h3{font-size:23px;font-weight:500;margin:16px 0}.sensory-example{margin-top:40px;padding:25px 28px;background:#10242c;border-left:2px solid var(--gold)}.sensory-example strong{color:var(--gold)}.sensory-note{font-size:12px!important;color:#92abae!important;margin-top:24px}
 @media(max-width:850px){.sensory-grid{grid-template-columns:1fr;gap:24px}.sensory{padding:75px 0}.sensory-example{padding:22px 20px}}
+
+/* Added product introduction; existing sections and interactions are retained. */
+.product-story{padding:100px 0;background:linear-gradient(155deg,#07151e,#09232c 45%,#040b12);color:#e8f1f1}
+.product-story .story-label{font:11px monospace;letter-spacing:.16em;color:var(--cyan)}
+.product-story h2{font:400 clamp(34px,4.8vw,62px)/1.25 Georgia,"Songti SC",serif;margin:20px 0 24px}
+.product-story .story-lead{font-size:18px;line-height:1.9;max-width:850px;color:#cbdcdd}
+.story-index{display:flex;flex-wrap:wrap;gap:12px 25px;padding:25px 0 35px;border-bottom:1px solid #31515b}.story-index a{color:var(--gold);font-size:13px;text-underline-offset:5px}
+.story-chapter{padding:55px 0;border-bottom:1px solid #28434e}.story-chapter h3{font:400 clamp(27px,3vw,40px)/1.3 Georgia,"Songti SC",serif;margin:16px 0 22px}.story-chapter p{color:#bfd1d4;font-size:15px;line-height:1.9;margin:10px 0}
+.story-context{display:grid;grid-template-columns:1fr 1fr;gap:50px}.story-context h4{font-size:17px;color:#eef6f5;font-weight:500;margin:20px 0 10px}
+.story-timeline{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:30px;margin-top:28px}.story-timeline>div{border-left:2px solid #7cd4cb;padding-left:20px}.story-timeline h4{font-size:18px;margin:8px 0 12px;font-weight:500}.story-timeline small{color:var(--gold);font-size:11px}
+.story-products{width:100%;border-collapse:collapse;margin-top:28px;font-size:14px}.story-products th,.story-products td{text-align:left;vertical-align:top;border-bottom:1px solid #28434e;padding:18px 14px;line-height:1.8}.story-products th{color:var(--cyan);font-weight:500}.story-products td:first-child{color:#fff;width:22%}.story-products td{color:#c3d5d7}
+.story-case{margin-top:30px;padding:28px;background:#0d2632;border-left:2px solid var(--gold)}.story-case h4{font-size:21px;font-weight:500;margin:0 0 18px}.story-dialogue{display:grid;gap:16px}.story-dialogue>div{display:grid;grid-template-columns:90px 1fr;gap:16px}.story-dialogue b{font-size:12px;color:var(--gold);line-height:1.9;font-weight:500}.story-dialogue p{margin:0}
+.story-note{font-size:12px!important;color:#94b0b6!important;margin-top:22px!important}.story-next{display:inline-block;margin-top:30px;color:var(--cyan);font-size:14px;text-underline-offset:5px}
+@media(max-width:850px){.story-context{grid-template-columns:1fr;gap:15px}.story-timeline{grid-template-columns:1fr;gap:24px}}
+@media(max-width:560px){.product-story{padding:65px 0}.product-story .story-lead{font-size:16px}.story-chapter{padding:35px 0}.story-case{padding:22px 18px}.story-dialogue>div{grid-template-columns:1fr;gap:3px}.story-products,.story-products tbody,.story-products tr,.story-products td{display:block}.story-products thead{display:none}.story-products tr{padding:16px 0;border-bottom:1px solid #31515b}.story-products td{border:0;padding:4px 0}.story-products td:first-child{width:auto;font-size:17px;color:var(--cyan)}.story-index{gap:14px 20px}}
 </style>
 </head>
 <body>
@@ -245,6 +260,43 @@ button,input{font-family:inherit}
 </svg></template>
   <main>
     <section class="hero"><div class="hero-bg" aria-hidden="true"></div><div class="hero-copy"><div class="eyebrow">GENERATIVE ISLANDS / 青少年心理健康</div><h1>生成式群岛<span>梓笙园AI体验中心</span></h1><p class="hero-definition">在专业评估与支持下，进入每次都不同的场景，练习表达、调节与沟通。</p><div class="hero-facts"><div><small>服务谁</small><strong>经评估适宜的青少年，家庭可参与</strong></div><div><small>为了什么</small><strong>让心理技能练习连接现实生活</strong></div><div><small>当前阶段</small><strong>体验方案展示，整体效果待验证</strong></div></div><a class="hero-enter" href="#avatar">创建我的登岛形象 <span aria-hidden="true">↗</span></a></div><div class="scroll-cue">沿航线进入</div></section>
+
+<section class="product-story" id="product-story" aria-labelledby="product-story-title"><div class="wrap">
+<div class="story-label">PRODUCT STORY / 先认识这个产品</div>
+<h2 id="product-story-title">为什么建设这座中心，<br>来这里具体能做什么？</h2>
+<p class="story-lead">梓笙园希望把心理健康服务延伸到更具体的日常行动：先了解需要，再确定专业目标，让参与者在可互动的场景中练习，离开后继续尝试。生成式群岛承担其中的沉浸式练习环节，连接医院已有的筛查、个案管理、复诊与陪伴产品。</p>
+<nav class="story-index" aria-label="产品介绍目录"><a href="#story-background">01 设计背景</a><a href="#story-status">02 当前现状</a><a href="#story-products">03 产品分工</a><a href="#story-experience">04 一次完整体验</a></nav>
+<div class="story-chapter" id="story-background"><div class="story-label">01 / 设计背景</div><h3>让专业支持更容易到达，让技能有地方练习</h3>
+<div class="story-context"><div><h4>服务需求与专业资源之间有缺口</h4><p>情绪困扰、家庭与同伴关系、日常压力，可能持续影响青少年的生活。筛查、评估、治疗和随访需要专业人员投入时间，而需要帮助的时刻也会发生在诊室之外。讲座中的诊疗机器人实践，正是从服务可及性与连续支持的需求出发。</p><h4>一次会谈之后，还需要反复练习</h4><p>“把需要说清楚”“先迈出可承受的一步”听起来简单，实际面对冲突、疲劳或担心时却未必容易做到。中心希望在专业支持下提供可示范、可暂停、可重来的练习机会，再和真实生活连接。</p></div><div><h4>中心提案聚焦四个具体问题</h4><p><strong>进入有负担：</strong>陌生环境和不清楚的任务可能让人不愿开始，需要明确说明、自主选择和退出方式。</p><p><strong>交付不一致：</strong>同一个技能需要明确的指导、示范、尝试和反馈，不能只靠即兴对话。</p><p><strong>过程看不清：</strong>需要知道实际提供了什么练习、参与者用了什么支持，并由本人和专业人员核对。</p><p><strong>离场后难延续：</strong>院内的尝试需要转成一项可执行的生活行动，并在复访时回看。</p></div></div>
+</div>
+<div class="story-chapter" id="story-status"><div class="story-label">02 / 当前现状</div><h3>已有产品基础，正在设计新的体验连接</h3><p>项目已有诊疗机器人与连续照护的产品和研究基础。本次中心方案将这些基础与新的故事场景、技能任务和专业复盘连接起来，具体接口、设备配置与服务流程仍需逐项核验。</p>
+<div class="story-timeline"><div><small>已有基础</small><h4>筛查、管理与陪伴</h4><p>利笙承担适用筛查与辅助评估。Copilot 用于整合可用资料与专业计划。复诊、陪伴机器人及采集设备构成可复用的终端基础，各自能力与接入范围以实际核验为准。</p></div><div><small>本次建设增量</small><h4>把目标变成可参与的场景</h4><p>新增群岛故事、经审核的技能任务与沉浸场景，拟记录练习机会、实际行动和所用支持，形成可供专业人员复核的过程摘要。</p></div><div><small>下一步验证</small><h4>先验证安全、参与和服务交付</h4><p>先看是否愿意参与、能否理解和完成适用练习、出现哪些不适与退出原因，以及人员和设备成本，再进一步评估功能、症状与长期变化。</p></div></div>
+<p class="story-note">本网页展示体验方案和互动示意。既有筛查研究支持对应产品与研究范围，不能直接证明整个群岛空间的临床效果。首批专业体验面向经评估适宜且本人愿意的青少年及家庭，公众参观使用独立演示身份。</p>
+</div>
+<div class="story-chapter" id="story-products"><div class="story-label">03 / 产品分工</div><h3>每个产品，回答服务中的一个具体问题</h3>
+<table class="story-products"><thead><tr><th scope="col">产品或环节</th><th scope="col">为谁解决什么问题</th><th scope="col">怎样接到下一步</th></tr></thead><tbody>
+<tr><td>利笙筛查与辅助评估</td><td>帮助专业人员整理症状、功能影响与需要进一步追问的线索。</td><td>结果进入专业核验，决定是否需要进一步评估与适宜的服务安排。</td></tr>
+<tr><td>Copilot 个案管理</td><td>帮助专业人员查看可用病史、量表、治疗和计划，了解资料来源与更新情况。</td><td>确认本次目标、可用支持和允许开展的练习。未接通的信息需人工核实。</td></tr>
+<tr><td>生成式群岛</td><td>让参与者在故事中具体尝试表达、沟通、调节或分步行动。</td><td>在专业计划内生成场景和表达形式，练习后与本人一起回顾发生了什么。</td></tr>
+<tr><td>具身机器人与现场人员</td><td>提供迎宾、操作提示和陪伴，帮助理解任务、暂停或转接。</td><td>专业人员负责评估、带领和必要的人工接续，机器人按配置承担辅助工作。</td></tr>
+<tr><td>复诊、晚星与院外随访</td><td>在两次到访之间，按适用流程了解变化、记录生活尝试并提供支持。</td><td>复访先核对实际尝试和障碍，再调整下一次安排。具体联动以接口与服务能力为准。</td></tr>
+</tbody></table>
+</div>
+<div class="story-chapter" id="story-experience"><div class="story-label">04 / 一次完整体验</div><h3>故事里的行动，对应生活中想练的一件事</h3><p>群岛的故事从一个容易理解的问题开始：风暴遮住了航标，一艘船需要帮助才能靠岸。参与者可以在守望站观察、选择方向并发出消息。专业人员先确认本次目标，故事再提供适合的练习机会。</p>
+<div class="story-case"><h4>示例：把“往这里”说得更具体</h4><div class="story-dialogue">
+<div><b>进入前</b><p>参与者和专业人员确认今天练习“提出具体请求，并确认对方是否听懂”。先演练暂停，选择用口语、图卡或指向参与。</p></div>
+<div><b>故事里</b><p>参与者发出“往这里”，飞船回应：“你指左侧航标，还是近处入口？”引导端示范怎样补充方向，参与者再试一次。</p></div>
+<div><b>得到回应</b><p>飞船复述收到的方向，参与者确认或修改。航线随确认结果变化，再换一个简单方向复练，让人看清自己的行动产生了什么影响。</p></div>
+<div><b>专业复盘</b><p>一起回顾哪条信息有帮助、是否需要示范、哪里想暂停。记录实际尝试和本人解释，语音识别失败时改用其他输入。</p></div>
+<div><b>带回生活</b><p>本人选择一个愿意尝试的小请求，例如向家人说清“我想先安静十分钟，之后再聊”。下次回访先了解有没有尝试、对方怎样回应、遇到什么阻碍。</p></div>
+</div><p class="story-note">以上为虚构体验示例。正式技能练习须适用于本人的专业计划，由专业人员安排。可只观察、跳过或暂停。</p></div>
+<p>现实空间提供设备、舒适环境与现场支持，VR和投影等技术承载场景。温度、可选气味和环绕声共同营造氛围。AI在允许范围内调整角色表达和情境，专业人员决定目标、强度与复评安排。</p>
+<p>一次来访可以完整结束。愿意再次到访时，故事只承接本人同意保存的经历：可以继续探索研究站、比较不同区域的安排，也可以重新选择主题与参与方式。</p>
+</div>
+<p class="story-note">设计资料：《副本大会讲座——诊疗机器人在情绪障碍与自杀自伤的应用》第2—6、14—22页，以及《群岛航行 AI体验中心提案》第2—13、28—33页。继续向下，可查看中心介绍、产品路径和互动体验。</p>
+<a class="story-next" href="#about">继续查看中心介绍与原有体验 ↓</a>
+</div></section>
+
     <section class="about" id="about"><div class="wrap about-grid"><div><div class="section-no">00 / CENTER</div><h2>这里做什么？</h2><p class="about-lead">把筛查、专业目标、沉浸练习和随访连起来。AI依据本人当下选择生成岛屿与角色，让同一项技能在不同情境中反复练习；专业人员负责评估与复盘。</p></div><div class="foundation"><div class="base"><b>01</b><h3>临床体验 · 青少年为主</h3><p>经评估适宜、自愿参与的青少年进入个人与共创场景；家庭在授权和专业安排下参与。</p></div><div class="base"><b>02</b><h3>公开参观 · 演示身份</h3><p>其他访客可了解产品、动线和生成逻辑。网页互动是示意，不采集心理状态，也不进入临床流程。</p></div><div class="base"><b>03</b><h3>目标与阶段 · 清楚分开</h3><p>目标是促进参与、表达、情绪调节、人际练习及生活迁移。整体生成式空间仍需分阶段验证安全性和效果。</p></div></div><div class="about-note">筛查评估 · 个体化练习 · 专业复盘 · 院外随访</div></div></section>
     <section class="care" id="care"><div class="wrap"><div class="care-head"><div><small>CARE CONTINUUM / 产品与专业路径</small><h2>从第一次评估，<br>到下一次登岛。</h2></div><p>各产品各有职责。点选任一环节，看它发生在动线的哪里、参与者做什么、专业依据如何约束生成。</p></div>
       <div class="care-steps" role="group" aria-label="照护路径"><button type="button" class="active" data-care="screen"><span>01 / 进入前</span>利笙筛查</button><button type="button" data-care="goal"><span>02 / 目标约束</span>Copilot</button><button type="button" data-care="robot"><span>03 / 现场互动</span>具身机器人</button><button type="button" data-care="scene"><span>04 / 体验内容</span>生成式群岛</button><button type="button" data-care="moment"><span>05 / 即时支持</span>EMA / JITAI</button><button type="button" data-care="review"><span>06 / 体验后</span>专业复盘</button><button type="button" data-care="between"><span>07 / 两次之间</span>晚星与随访</button></div>
