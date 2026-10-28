@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="梓笙园AI体验中心：从评估、沉浸式技能练习到专业复盘的生成式群岛体验。">
+  <meta name="description" content="梓笙园AI体验中心：面向经评估适宜的青少年及家庭，以生成式沉浸场景练习表达、调节和沟通，连接专业复盘与院外随访。">
   <title>生成式群岛｜梓笙园AI体验中心</title>
   <style>
     :root{--night:#04070c;--ink:#f3f7f7;--muted:#9daeb3;--cyan:#83f1ea;--blue:#4fc8f4;--gold:#ffc783;--side:min(6vw,90px)}
@@ -90,22 +90,82 @@
     .care-view aside p{color:#a9c5c8}.care-view a{display:inline-block;color:var(--gold);font-size:11px;text-underline-offset:3px;margin-top:20px;margin-right:18px}
     @media(max-width:850px){.care-head,.care-view{grid-template-columns:1fr}.care-steps{grid-template-columns:repeat(4,1fr)}}
     @media(max-width:560px){.care{padding:75px 0}.care-steps{grid-template-columns:repeat(2,1fr)}.care-view{padding:25px}}
+
+    .hero-copy{padding-bottom:6.5vh}.hero h1{font-size:clamp(58px,8.6vw,118px);margin:20px 0 22px}.hero h1 span{margin-top:14px;font-size:.42em}
+    .hero-definition{max-width:720px;font-size:clamp(16px,1.65vw,22px);line-height:1.55;color:#eaf2f1;margin:0 0 22px;text-shadow:0 2px 18px #02090e}
+    .hero-facts{display:grid;grid-template-columns:repeat(3,minmax(0,240px));gap:18px;max-width:790px;padding-top:17px;border-top:1px solid rgba(219,241,240,.36)}
+    .hero-facts div{display:grid;gap:7px}.hero-facts small{color:var(--cyan);font-size:10px;letter-spacing:.12em}.hero-facts strong{font-weight:500;font-size:12px;line-height:1.45;color:#f0f4f4}
+    .hero-enter{display:inline-flex;align-items:center;gap:26px;text-decoration:none;color:#071219;background:#b5f1e9;padding:12px 19px;font-size:12px;letter-spacing:.08em;margin-top:24px;transition:transform .25s,background .25s}.hero-enter:hover{transform:translateY(-3px);background:#e6ffff}
+    .about{padding-top:115px;padding-bottom:100px}.about-grid{gap:7vw}.about h2{font-size:clamp(40px,5vw,65px)}.about-lead{font-size:17px;line-height:1.75}.foundation{gap:27px}.about-note{margin-top:48px}
+    .avatar-studio{padding:115px 0 105px;background:radial-gradient(circle at 73% 43%,rgba(35,111,136,.2),transparent 40%),linear-gradient(130deg,#030a11,#0a1a27 66%,#030910)}
+    .avatar-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:7vw;align-items:center}.avatar-copy>small{color:var(--cyan);font:10px monospace;letter-spacing:.2em}
+    .avatar-copy h2{font:400 clamp(38px,5vw,67px)/1.08 Georgia,"Songti SC",serif;margin:18px 0}.avatar-copy>p{font-size:14px;line-height:1.8;color:#a9c0c3;margin:0 0 25px;max-width:500px}
+    .avatar-label{display:block;color:#cfe0e2;font-size:12px;margin-bottom:9px}.avatar-label span{color:#7da3ab;margin-left:12px;font-size:10px}
+    #avatarName{width:min(100%,390px);padding:13px 15px;color:white;background:#102b38;border:1px solid rgba(131,241,234,.35);font:14px inherit;outline:none}#avatarName:focus{border-color:var(--cyan)}
+    .avatar-options{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-top:20px}.avatar-options>span{width:54px;color:var(--gold);font-size:11px}
+    .avatar-options button,.avatar-actions button,.mirror-choices button{cursor:pointer;color:#b9d0d2;background:rgba(131,241,234,.05);border:1px solid rgba(131,241,234,.22);padding:9px 13px;font:12px inherit}
+    .avatar-options button:hover,.avatar-options button.active,.mirror-choices button:hover,.mirror-choices button.active{color:white;border-color:var(--cyan);background:rgba(56,162,181,.24)}
+    .avatar-actions{display:flex;gap:20px;align-items:center;margin-top:30px}.avatar-actions a{color:#061219;background:#b5f1e9;text-decoration:none;padding:12px 17px;font-size:12px}.avatar-actions button{border:0;background:transparent;padding:10px;color:#8caeb2}
+    #avatarPrivacy{color:#77979c!important;font-size:11px!important;margin:16px 0 0!important}
+    .avatar-stage{position:relative;min-height:630px;overflow:hidden;background:linear-gradient(0deg,rgba(3,10,15,.95),transparent 48%),linear-gradient(90deg,rgba(5,14,24,.34),rgba(5,14,24,.04)),url('assets/hero-portal.webp') center/cover;display:flex;align-items:end;justify-content:center}
+    .avatar-orbit{position:absolute;width:min(75%,460px);aspect-ratio:1;top:12%;border-radius:50%;border:1px solid rgba(131,241,234,.3);box-shadow:0 0 0 42px rgba(131,241,234,.025),0 0 70px rgba(131,241,234,.09)}
+    .avatar-slot{position:absolute;width:min(64%,360px);height:78%;bottom:9%;display:grid;place-items:center;filter:drop-shadow(0 0 20px rgba(108,232,226,.22))}
+    .voyager-avatar{display:block;max-width:100%;max-height:100%;--cloth:#5b95ac;--accent:#9debe2;--hair:#1c2833}.voyager-avatar .hair-long,.voyager-avatar .outfit-dress,.voyager-avatar .outfit-cloak,.voyager-avatar .sign-star,.voyager-avatar .sign-fold{display:none}
+    .voyager-avatar[data-hair="long"] .hair-long,.voyager-avatar[data-outfit="dress"] .outfit-dress,.voyager-avatar[data-outfit="cloak"] .outfit-cloak,.voyager-avatar[data-mark="star"] .sign-star,.voyager-avatar[data-mark="fold"] .sign-fold{display:block}
+    .voyager-avatar[data-hair="long"] .hair-short,.voyager-avatar[data-outfit="dress"] .outfit-coat,.voyager-avatar[data-outfit="cloak"] .outfit-coat,.voyager-avatar[data-mark="star"] .sign-wave,.voyager-avatar[data-mark="fold"] .sign-wave{display:none}
+    .avatar-caption{position:relative;z-index:2;width:100%;padding:27px 32px;background:linear-gradient(0deg,#041018,transparent);display:flex;justify-content:space-between;align-items:end;gap:15px}
+    .avatar-caption small{font:10px monospace;letter-spacing:.12em;color:var(--cyan)}.avatar-caption strong{font:400 30px Georgia,"Songti SC",serif}.avatar-caption span{font-size:10px;color:#9ab1b4}
+    .mirror-choices{display:flex;flex-wrap:wrap;gap:7px;margin-top:24px}.mirror-response{color:#d5e7e7;font-size:13px;line-height:1.7;min-height:48px;margin:16px 0 0}
+    .mirror-card .mirror-glass{position:absolute;inset:0;background:linear-gradient(90deg,rgba(3,12,20,.36),rgba(7,23,34,.65));display:flex;align-items:end;justify-content:center}
+    .mirror-avatar-slot{width:48%;height:82%;display:grid;place-items:center;transform:scaleX(-1);filter:drop-shadow(0 0 18px rgba(131,241,234,.5))}
+    .mirror-identity{position:absolute;left:20px;bottom:32px;display:grid;gap:6px;text-shadow:0 2px 10px #02090e}.mirror-identity small{font-size:10px;color:var(--cyan)}.mirror-identity strong{font:400 22px Georgia,"Songti SC",serif}
+    @media(max-width:850px){.avatar-grid{grid-template-columns:1fr}.avatar-stage{min-height:550px}.hero-facts{gap:10px}}
+    @media(max-width:560px){.hero{min-height:690px}.hero-copy{padding-bottom:7vh}.hero h1{font-size:clamp(50px,12vw,70px);margin-bottom:19px}.hero-definition{font-size:15px}.hero-facts{grid-template-columns:1fr 1fr;gap:12px}.hero-facts div:last-child{grid-column:1/-1}.hero-facts strong{font-size:11px}.hero-enter{margin-top:18px}.avatar-studio{padding:80px 0}.avatar-stage{min-height:470px}.avatar-caption{padding:20px}.avatar-caption span{display:none}.avatar-slot{height:76%}.mirror-avatar-slot{width:56%}}
   </style>
 </head>
 <body>
-  <header class="topbar"><div class="brand">生成式群岛 <span>梓笙园</span></div><nav class="toplinks"><a href="#about">中心介绍</a><a href="#simulation">模拟体验</a><a href="#devices">技术设备</a><a href="#evidence">循证</a><a href="#report">航行报告</a><a href="#proof">成果</a></nav></header>
+  <header class="topbar"><div class="brand">生成式群岛 <span>梓笙园</span></div><nav class="toplinks"><a href="#about">中心介绍</a><a href="#avatar">登岛体验</a><a href="#devices">技术设备</a><a href="#evidence">循证</a><a href="#report">航行报告</a><a href="#proof">成果</a></nav></header>
   <aside class="progress" aria-label="动线导航"><a href="#s01">01</a><a href="#s02">02</a><a href="#s03">03</a><a href="#s04">04</a><a href="#s05">05</a><a href="#s06">06</a><a href="#s07">07</a><a href="#s08">08</a><a href="#s09">09</a></aside>
+<template id="voyagerTemplate"><svg class="voyager-avatar" viewBox="0 0 340 520" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <ellipse cx="170" cy="474" rx="104" ry="17" fill="var(--accent)" opacity=".17"/>
+  <circle cx="170" cy="241" r="146" fill="none" stroke="var(--accent)" stroke-opacity=".4" stroke-width="1"/>
+  <path d="M34 241h272M170 66v335" stroke="var(--accent)" stroke-opacity=".14" stroke-width="1"/>
+  <path d="M144 412l-11 64h25l15-61M194 412l14 64h-25l-15-61" fill="#182433"/>
+  <path class="hair-long" d="M121 160Q121 108 170 108q51 0 50 56l18 119q-30 18-64 1-36 18-72-3z" fill="var(--hair)"/>
+  <ellipse cx="170" cy="165" rx="44" ry="51" fill="#c6aca0"/>
+  <path class="hair-short" d="M121 162q-10-61 48-65 60 3 50 66-20-13-35-34-21 27-63 33z" fill="var(--hair)"/>
+  <path class="hair-long" d="M122 163q-9-60 48-66 59 4 49 66-21-10-36-35-24 28-61 35z" fill="var(--hair)"/>
+  <path class="avatar-neck" d="M153 204h34v33h-34z" fill="#b89a8f"/>
+  <path class="outfit-coat" d="M130 222q40-22 80 0l31 213q-70 45-142 0z" fill="var(--cloth)" stroke="var(--accent)" stroke-opacity=".55" stroke-width="2"/>
+  <path class="outfit-coat" d="M170 216v222m-41-202 41 35 41-35" fill="none" stroke="var(--accent)" stroke-opacity=".42" stroke-width="2"/>
+  <path class="outfit-dress" d="M132 223q38-20 76 0l51 221q-90 43-179 0z" fill="var(--cloth)" stroke="var(--accent)" stroke-opacity=".55" stroke-width="2"/>
+  <path class="outfit-dress" d="M105 353q65 35 130 0" fill="none" stroke="var(--accent)" stroke-opacity=".32" stroke-width="2"/>
+  <path class="outfit-cloak" d="M127 218q43-26 86 0l56 230q-102 60-198 0z" fill="var(--cloth)" stroke="var(--accent)" stroke-opacity=".58" stroke-width="2"/>
+  <path class="outfit-cloak" d="M122 239q43 37 96 0" fill="none" stroke="var(--accent)" stroke-opacity=".55" stroke-width="3"/>
+  <path d="M127 230q-26 12-36 65l-17 85 24 7 42-99M213 230q26 12 36 65l17 85-24 7-42-99" fill="var(--cloth)" stroke="var(--accent)" stroke-opacity=".4" stroke-width="2"/>
+  <circle cx="170" cy="305" r="23" fill="#081622" opacity=".8" stroke="var(--accent)" stroke-opacity=".65"/>
+  <path class="sign-wave" d="M153 306q9-11 18 0t18 0m-36 9q9-11 18 0t18 0" fill="none" stroke="var(--accent)" stroke-width="2"/>
+  <path class="sign-star" d="m170 290 4 11 11 4-11 4-4 11-4-11-11-4 11-4z" fill="var(--accent)"/>
+  <path class="sign-fold" d="m157 316 13-24 13 24-13-8z" fill="none" stroke="var(--accent)" stroke-width="2"/>
+  <path d="M54 300q116 76 232 0" fill="none" stroke="var(--accent)" stroke-opacity=".38" stroke-dasharray="2 9"/>
+</svg></template>
   <main>
-    <section class="hero"><div class="hero-bg" aria-hidden="true"></div><div class="hero-copy"><div class="eyebrow">GENERATIVE ISLANDS</div><h1>生成式群岛<span>梓笙园AI体验中心</span></h1><div class="hero-tag">每一次航行，群岛重新生长</div></div><div class="scroll-cue">沿航线进入</div></section>
-    <section class="about" id="about"><div class="wrap about-grid"><div><div class="section-no">00 / CENTER</div><h2>把治疗目标，<br>变成可以行动的空间。</h2><p class="about-lead">面向经评估并自愿参与的青少年与家庭，AI在专业目标与安全边界内，结合当下选择即时生成不同的岛屿、角色和互动情境。每次进入都有完整体验，复访时依据新的状态与上次练习重新生成，持续练习同一项现实技能。</p></div><div class="foundation"><div class="base"><b>01</b><h3>连续个案管理基础</h3><p>以 Copilot 为既有入口，整合经核验、经授权的病史、量表、治疗与专业计划，不另建一套医疗记录。</p></div><div class="base"><b>02</b><h3>现有 AI 产品与终端</h3><p>衔接利笙筛查、随访机器人、陪伴机器人和采集设备；公开体验使用演示身份，临床路径依专业方案进入。</p></div><div class="base"><b>03</b><h3>新增沉浸式服务</h3><p>AI把专业目标即时转译为群岛、角色与技能任务。同一目标可呈现为不同场景；本次行动与反馈经本人确认、治疗师复核，成为下次生成的依据。</p></div></div><div class="about-note">评估与授权 · 沉浸练习 · 专业复盘 · 生活迁移</div></div></section>
-
-
+    <section class="hero"><div class="hero-bg" aria-hidden="true"></div><div class="hero-copy"><div class="eyebrow">GENERATIVE ISLANDS / 青少年心理健康</div><h1>生成式群岛<span>梓笙园AI体验中心</span></h1><p class="hero-definition">在专业评估与支持下，进入每次都不同的场景，练习表达、调节与沟通。</p><div class="hero-facts"><div><small>服务谁</small><strong>经评估适宜的青少年，家庭可参与</strong></div><div><small>为了什么</small><strong>让心理技能练习连接现实生活</strong></div><div><small>当前阶段</small><strong>体验方案展示，整体效果待验证</strong></div></div><a class="hero-enter" href="#avatar">创建我的登岛形象 <span aria-hidden="true">↗</span></a></div><div class="scroll-cue">沿航线进入</div></section>
+    <section class="about" id="about"><div class="wrap about-grid"><div><div class="section-no">00 / CENTER</div><h2>这里做什么？</h2><p class="about-lead">把筛查、专业目标、沉浸练习和随访连起来。AI依据本人当下选择生成岛屿与角色，让同一项技能在不同情境中反复练习；专业人员负责评估与复盘。</p></div><div class="foundation"><div class="base"><b>01</b><h3>临床体验 · 青少年为主</h3><p>经评估适宜、自愿参与的青少年进入个人与共创场景；家庭在授权和专业安排下参与。</p></div><div class="base"><b>02</b><h3>公开参观 · 演示身份</h3><p>其他访客可了解产品、动线和生成逻辑。网页互动是示意，不采集心理状态，也不进入临床流程。</p></div><div class="base"><b>03</b><h3>目标与阶段 · 清楚分开</h3><p>目标是促进参与、表达、情绪调节、人际练习及生活迁移。整体生成式空间仍需分阶段验证安全性和效果。</p></div></div><div class="about-note">筛查评估 · 个体化练习 · 专业复盘 · 院外随访</div></div></section>
     <section class="care" id="care"><div class="wrap"><div class="care-head"><div><small>CARE CONTINUUM / 产品与专业路径</small><h2>从第一次评估，<br>到下一次登岛。</h2></div><p>各产品各有职责。点选任一环节，看它发生在动线的哪里、参与者做什么、专业依据如何约束生成。</p></div>
       <div class="care-steps" role="group" aria-label="照护路径"><button type="button" class="active" data-care="screen"><span>01 / 进入前</span>利笙筛查</button><button type="button" data-care="goal"><span>02 / 目标约束</span>Copilot</button><button type="button" data-care="robot"><span>03 / 现场互动</span>具身机器人</button><button type="button" data-care="scene"><span>04 / 体验内容</span>生成式群岛</button><button type="button" data-care="moment"><span>05 / 即时支持</span>EMA / JITAI</button><button type="button" data-care="review"><span>06 / 体验后</span>专业复盘</button><button type="button" data-care="between"><span>07 / 两次之间</span>晚星与随访</button></div>
       <div class="care-view" aria-live="polite"><div><small id="carePlace">进入前 · 私密评估</small><h3 id="careTitle">先知道什么需要被保护</h3><p id="careAction">利笙在独立流程中完成筛查与风险识别；需要临床处理的信息进入专业路径，不被当作故事素材公开。</p></div><aside><small>专业依据与边界</small><p id="careBasis">标准化筛查与分层管理；研究支持的是量表方法，不等于利笙设备效能。体验资格和风险处置由临床人员决定。</p><a id="careRoute" href="#s01">查看动线位置 ↗</a><a id="careSource" href="https://pubmed.ncbi.nlm.nih.gov/22193671/" target="_blank" rel="noopener">查看相关研究 ↗</a></aside></div>
     </div></section>
     <div class="simulation-drawer" id="simulation"><div class="simulation-heading"><span>INTERACTIVE PREVIEW / 体验动线</span><h2>模拟体验</h2></div><div class="simulation-content" id="simulationContent">
 
+    <section class="avatar-studio" id="avatar"><div class="wrap avatar-grid"><div class="avatar-copy"><small>BEFORE BOARDING / 登岛前</small><h2>先选一个属于你的登岛形象。</h2><p>给自己一个代号，再选服装和航标。这个身影会跟你进入群岛，也会在镜映转角再次出现。</p>
+      <label class="avatar-label" for="avatarName">我的登岛代号 <span>可随时修改</span></label><input id="avatarName" type="text" maxlength="12" autocomplete="off" placeholder="例如：听潮者" aria-describedby="avatarPrivacy">
+      <div class="avatar-options" data-avatar-option="outfit"><span>旅装</span><button type="button" class="active" data-value="coat">长外套</button><button type="button" data-value="cloak">披风</button><button type="button" data-value="dress">长裙</button></div>
+      <div class="avatar-options" data-avatar-option="hair"><span>发型</span><button type="button" class="active" data-value="short">短发</button><button type="button" data-value="long">长发</button></div>
+      <div class="avatar-options" data-avatar-option="color"><span>光色</span><button type="button" class="active" data-value="tide">潮蓝</button><button type="button" data-value="dawn">晨金</button><button type="button" data-value="violet">暮紫</button></div>
+      <div class="avatar-options" data-avatar-option="mark"><span>航标</span><button type="button" class="active" data-value="wave">潮汐</button><button type="button" data-value="star">星芒</button><button type="button" data-value="fold">折纸</button></div>
+      <div class="avatar-actions"><a href="#s01">以这个形象登岛 ↗</a><button type="button" id="avatarReset">重置</button></div><p id="avatarPrivacy">仅保存在此浏览器的演示形象，不上传、不关联临床资料。</p>
+    </div><div class="avatar-stage"><div class="avatar-orbit" aria-hidden="true"></div><div id="avatarPreview" class="avatar-slot"></div><div class="avatar-caption"><small>YOUR VOYAGER / 本次登岛者</small><strong id="avatarCallsign">听潮者</strong><span>下一次仍可重新选择</span></div></div></div></section>
     <section class="engine" id="engine"><div class="wrap">
       <div class="engine-heading"><div><small>RETURN VOYAGE / 生成逻辑</small><h2>世界记得什么，<br>由本人决定。</h2></div><p>复访不只是换一张岛屿贴图。四种输入改变空间规律、登场角色和开放事件；只有本人同意留下的痕迹，才会成为下一航次的线索。</p></div>
       <div class="engine-grid"><div class="engine-controls" aria-label="生成输入演示">
@@ -131,7 +191,7 @@
       <article class="stop s03" id="s03"><div class="stop-inner"><div class="stop-copy"><div class="site-anchor">原场地 / 过渡长廊 · 00:20</div><div class="stop-kicker">生成起点 · 个体化</div><h3>群岛从此刻出现</h3><p class="line">同一项技能可以生成森林、剧场或未完成的工坊，不把一个人固化成一种岛。</p><div class="mechanism">共同目标 · 个案概念化 · 自主支持</div><div class="micro">授权信息 ＋ 当下选择 ＋ 专业目标</div></div><figure class="scene-card video-card" data-label="片段 03 · 生成开始"><video id="v3" controls autoplay playsinline preload="metadata"><source src="assets/segment-03-islands-generate.mp4" type="video/mp4"></video></figure></div></article>
 <article class="stop s04" id="s04"><div class="stop-inner"><div class="stop-copy"><div class="site-anchor">原场地 / 共享空间 · 00:28</div><div class="stop-kicker">共享航段 · 团体</div><h3>临时登船</h3><p class="line">共享一张地图，在两条都合理的路线间练习信息交换、请求与确认。</p><div class="mechanism">团体因素 · DBT人际效能 · 心理剧替身</div><div class="micro">共享范围由本人决定，并可随时收回</div></div><figure class="scene-card wide" data-label="生成场景 · 共享航段"><img src="assets/floating-clinic.webp" alt="漂浮群岛中的医疗体验舱"></figure></div></article>
       <article class="stop s05" id="s05"><div class="stop-inner"><div class="stop-copy"><div class="site-anchor">原场地 / 开敞体验区 · 00:32</div><div class="stop-kicker">个人岛 · 外化</div><h3>问题离开“我”</h3><p class="line">困扰成为可以命名、观察和调整距离的场景元素，而不是必须击败的敌人。</p><div class="mechanism">叙事外化 · 情绪标记 · 认知解离</div><div class="micro">视觉风格随兴趣与当下状态改变</div></div><figure class="scene-card wide" data-label="生成场景 · 个人主题岛"><img src="assets/youth-space.webp" alt="青少年进入科幻群岛沉浸空间"></figure></div></article>
-      <article class="stop s06" id="s06"><div class="stop-inner"><div class="stop-copy"><div class="site-anchor">原场地 / 转角空间 · 00:36</div><div class="stop-kicker">镜映区 · 视角</div><h3>从另一个位置观看</h3><p class="line">角色互换与观点采择让参与者看见新的解释，但不替现实中的任何人下结论。</p><div class="mechanism">心理剧角色互换 · 观点采择</div><div class="micro">生成角色不冒充家长、医生或治疗师</div></div><figure class="scene-card wide" data-label="生成场景 · 镜映长廊"><img src="assets/generative-corridor.webp" alt="互动生成式群岛长廊"></figure></div></article>
+      <article class="stop s06" id="s06"><div class="stop-inner"><div class="stop-copy"><div class="site-anchor">原场地 / 转角空间 · 00:36</div><div class="stop-kicker">镜映区 · 视角</div><h3>在镜中，再遇见自己</h3><p class="line">你在入口定制的身影来到这里。试着换一个位置观看同一件事，也可以保留原来的看法。</p><div class="mirror-choices" role="group" aria-label="镜映视角"><button type="button" class="active" data-mirror="self">我的位置</button><button type="button" data-mirror="other">另一个位置</button><button type="button" data-mirror="both">保留两种看法</button></div><p class="mirror-response" id="mirrorResponse" aria-live="polite">听潮者可以先站在原来的位置，看看这片海。</p><div class="mechanism">观点采择 · 叙事外化 · 自主选择</div><div class="micro">镜中的视角是练习，不代表系统知道他人的真实想法</div></div><figure class="scene-card wide mirror-card" data-label="生成场景 · 镜映长廊"><img src="assets/generative-corridor.webp" alt="互动生成式群岛长廊"><div class="mirror-glass"><div id="mirrorPreview" class="mirror-avatar-slot"></div><div class="mirror-identity"><small>你选择的登岛形象</small><strong id="mirrorCallsign">听潮者</strong></div></div></figure></div></article>
       <article class="stop s07" id="s07"><div class="stop-inner"><div class="stop-copy"><div class="site-anchor">原场地 / 共创空间 · 00:40—00:48</div><div class="stop-kicker">共创区 · 关系</div><h3>共同改写群岛</h3><p class="line">移动关系节点，尝试一句请求、一次拒绝或一条新的边界，再观察场景如何回应。</p><div class="mechanism">关系雕塑 · 行为排演 · DBT人际效能</div><div class="micro">保留行动与选择，不保存未经确认的解释</div></div><figure class="scene-card" data-label="生成场景 · 关系节点"><img src="assets/cocreation-scene.webp" alt="两名参与者共同调整生成式群岛的航线"></figure></div></article>
       <article class="stop s08" id="s08"><span id="report"></span><div class="stop-inner"><div class="stop-copy"><div class="site-anchor">原场地 / 出口展示区 · 00:52</div><div class="stop-kicker">出口 · 专业复盘</div><h3>把经历译回现实</h3><p class="line">游览结束后形成个人航行报告：参与的场景、主动选择、技能尝试、精彩瞬间与阶段成就，由本人确认后呈现；专业人员另行复核临床记录。</p><div class="mechanism">临床复盘 · 测量反馈 · 生活实验</div><div class="micro">情境排演 → 一项生活行动 → 约定回看</div></div><div class="report-visual" aria-label="个人航行报告示意"><div class="report-top"><small>航行报告 / DEMO · 体验纪念</small><h4>我的群岛轨迹</h4><img src="assets/voyage-trajectory.webp" alt="三座小岛与一条连续的航行轨迹"></div><div class="report-body"><div class="report-events"><span>01 入口 · 选择观看距离</span><span>02 共创 · 试着表达请求</span><span>03 出口 · 命名新的航线</span></div><div class="report-detail"><div><small>本次尝试</small><strong>把需要说得更具体</strong><small>阶段成就 · 第一次调整关系距离</small></div><figure><img src="assets/voyage-moment.webp" alt="手指在岛屿模型上点亮一段航线的精彩瞬间"><figcaption>精彩瞬间 · 点亮自己的航线</figcaption></figure></div><small class="report-disclaimer">演示数据与画面，不代表真实患者或临床疗效</small></div></div></div></article>
       <article class="stop s09" id="s09"><div class="stop-inner"><div class="stop-copy"><div class="site-anchor">原场地 / 回到入口 · 下一航次</div><div class="stop-kicker">复访 · 再生成</div><h3>从新的位置再次启航</h3><p class="line">在生活中记录是否尝试、对方回应与遇到的阻碍。复访时先一起回看，再按当下状态生成新的角色、场景与练习难度；同一目标不会重复播放同一段故事。</p><div class="mechanism">巩固迁移 · 连续照护 · 个体化调整</div><div class="micro">真实尝试与复盘，决定下一次航线</div></div><figure class="scene-card wide" data-label="下一航次 · 重新启航"><img src="assets/voyage-redeparture.webp" alt="晨光下，一艘小船从港口出发，沿新航线驶向远处的一座岛"></figure></div></article>
@@ -148,6 +208,22 @@
   </main>
   <footer><div class="wrap"><div class="footer-line">从一座岛出发，<br>把下一步带回真实生活。</div><div class="footer-meta"><span>梓笙园AI体验中心 · 生成式沉浸康复成长体验</span><span>2026.10.28</span></div></div></footer>
   <script>
+
+    const avatarDefaults={name:'听潮者',outfit:'coat',hair:'short',color:'tide',mark:'wave'};
+    const avatarAllowed={outfit:['coat','cloak','dress'],hair:['short','long'],color:['tide','dawn','violet'],mark:['wave','star','fold']};
+    const avatarColors={tide:['#5b95ac','#9debe2'],dawn:['#aa775b','#f3c58a'],violet:['#756a9d','#d7c0ff']};
+    let avatar={...avatarDefaults};let mirrorView='self';
+    try{const saved=JSON.parse(localStorage.getItem('genisland-avatar-v1')||'null');if(saved&&typeof saved==='object'){for(const key of Object.keys(avatarAllowed))if(avatarAllowed[key].includes(saved[key]))avatar[key]=saved[key];if(typeof saved.name==='string')avatar.name=saved.name.slice(0,12).trim()||avatarDefaults.name}}catch(_){}
+    const svgTemplate=document.getElementById('voyagerTemplate').content;
+    for(const id of ['avatarPreview','mirrorPreview'])document.getElementById(id).appendChild(svgTemplate.firstElementChild.cloneNode(true));
+    const nameInput=document.getElementById('avatarName');nameInput.value=avatar.name===avatarDefaults.name?'':avatar.name;
+    const mirrorLines={self:'可以先站在原来的位置，看看这片海。',other:'换到另一个位置，也不替真实同伴猜想。',both:'两种看法可以并存，不必现在选出对错。'};
+    function renderAvatar(){const name=avatar.name.trim()||avatarDefaults.name;document.getElementById('avatarCallsign').textContent=name;document.getElementById('mirrorCallsign').textContent=name;document.getElementById('mirrorResponse').textContent=name+mirrorLines[mirrorView];document.querySelectorAll('.voyager-avatar').forEach(svg=>{svg.dataset.hair=avatar.hair;svg.dataset.outfit=avatar.outfit;svg.dataset.mark=avatar.mark;svg.style.setProperty('--cloth',avatarColors[avatar.color][0]);svg.style.setProperty('--accent',avatarColors[avatar.color][1])});document.querySelectorAll('[data-avatar-option]').forEach(group=>group.querySelectorAll('button').forEach(b=>{const selected=b.dataset.value===avatar[group.dataset.avatarOption];b.classList.toggle('active',selected);b.setAttribute('aria-pressed',String(selected))}));try{localStorage.setItem('genisland-avatar-v1',JSON.stringify(avatar))}catch(_){}}
+    nameInput.addEventListener('input',()=>{avatar.name=nameInput.value.trim().slice(0,12)||avatarDefaults.name;renderAvatar()});
+    document.querySelectorAll('[data-avatar-option]').forEach(group=>group.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{avatar[group.dataset.avatarOption]=b.dataset.value;renderAvatar()})));
+    document.getElementById('avatarReset').addEventListener('click',()=>{avatar={...avatarDefaults};nameInput.value='';renderAvatar()});
+    document.querySelectorAll('[data-mirror]').forEach(b=>b.addEventListener('click',()=>{mirrorView=b.dataset.mirror;document.querySelectorAll('[data-mirror]').forEach(x=>{const on=x===b;x.classList.toggle('active',on);x.setAttribute('aria-pressed',String(on))});renderAvatar()}));
+    renderAvatar();
     const videos=[...document.querySelectorAll('video')];let soundUnlocked=false;
     function pauseOthers(active){videos.forEach(v=>{if(v!==active)v.pause()})}
     async function playVisible(v){pauseOthers(v);v.muted=!soundUnlocked;try{await v.play()}catch(e){v.muted=true;try{await v.play()}catch(_){}}}
