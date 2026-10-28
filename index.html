@@ -107,7 +107,7 @@
     .avatar-options button:hover,.avatar-options button.active,.mirror-choices button:hover,.mirror-choices button.active{color:white;border-color:var(--cyan);background:rgba(56,162,181,.24)}
     .avatar-actions{display:flex;gap:20px;align-items:center;margin-top:30px}.avatar-actions a{color:#061219;background:#b5f1e9;text-decoration:none;padding:12px 17px;font-size:12px}.avatar-actions button{border:0;background:transparent;padding:10px;color:#8caeb2}
     #avatarPrivacy{color:#77979c!important;font-size:11px!important;margin:16px 0 0!important}
-    .avatar-stage{position:relative;min-height:630px;overflow:hidden;background:linear-gradient(0deg,rgba(3,10,15,.95),transparent 48%),linear-gradient(90deg,rgba(5,14,24,.34),rgba(5,14,24,.04)),url('assets/hero-portal.webp') center/cover;display:flex;align-items:end;justify-content:center}
+    .avatar-stage{position:relative;min-height:630px;overflow:hidden;background:linear-gradient(0deg,rgba(3,10,15,.95),transparent 48%),linear-gradient(90deg,rgba(5,14,24,.34),rgba(5,14,24,.04)),url('assets/orbital-islands.webp') center/cover;display:flex;align-items:end;justify-content:center}
     .avatar-orbit{position:absolute;width:min(75%,460px);aspect-ratio:1;top:12%;border-radius:50%;border:1px solid rgba(131,241,234,.3);box-shadow:0 0 0 42px rgba(131,241,234,.025),0 0 70px rgba(131,241,234,.09)}
     .avatar-slot{position:absolute;width:min(64%,360px);height:78%;bottom:9%;display:grid;place-items:center;filter:drop-shadow(0 0 20px rgba(108,232,226,.22))}
     .voyager-avatar{display:block;max-width:100%;max-height:100%;--cloth:#5b95ac;--accent:#9debe2;--hair:#1c2833}.voyager-avatar .hair-long,.voyager-avatar .outfit-dress,.voyager-avatar .outfit-cloak,.voyager-avatar .sign-star,.voyager-avatar .sign-fold{display:none}
@@ -132,10 +132,10 @@
   <path d="M34 241h272M170 66v335" stroke="var(--accent)" stroke-opacity=".14" stroke-width="1"/>
   <path d="M144 412l-11 64h25l15-61M194 412l14 64h-25l-15-61" fill="#182433"/>
   <path class="hair-long" d="M121 160Q121 108 170 108q51 0 50 56l18 119q-30 18-64 1-36 18-72-3z" fill="var(--hair)"/>
-  <ellipse cx="170" cy="165" rx="44" ry="51" fill="#c6aca0"/>
-  <path class="hair-short" d="M121 162q-10-61 48-65 60 3 50 66-20-13-35-34-21 27-63 33z" fill="var(--hair)"/>
-  <path class="hair-long" d="M122 163q-9-60 48-66 59 4 49 66-21-10-36-35-24 28-61 35z" fill="var(--hair)"/>
-  <path class="avatar-neck" d="M153 204h34v33h-34z" fill="#b89a8f"/>
+  <ellipse cx="170" cy="165" rx="44" ry="51" fill="var(--hair)"/>
+  <path class="hair-short" d="M123 169q-10-70 47-72 58 2 47 72l-9 27q-39 20-78 0z" fill="var(--hair)"/>
+  <path class="hair-long" d="M122 169q-9-70 48-72 59 4 49 72l13 97q-24 23-61 11-40 12-66-11z" fill="var(--hair)"/>
+  <path class="avatar-neck" d="M153 204h34v33h-34z" fill="#273947"/>
   <path class="outfit-coat" d="M130 222q40-22 80 0l31 213q-70 45-142 0z" fill="var(--cloth)" stroke="var(--accent)" stroke-opacity=".55" stroke-width="2"/>
   <path class="outfit-coat" d="M170 216v222m-41-202 41 35 41-35" fill="none" stroke="var(--accent)" stroke-opacity=".42" stroke-width="2"/>
   <path class="outfit-dress" d="M132 223q38-20 76 0l51 221q-90 43-179 0z" fill="var(--cloth)" stroke="var(--accent)" stroke-opacity=".55" stroke-width="2"/>
@@ -164,7 +164,7 @@
       <div class="avatar-options" data-avatar-option="hair"><span>发型</span><button type="button" class="active" data-value="short">短发</button><button type="button" data-value="long">长发</button></div>
       <div class="avatar-options" data-avatar-option="color"><span>光色</span><button type="button" class="active" data-value="tide">潮蓝</button><button type="button" data-value="dawn">晨金</button><button type="button" data-value="violet">暮紫</button></div>
       <div class="avatar-options" data-avatar-option="mark"><span>航标</span><button type="button" class="active" data-value="wave">潮汐</button><button type="button" data-value="star">星芒</button><button type="button" data-value="fold">折纸</button></div>
-      <div class="avatar-actions"><a href="#s01">以这个形象登岛 ↗</a><button type="button" id="avatarReset">重置</button></div><p id="avatarPrivacy">仅保存在此浏览器的演示形象，不上传、不关联临床资料。</p>
+      <div class="avatar-actions"><a href="#s01">以这个形象登岛 ↗</a><button type="button" id="avatarReset">重置</button></div><p id="avatarPrivacy">无需真人照片。演示形象仅保存在此浏览器，不上传、不关联临床资料。</p>
     </div><div class="avatar-stage"><div class="avatar-orbit" aria-hidden="true"></div><div id="avatarPreview" class="avatar-slot"></div><div class="avatar-caption"><small>YOUR VOYAGER / 本次登岛者</small><strong id="avatarCallsign">听潮者</strong><span>下一次仍可重新选择</span></div></div></div></section>
     <section class="engine" id="engine"><div class="wrap">
       <div class="engine-heading"><div><small>RETURN VOYAGE / 生成逻辑</small><h2>世界记得什么，<br>由本人决定。</h2></div><p>复访不只是换一张岛屿贴图。四种输入改变空间规律、登场角色和开放事件；只有本人同意留下的痕迹，才会成为下一航次的线索。</p></div>
@@ -211,14 +211,14 @@
 
     const avatarDefaults={name:'听潮者',outfit:'coat',hair:'short',color:'tide',mark:'wave'};
     const avatarAllowed={outfit:['coat','cloak','dress'],hair:['short','long'],color:['tide','dawn','violet'],mark:['wave','star','fold']};
-    const avatarColors={tide:['#5b95ac','#9debe2'],dawn:['#aa775b','#f3c58a'],violet:['#756a9d','#d7c0ff']};
+    const avatarColors={tide:['#365f70','#9debe2'],dawn:['#75544b','#f3c58a'],violet:['#514d75','#d7c0ff']};
     let avatar={...avatarDefaults};let mirrorView='self';
     try{const saved=JSON.parse(localStorage.getItem('genisland-avatar-v1')||'null');if(saved&&typeof saved==='object'){for(const key of Object.keys(avatarAllowed))if(avatarAllowed[key].includes(saved[key]))avatar[key]=saved[key];if(typeof saved.name==='string')avatar.name=saved.name.slice(0,12).trim()||avatarDefaults.name}}catch(_){}
     const svgTemplate=document.getElementById('voyagerTemplate').content;
     for(const id of ['avatarPreview','mirrorPreview'])document.getElementById(id).appendChild(svgTemplate.firstElementChild.cloneNode(true));
     const nameInput=document.getElementById('avatarName');nameInput.value=avatar.name===avatarDefaults.name?'':avatar.name;
     const mirrorLines={self:'可以先站在原来的位置，看看这片海。',other:'换到另一个位置，也不替真实同伴猜想。',both:'两种看法可以并存，不必现在选出对错。'};
-    function renderAvatar(){const name=avatar.name.trim()||avatarDefaults.name;document.getElementById('avatarCallsign').textContent=name;document.getElementById('mirrorCallsign').textContent=name;document.getElementById('mirrorResponse').textContent=name+mirrorLines[mirrorView];document.querySelectorAll('.voyager-avatar').forEach(svg=>{svg.dataset.hair=avatar.hair;svg.dataset.outfit=avatar.outfit;svg.dataset.mark=avatar.mark;svg.style.setProperty('--cloth',avatarColors[avatar.color][0]);svg.style.setProperty('--accent',avatarColors[avatar.color][1])});document.querySelectorAll('[data-avatar-option]').forEach(group=>group.querySelectorAll('button').forEach(b=>{const selected=b.dataset.value===avatar[group.dataset.avatarOption];b.classList.toggle('active',selected);b.setAttribute('aria-pressed',String(selected))}));try{localStorage.setItem('genisland-avatar-v1',JSON.stringify(avatar))}catch(_){}}
+    function renderAvatar(){const name=avatar.name.trim()||avatarDefaults.name;document.getElementById('avatarCallsign').textContent=name;document.getElementById('mirrorCallsign').textContent=name;document.getElementById('mirrorResponse').textContent=name+'：'+mirrorLines[mirrorView];document.querySelectorAll('.voyager-avatar').forEach(svg=>{svg.dataset.hair=avatar.hair;svg.dataset.outfit=avatar.outfit;svg.dataset.mark=avatar.mark;svg.style.setProperty('--cloth',avatarColors[avatar.color][0]);svg.style.setProperty('--accent',avatarColors[avatar.color][1])});document.querySelectorAll('[data-avatar-option]').forEach(group=>group.querySelectorAll('button').forEach(b=>{const selected=b.dataset.value===avatar[group.dataset.avatarOption];b.classList.toggle('active',selected);b.setAttribute('aria-pressed',String(selected))}));try{localStorage.setItem('genisland-avatar-v1',JSON.stringify(avatar))}catch(_){}}
     nameInput.addEventListener('input',()=>{avatar.name=nameInput.value.trim().slice(0,12)||avatarDefaults.name;renderAvatar()});
     document.querySelectorAll('[data-avatar-option]').forEach(group=>group.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{avatar[group.dataset.avatarOption]=b.dataset.value;renderAvatar()})));
     document.getElementById('avatarReset').addEventListener('click',()=>{avatar={...avatarDefaults};nameInput.value='';renderAvatar()});
