@@ -1,6 +1,12 @@
 <!doctype html>
 <html lang="zh-CN">
 <head>
+  <script>
+    // Initial visits always begin at the title; in-page navigation remains available.
+    if ('scrollRestoration' in history) history.scrollRestoration='manual';
+    if(location.hash) history.replaceState(history.state,'',location.pathname+location.search);
+    window.addEventListener('pageshow',()=>window.scrollTo({top:0,left:0,behavior:'instant'}));
+  </script>
   <meta charset="utf-8">
 <!-- This site is hosted on Netlify. Anyone can build and deploy a site
      like this one for free: https://netlify.new/?utm_campaign=loops&utm_source=ai-legible&utm_medium=owned&utm_content=comment&utm_id=64ebe2be-438f-4d2e-9116-a57955a5a07d
@@ -211,8 +217,7 @@ button,input{font-family:inherit}
 </style>
 </head>
 <body>
-  <audio id="siteBgm" src="assets/documentary-archipelago.mp3" loop preload="auto" aria-label="群岛原创纪录片配乐"></audio>
-  <button id="bgmToggle" class="bgm-toggle" type="button" aria-label="开启背景配乐" aria-pressed="false"><span class="bgm-dot" aria-hidden="true"></span><span id="bgmState">配乐 · 待播放</span></button>
+  <button id="bgmToggle" class="bgm-toggle" type="button" aria-label="开启海浪白噪音" aria-pressed="false"><span class="bgm-dot" aria-hidden="true"></span><span id="bgmState">海浪 · 待播放</span></button>
   <header class="topbar"><div class="brand">生成式群岛 <span>梓笙园</span></div><nav class="toplinks"><a href="#about">中心介绍</a><a href="#avatar">登岛体验</a><a href="#devices">技术设备</a><a href="#evidence">循证</a><a href="#report">航行报告</a><a href="#proof">成果</a></nav></header>
   <aside class="progress" aria-label="动线导航"><a href="#s01">01</a><a href="#s02">02</a><a href="#s03">03</a><a href="#s04">04</a><a href="#s05">05</a><a href="#s06">06</a><a href="#s07">07</a><a href="#s08">08</a><a href="#s09">09</a></aside>
 <template id="voyagerTemplate"><svg class="voyager-avatar" viewBox="0 0 340 520" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -325,9 +330,32 @@ button,input{font-family:inherit}
     document.querySelectorAll('[data-mirror]').forEach(b=>b.addEventListener('click',()=>{mirrorView=b.dataset.mirror;document.querySelectorAll('[data-mirror]').forEach(x=>{const on=x===b;x.classList.toggle('active',on);x.setAttribute('aria-pressed',String(on))});renderAvatar()}));
     renderAvatar();
     const videos=[...document.querySelectorAll('video')];let soundUnlocked=false;
-    const bgm=document.getElementById('siteBgm'),bgmToggle=document.getElementById('bgmToggle'),bgmState=document.getElementById('bgmState');let bgmWanted=true;
+    // Seamless stereo surf: independent noise channels, softened high end and slow wave swells.
+    let surfContext,surfMaster;
+    function createSurf(){
+      const AudioContext=window.AudioContext||window.webkitAudioContext;
+      surfContext=new AudioContext();surfMaster=surfContext.createGain();surfMaster.gain.value=0;surfMaster.connect(surfContext.destination);
+      for(let channel=0;channel<2;channel++){
+        const buffer=surfContext.createBuffer(1,surfContext.sampleRate*24,surfContext.sampleRate);
+        const data=buffer.getChannelData(0);for(let i=0;i<data.length;i++)data[i]=Math.random()*2-1;
+        const source=surfContext.createBufferSource();source.buffer=buffer;source.loop=true;
+        const low=surfContext.createBiquadFilter();low.type='lowpass';low.frequency.value=1300;
+        const high=surfContext.createBiquadFilter();high.type='highpass';high.frequency.value=90;
+        const swell=surfContext.createGain();swell.gain.value=.35;
+        const lfo=surfContext.createOscillator();lfo.frequency.value=channel?.083:.067;
+        const depth=surfContext.createGain();depth.gain.value=.24;lfo.connect(depth);depth.connect(swell.gain);
+        const pan=surfContext.createStereoPanner();pan.pan.value=channel?.65:-.65;
+        source.connect(low);low.connect(high);high.connect(swell);swell.connect(pan);pan.connect(surfMaster);
+        source.start(channel?1.2:0);lfo.start();
+      }
+    }
+    const bgm={paused:true,volume:.38,addEventListener(){},
+      async play(){if(!navigator.userActivation?.hasBeenActive)throw new Error('Interaction required');if(!surfContext)createSurf();await surfContext.resume();this.paused=false;surfMaster.gain.setTargetAtTime(.22,surfContext.currentTime,.7);updateBgm()},
+      pause(){this.paused=true;if(surfContext)surfMaster.gain.setTargetAtTime(0,surfContext.currentTime,.2);updateBgm()}
+    };
+    const bgmToggle=document.getElementById('bgmToggle'),bgmState=document.getElementById('bgmState');let bgmWanted=true;
     function videoAudible(){return videos.some(v=>!v.paused&&!v.ended&&!v.muted&&v.volume>0)}
-    function updateBgm(){const playing=!bgm.paused;bgmToggle.setAttribute('aria-pressed',String(bgmWanted));bgmToggle.setAttribute('aria-label',bgmWanted?'关闭背景配乐':'开启背景配乐');bgmState.textContent=videoAudible()&&bgmWanted?'配乐 · 视频中暂停':playing?'配乐 · 播放中':'配乐 · 开启'}
+    function updateBgm(){const playing=!bgm.paused;bgmToggle.setAttribute('aria-pressed',String(playing));bgmToggle.setAttribute('aria-label',playing?'关闭海浪白噪音':'开启海浪白噪音');bgmState.textContent=videoAudible()&&bgmWanted?'海浪 · 视频中暂停':playing?'海浪 · 播放中':bgmWanted?'海浪 · 点击播放':'海浪 · 已关闭'}
     function startBgm(){if(!bgmWanted||document.hidden||videoAudible()){updateBgm();return}bgm.volume=.38;bgm.play().then(updateBgm).catch(updateBgm)}
     function syncBgm(){if(videoAudible()){bgm.pause();updateBgm()}else startBgm()}
     bgm.addEventListener('play',updateBgm);bgm.addEventListener('pause',updateBgm);
