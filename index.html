@@ -1,7 +1,10 @@
 <!doctype html>
 <html lang="zh-CN">
 <head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta charset="utf-8">
+<!-- This site is hosted on Netlify. Anyone can build and deploy a site
+     like this one for free: https://netlify.new/?utm_campaign=loops&utm_source=ai-legible&utm_medium=owned&utm_content=comment&utm_id=64ebe2be-438f-4d2e-9116-a57955a5a07d
+     Netlify hosting facts for this site: static/SSR served via Netlify Edge. --><meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="description" content="梓笙园AI体验中心：面向经评估适宜的青少年及家庭，以生成式沉浸场景练习表达、调节和沟通，连接专业复盘与院外随访。">
   <title>生成式群岛｜梓笙园AI体验中心</title>
   <style>
@@ -125,7 +128,87 @@
     .bgm-toggle{position:fixed;left:var(--side);bottom:22px;z-index:65;display:flex;align-items:center;gap:9px;padding:8px 12px;border:1px solid rgba(131,241,234,.28);background:rgba(4,14,21,.78);backdrop-filter:blur(10px);color:#c6e3e5;font:10px inherit;letter-spacing:.08em;cursor:pointer}.bgm-toggle:hover{border-color:var(--cyan);color:#fff}.bgm-dot{width:6px;height:6px;border-radius:50%;background:#6c8b94}.bgm-toggle[aria-pressed="true"] .bgm-dot{background:var(--cyan);box-shadow:0 0 10px var(--cyan)}
     @media(max-width:850px){.avatar-grid{grid-template-columns:1fr}.avatar-stage{min-height:550px}.hero-facts{gap:10px}.stop.s06 .stop-inner{grid-template-columns:1fr}.stop.s06:before{opacity:.34}.mirror-card{width:100%;height:auto;min-height:0;aspect-ratio:16/9!important;overflow:hidden;background:#02070d;box-shadow:0 35px 90px rgba(0,0,0,.62)}.mirror-card img{display:block}.mirror-card .mirror-glass{left:12px;right:auto;top:auto;bottom:14px}}
     @media(max-width:560px){.hero{min-height:690px}.hero-copy{padding-bottom:7vh}.hero h1{font-size:clamp(50px,12vw,70px);margin-bottom:19px}.hero-definition{font-size:15px}.hero-facts{grid-template-columns:1fr 1fr;gap:12px}.hero-facts div:last-child{grid-column:1/-1}.hero-enter{margin-top:18px}.avatar-studio{padding:80px 0}.avatar-stage{min-height:470px}.avatar-caption{padding:20px}.avatar-caption span{display:none}.mirror-card .mirror-glass{width:86px;padding:4px;left:5px;bottom:6px}.mirror-avatar-slot{height:57px}.mirror-identity small{font-size:7px}.mirror-identity strong{font-size:11px}.mirror-card:after{font-size:7px;right:5px;bottom:6px}}
-  </style>
+  
+/* Mobile layout: let content determine height and keep every grid item shrinkable. */
+main,section,article,.wrap{min-width:0}
+img,video{max-width:100%}
+figure.scene-card{margin:0}
+button,input{font-family:inherit}
+[id]{scroll-margin-top:76px}
+@media(max-width:850px){
+  .stop-inner>*,.avatar-grid>*,.engine-grid>*,.care-view>*,.device-stage>*,.report-detail>*{min-width:0}
+  .stop.s06 .stop-inner,.stop:nth-child(even) .stop-inner{grid-template-columns:minmax(0,1fr)}
+  .stop.s06 .stop-copy,.stop:nth-child(even) .stop-copy{grid-column:1;grid-row:auto;text-align:left}
+  .stop.s06 .scene-card,.stop:nth-child(even) .scene-card{grid-column:1;grid-row:auto}
+  .stop-copy{opacity:1;transform:none}
+  .scene-card,.scene-card.wide,.scene-card.video-card{max-width:100%;justify-self:center!important}
+  .topbar{position:sticky;top:0;padding:14px 20px;background:rgba(3,9,15,.96);display:block;pointer-events:auto}
+  .toplinks{display:flex;gap:8px 18px;margin-top:10px;flex-wrap:wrap}
+  .toplinks a{font-size:12px;line-height:1.8;letter-spacing:.03em;padding:3px 0}
+  .hero{height:auto;min-height:calc(100svh - 108px)}
+  .hero-copy{padding:70px 24px 64px}
+  .hero h1{overflow-wrap:anywhere}
+  .scroll-cue{display:none}
+  .stop{padding:70px 24px;min-height:0}
+  .stop-inner{gap:30px}
+  .stop h3{line-height:1.18}
+  .stop .line,.micro,.mechanism{overflow-wrap:anywhere;line-height:1.8}
+  .avatar-caption{flex-wrap:wrap}
+  .avatar-caption strong,.mirror-identity strong{overflow-wrap:anywhere}
+  .bgm-toggle{left:auto;right:14px;bottom:calc(12px + env(safe-area-inset-bottom,0px))}
+  footer{padding-bottom:90px}
+}
+@media(max-width:560px){
+  .wrap{width:calc(100% - 40px)}
+  .hero h1{font-size:clamp(38px,11vw,60px);line-height:1.15}
+  .hero h1 span{font-size:.48em;letter-spacing:.04em}
+  .eyebrow{font-size:10px;letter-spacing:.12em;line-height:1.8}
+  .hero-facts{grid-template-columns:minmax(0,1fr)}
+  .hero-facts div:last-child{grid-column:auto}
+  .hero-facts strong{font-size:14px;line-height:1.65}
+  .hero-definition{font-size:16px;line-height:1.8}
+  .about-grid,.care-head,.engine-heading,.method-head,.device-head,.evidence-head{gap:26px}
+  .about-lead{font-size:16px}.base{padding-left:42px}
+  .about-note{line-height:1.8;letter-spacing:0;gap:8px}
+  .care-steps{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .care-view,.engine-output,.method-copy,.device-detail{padding:24px 20px}
+  .input-options button,.memory-options button,.avatar-options button,.mirror-choices button,.method-tabs button,.device-selector button{min-height:44px;white-space:normal;line-height:1.5}
+  #avatarName{font-size:16px}
+  .avatar-options>span{width:100%;margin-bottom:2px}
+  .avatar-stage{min-height:390px}
+  .avatar-caption{padding:18px;gap:10px}.avatar-caption strong{font-size:24px}
+  .avatar-actions{flex-wrap:wrap;gap:12px}
+  .engine-output h3{margin-top:45px;line-height:1.25}
+  .output-item{grid-template-columns:minmax(0,1fr);gap:7px}
+  .return-hooks{grid-template-columns:minmax(0,1fr)}
+  .sea-map{width:100%;height:auto;margin-top:30px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding:0}
+  .sea-map>svg,.sea-map>.compass{display:none}
+  .port{position:relative;left:auto!important;top:auto!important;transform:none;min-width:0;width:100%;padding:16px 12px;border:1px solid rgba(131,241,234,.2);background:rgba(9,32,44,.65)}
+  .port b{white-space:normal;font-size:13px;line-height:1.6}
+  .port:before{width:8px;height:8px;margin-bottom:10px}
+  .scene-card,.scene-card.wide{width:100%}
+  .mirror-card{height:auto;min-height:0;aspect-ratio:4/3!important}
+  .report-top,.report-body{padding:20px}
+  .report-detail{grid-template-columns:minmax(0,1fr);gap:20px}
+  .report-detail img{height:auto;display:block}
+  .report-view>div{padding:24px 20px}
+  .report-view.clinical img,.medical-example img,.legacy-gallery img{height:auto;max-height:none;object-fit:contain}
+  .report-view figure img{height:auto;aspect-ratio:4/3;object-fit:contain}
+  .device-photo{min-height:0;aspect-ratio:4/3}
+  .device-selector{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .method-visual{padding:24px;min-height:260px}
+  .study em{display:block}.study b{overflow-wrap:anywhere;line-height:1.6}
+  .governance{line-height:1.8}.footer-line{font-size:32px;line-height:1.4}
+}
+
+@media(min-width:561px) and (max-width:850px){.sea-map{width:100%;height:auto;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.sea-map>svg,.sea-map>.compass{display:none}.port{position:relative;left:auto!important;top:auto!important;transform:none;min-width:0;width:100%;padding:18px;border:1px solid rgba(131,241,234,.2)}.port b{white-space:normal}}
+@media(max-width:850px){[id]{scroll-margin-top:130px}}
+@media(max-width:560px){.stop h3{font-size:clamp(30px,8.5vw,39px)}}
+
+.sensory{padding:100px 0;background:radial-gradient(ellipse at 70% 10%,#16332f,#07131d 55%,#04090e)}
+.sensory-head{max-width:800px}.sensory small{color:var(--cyan);font:11px monospace;letter-spacing:.14em}.sensory h2{font:400 clamp(34px,5vw,64px)/1.2 Georgia,"Songti SC",serif;margin:18px 0 24px}.sensory p{color:#b9ccce;line-height:1.85;font-size:15px}.sensory-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px;margin-top:42px}.sensory-grid article{border-top:1px solid #6ca99c;padding-top:24px}.sensory h3{font-size:23px;font-weight:500;margin:16px 0}.sensory-example{margin-top:40px;padding:25px 28px;background:#10242c;border-left:2px solid var(--gold)}.sensory-example strong{color:var(--gold)}.sensory-note{font-size:12px!important;color:#92abae!important;margin-top:24px}
+@media(max-width:850px){.sensory-grid{grid-template-columns:1fr;gap:24px}.sensory{padding:75px 0}.sensory-example{padding:22px 20px}}
+</style>
 </head>
 <body>
   <audio id="siteBgm" src="assets/documentary-archipelago.mp3" loop preload="auto" aria-label="群岛原创纪录片配乐"></audio>
@@ -208,7 +291,18 @@
       <div class="method-tabs" role="group" aria-label="体验中的心理行为"><button type="button" class="active" data-method="choice">自主选择</button><button type="button" data-method="regulate">情绪调节</button><button type="button" data-method="action">小步行动</button><button type="button" data-method="relation">人际协商</button><button type="button" data-method="external">叙事外化</button></div>
       <div class="method-stage"><div class="method-visual" id="methodVisual"><strong id="methodScene">机器人问完，真的等待回答。</strong></div><div class="method-copy"><div><small>参与者实际做什么</small><p id="methodAction">选择说、画、观察或暂停；纠正机器人也能让世界继续。</p></div><div><small>如何观察过程</small><p id="methodObserve">记录所选方式、暂停与修改；不把“未回答”计为失败。</p></div><div><small>对应的方法证据</small><p id="methodEvidence">自主支持的临床表达与青少年治疗联盟、参与意愿有关；这是交互原则，不是机器人的疗效证明。</p></div><a id="methodLink" href="https://pubmed.ncbi.nlm.nih.gov/37003139/" target="_blank" rel="noopener">查看原始研究 ↗</a></div></div>
     </div></section>
-    <section class="devices" id="devices"><div class="wrap"><div class="device-head"><div><small>SPATIAL TECHNOLOGY / 动线与方法</small><h2>设备在哪用，<br>为什么用。</h2></div><p>选择设备，查看对应航段、参与者要完成的心理行为、现有研究支持的范围，以及本中心仍需验证的部分。</p></div><div class="device-stage"><div class="device-photo" id="devicePhoto" role="img" aria-label="ART沉浸厅概念图" style="background-image:url('assets/art-hall.webp')"></div><div class="device-detail" aria-live="polite"><small id="deviceIndex">01 / 06</small><h3 id="deviceTitle">ART 沉浸厅</h3><div class="device-meta" id="deviceLocation">共享航段 · 04—07</div><p class="device-action" id="deviceAction">多人站在同一片可回应的海面上，尝试表达偏好、协商距离与共同修改。</p><p id="deviceText">墙面和地面投影承载共享世界，走位与选择改变光影和航道；无需佩戴头显。</p><p class="device-evidence" id="deviceEvidence">研究：青少年 CAVE 正念试点显示可行性；自评焦虑、抑郁等未见显著改善。支持探索这种交互形式，不能证明本厅疗效。</p><p class="device-boundary" id="deviceBoundary">验证层级：形式可行性；本项目的共同协商、参与度和临床结局需单独研究。</p><div class="device-links"><a id="deviceRoute" href="#s04">查看所在航段 ↗</a><a id="deviceSource" href="https://pubmed.ncbi.nlm.nih.gov/42284594/" target="_blank" rel="noopener">查看研究 ↗</a></div></div></div><div class="device-selector" role="group" aria-label="技术设备选择"><button type="button" class="active" data-device="art">ART 沉浸厅</button><button type="button" data-device="vr">VR 情境舱</button><button type="button" data-device="three">裸眼 3D</button><button type="button" data-device="robot">具身机器人</button><button type="button" data-device="sleep">舒缓睡眠舱</button><button type="button" data-device="wear">可穿戴设备</button></div><p class="device-foot">设备图为概念示意。文献研究对象、干预方案和结局各不相同；引用用于解释设计依据，不能直接外推为本项目疗效。</p></div></section>
+    
+<section class="sensory" id="sensory" aria-labelledby="sensory-title"><div class="wrap">
+<div class="sensory-head"><small>MULTISENSORY SPACE / 多感官沉浸</small><h2 id="sensory-title">让身体也进入场景，<br>让感官有机会慢下来。</h2><p>沉浸感来自整个空间的配合。温度、气味与环绕音效是体验设计的重要组成：它们与画面、光线和互动节奏共同营造环境，让参与者从“看见一座岛”，走向“感到自己身处其中”。在安静港口等舒缓场景中，重点是舒适、连贯、可掌控。</p></div>
+<div class="sensory-grid">
+<article><small>01 / 温度与气流</small><h3>先让身体感到舒适</h3><p>以舒适、稳定的室温为基础，按场景选择轻柔气流。海岸的微风、林间的空气流动，让环境回应不只停留在屏幕上。参与者可以要求调整，避免突然冷暖变化。</p></article>
+<article><small>02 / 气味线索</small><h3>为场景增加一层感受</h3><p>气味可以作为海岸、森林等场景的可选线索，与画面和声音共同构成空间氛围。由参与者先选择是否使用，再决定可接受的强度；不把某一种香气设定为所有人的放松答案。</p></article>
+<article><small>03 / 环绕音效</small><h3>让声音拥有方向与距离</h3><p>用空间声场呈现身旁的潮声、远处的鸟鸣和逐渐靠近的角色，让方向、远近与场景变化能够被听见。舒缓时减少突发声响，保留安静间隔，音量与声景均可调节。</p></article>
+</div>
+<div class="sensory-example"><strong>例如，进入“安静港口”时</strong><p>画面中的潮水缓慢起落，侧后方传来轻柔海声，温度保持舒适，可选择微风与淡淡的场景气味。参与者可以只保留潮声，也可以关闭气味、降低音量，或在安静中停留。</p></div>
+<p class="sensory-note">多感官联动为拟配置的体验方案，实际开放以现场设备与专业安排为准。气味使用前需确认个人偏好、过敏与呼吸道敏感情况，并保留无香选项；所有刺激均可降低或关闭。多感官设计不等同于已证实的治疗效果。</p>
+</div></section>
+<section class="devices" id="devices"><div class="wrap"><div class="device-head"><div><small>SPATIAL TECHNOLOGY / 动线与方法</small><h2>设备在哪用，<br>为什么用。</h2></div><p>选择设备，查看对应航段、参与者要完成的心理行为、现有研究支持的范围，以及本中心仍需验证的部分。</p></div><div class="device-stage"><div class="device-photo" id="devicePhoto" role="img" aria-label="ART沉浸厅概念图" style="background-image:url('assets/art-hall.webp')"></div><div class="device-detail" aria-live="polite"><small id="deviceIndex">01 / 06</small><h3 id="deviceTitle">ART 沉浸厅</h3><div class="device-meta" id="deviceLocation">共享航段 · 04—07</div><p class="device-action" id="deviceAction">多人站在同一片可回应的海面上，尝试表达偏好、协商距离与共同修改。</p><p id="deviceText">墙面和地面投影承载共享世界，走位与选择改变光影和航道；无需佩戴头显。</p><p class="device-evidence" id="deviceEvidence">研究：青少年 CAVE 正念试点显示可行性；自评焦虑、抑郁等未见显著改善。支持探索这种交互形式，不能证明本厅疗效。</p><p class="device-boundary" id="deviceBoundary">验证层级：形式可行性；本项目的共同协商、参与度和临床结局需单独研究。</p><div class="device-links"><a id="deviceRoute" href="#s04">查看所在航段 ↗</a><a id="deviceSource" href="https://pubmed.ncbi.nlm.nih.gov/42284594/" target="_blank" rel="noopener">查看研究 ↗</a></div></div></div><div class="device-selector" role="group" aria-label="技术设备选择"><button type="button" class="active" data-device="art">ART 沉浸厅</button><button type="button" data-device="vr">VR 情境舱</button><button type="button" data-device="three">裸眼 3D</button><button type="button" data-device="robot">具身机器人</button><button type="button" data-device="sleep">舒缓睡眠舱</button><button type="button" data-device="wear">可穿戴设备</button></div><p class="device-foot">设备图为概念示意。文献研究对象、干预方案和结局各不相同；引用用于解释设计依据，不能直接外推为本项目疗效。</p></div></section>
     <section class="evidence" id="evidence"><div class="wrap"><div class="evidence-head"><h2>临床循证支持</h2><p>证据首先对应具体心理治疗技术和研究人群。VR、感官空间和测量反馈有各自研究；“AI即时生成的群岛体验”作为整体仍需安全性、参与度、机制和临床结局的分阶段验证。</p></div><div class="numbers"><div class="number"><strong>346</strong><small>gameChange<br>成人多中心随机试验</small></div><div class="number"><strong>14</strong><small>XAIA<br>成人生成式AI＋VR可行性</small></div><div class="number"><strong>50</strong><small>VRelax<br>成人精神科交叉试验</small></div></div><div class="evidence-list"><a class="study" href="https://pubmed.ncbi.nlm.nih.gov/35395204/" target="_blank" rel="noopener"><span class="place">英国 · RCT</span><b>gameChange｜自动化VR-CBT</b><em>成人随机试验</em></a><a class="study" href="https://pubmed.ncbi.nlm.nih.gov/38279034/" target="_blank" rel="noopener"><span class="place">美国 · 试点</span><b>XAIA｜生成式AI角色＋空间计算</b><em>早期证据</em></a><a class="study" href="https://www.nature.com/articles/s41591-024-03252-8" target="_blank" rel="noopener"><span class="place">英国 · RCT</span><b>AVATAR2｜困扰声音外化</b><em>成人随机试验</em></a><a class="study" href="https://pubmed.ncbi.nlm.nih.gov/42284594/" target="_blank" rel="noopener"><span class="place">中国香港 · 试点</span><b>CAVE｜青少年沉浸式正念空间</b><em>青少年试点</em></a><a class="study" href="https://pubmed.ncbi.nlm.nih.gov/33448933/" target="_blank" rel="noopener"><span class="place">荷兰 · RCT</span><b>VRelax｜沉浸式情绪调节</b><em>成人随机试验</em></a></div></div></section>
     <section class="proof" id="proof"><div class="wrap"><div class="section-no">TEAM & VALIDATION</div><h2 class="proof-title">团队既往成果与专业基础</h2><div class="team-work"><div><small>医疗器械</small><strong>Ⅱ 类</strong><p>筛查机器人已获二类医疗器械许可证。具体注册信息以证书原件为准。</p></div><div><small>临床与研究</small><strong>连续积累</strong><p>围绕青少年心理健康、团体技能训练与数字化随访，形成临床服务和研究基础。</p></div><div><small>本项目验证</small><strong>分阶段</strong><p>从安全性、参与度和过程机制开始，进一步评估功能与长期结局。</p></div></div><h3 class="outcome-subtitle">相关报告展示</h3><div class="report-switch"><div class="report-tabs" role="group" aria-label="成果视图"><button class="active" data-report="experience">体验纪念</button><button data-report="clinical">专业报告</button></div><div class="report-view" id="reportView"><figure><img src="assets/voyage-trajectory.webp" alt="三座岛屿与单一航线的简约轨迹图"><figcaption>航行轨迹 · 三个经确认的场景节点</figcaption></figure><figure><img src="assets/voyage-moment.webp" alt="点亮群岛航线的单独精彩瞬间图"><figcaption>精彩瞬间 · 一次主动选择</figcaption></figure></div></div><div class="medical-example"><div><small>专业化输出示意</small><h4>利笙多模态评估</h4><p>结合问答与多模态评估形成需要专业核验的报告。右图来自提供的界面示例，含风险提示；任何风险分层与诊断建议都必须进入临床人员复核流程。</p></div><img src="assets/clinical-report.webp" alt="利笙多模态评估报告界面示例，包含问答结论与风险评估模块"></div><div class="legacy-gallery"><figure><img src="assets/team-ai-results.webp" alt="心理筛查机器人多模态识别技术成果图"><figcaption>心理筛查机器人 · 多模态技术积累</figcaption></figure><figure><img src="assets/team-data-platform.webp" alt="数据平台及社会价值成果图"><figcaption>数据平台与家—医—校—社协同构想</figcaption></figure></div><div class="proof-grid"><div class="proof-item"><small>01 · 过程</small><h3>安全且可用</h3><p>记录参与、暂停、退出、困扰度、眩晕与不良事件，确认体验是否可接受。</p></div><div class="proof-item"><small>02 · 机制</small><h3>关键过程改变</h3><p>观察心理距离、心理灵活性、自我效能和技能使用，解释改变如何发生。</p></div><div class="proof-item"><small>03 · 结局</small><h3>获益能否带回生活</h3><p>经本人和专业人员共同选择一项现实中的小练习；随访记录尝试、阻碍与调整，复访结合功能、症状、治疗参与和技能使用，检验迁移是否发生。</p></div></div><div class="governance"><strong>系统生成表达形式，不生成诊断结论</strong><span class="rule"></span><span>本人授权</span><span>专业监督</span><span>危机流程优先</span></div></div></section>
   </main>
