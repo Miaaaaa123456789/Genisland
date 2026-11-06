@@ -2,26 +2,31 @@ import * as THREE from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
 import { stations } from './stations.js'
+import { createWorld } from './world.js'
+import { createVoice } from './voice.js'
 import './style.css'
 
 // This is a production-oriented look-development harness, not the nine finished rooms.
 // Photo references remain HTML images. They are NEVER used as fake 3D backdrops.
 const app = document.querySelector('#app')
-app.innerHTML = `<div class="stage" aria-label="可旋转的空间白模"></div>
-  <header><div class="eyebrow">梓笙园 AI 体验中心 · 空间制作工作台</div><h1>生成式群岛</h1>
+app.innerHTML = `<div class="stage" aria-label="可旋转的空间概念模型"></div>
+  <header><div class="eyebrow">梓笙园 AI 体验中心 · 空间概念游览</div><h1>生成式群岛</h1>
   <p>同一条动线，故事随当下状态和自主选择变化。</p></header>
-  <nav class="tools" aria-label="视角与光照"><button id="overview">全景</button><button id="walk">步行</button><button id="day">昼 / 夜</button><button id="quality">画质：高</button></nav>
-  <aside class="detail"><span class="tag">概念白模 · 等待九站 GLB 资产</span><div class="counter">01 / 09</div><h2>入口与形象</h2><p class="question"></p><p class="function"></p>
+  <nav class="tools" aria-label="视角与光照"><button id="overview">全景</button><button id="walk">步行</button><button id="day">昼 / 夜</button><button id="quality">画质：高</button><button id="voice" aria-pressed="false">开启讲解</button></nav>
+  <aside class="detail"><span class="tag">建筑与灯光概念模型 · 站点精模待制作</span><div class="counter">01 / 09</div><h2>入口与形象</h2><p class="question"></p><p class="function"></p>
   <img class="reference" alt="当前场景视觉母版，仅供建模参照，不是三维背景" hidden><p class="credit">概念图未随本次公开发布；三维画面需由真实几何、PBR 材质和灯光实现。</p><div class="pager"><button id="previous">上一站</button><button id="next">下一站</button></div></aside>
   <div class="asset-status" role="status" aria-live="polite"></div><div class="hint">拖拽旋转 · 滚轮缩放 · 点击区域 · 步行模式 WASD / QE</div>`
 
 const stage = app.querySelector('.stage')
+const voice = createVoice({ onState(state) { app.querySelector('#voice').classList.toggle('active', state === 'voice-ready' || state === 'voice-start') }, onCaption(message) { app.querySelector('.asset-status').textContent = message } })
+app.querySelector('#voice').onclick = e => { if (voice.enabled) voice.disable(); else voice.enable(); e.currentTarget.textContent = voice.enabled ? '关闭讲解' : '开启讲解'; e.currentTarget.setAttribute('aria-pressed', String(voice.enabled)) }
+window.addEventListener('message', e => { if (e.origin === location.origin && e.data?.source === 'genisland-promo') voice.block(e.data.type === 'video-start' || e.data.type === 'tour-hidden') })
 const reference = app.querySelector('.reference')
 reference.onload = () => { reference.hidden = false; app.querySelector('.credit').textContent = '视觉母版只作对照；三维画面需由真实几何、PBR 材质和灯光实现。' }
 reference.onerror = () => { reference.hidden = true; app.querySelector('.credit').textContent = '此站视觉母版尚未公开提供；请按逐站资产规范制作，勿用图片冒充 3D。' }
 const scene = new THREE.Scene()
-scene.background = new THREE.Color('#16191d')
-scene.fog = new THREE.FogExp2('#16191d', 0.009)
+scene.background = new THREE.Color('#18303b')
+scene.fog = new THREE.FogExp2('#18303b', 0.006)
 const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 180)
 camera.position.set(-2, 27, 66)
 const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' })
@@ -61,6 +66,7 @@ const floor = new THREE.Mesh(new THREE.PlaneGeometry(64, 26), new THREE.MeshStan
 floor.rotation.x = -Math.PI / 2
 floor.receiveShadow = true
 scene.add(floor)
+const world = createWorld(scene, stations)
 const routePoints = stations.map(s => new THREE.Vector3(s.position[0], 0.035, s.position[2]))
 const curve = new THREE.CatmullRomCurve3(routePoints, false, 'centripetal', 0.35)
 const route = new THREE.Mesh(new THREE.TubeGeometry(curve, 180, 0.018, 5, false), new THREE.MeshStandardMaterial({ color: 0x7c9e9e, emissive: 0x153232, emissiveIntensity: 0.28, roughness: 0.55 }))
@@ -150,7 +156,7 @@ renderer.domElement.addEventListener('pointerdown', e => { pointerDown = [e.clie
 renderer.domElement.addEventListener('pointermove', e => {
   if (pointerDown && Math.hypot(e.clientX - pointerDown[0], e.clientY - pointerDown[1]) > 5) return
   const i = pick(e)
-  if (i !== hovered) highlight(i)
+  if (i !== hovered) { highlight(i); voice.hover(i) }
   renderer.domElement.style.cursor = i < 0 ? 'grab' : 'pointer'
 })
 renderer.domElement.addEventListener('pointerup', e => {
@@ -159,7 +165,7 @@ renderer.domElement.addEventListener('pointerup', e => {
   const i = pick(e)
   if (i >= 0) select(i)
 })
-renderer.domElement.addEventListener('pointerleave', () => highlight(-1))
+renderer.domElement.addEventListener('pointerleave', () => { highlight(-1); voice.hover(-1) })
 
 function moveTo(position, target) {
   travel = {
@@ -182,14 +188,16 @@ function select(index) {
     moveTo(target.clone().add(new THREE.Vector3(6.5, 7.2, 11)), target)
   }
   highlight(selected)
+  voice.select(selected)
 }
 function setNight(value) {
   night = value
-  scene.background.set(value ? '#101524' : '#16191d')
+  scene.background.set(value ? '#101a30' : '#18303b')
   scene.fog.color.copy(scene.background)
   hemi.intensity = value ? 0.45 : 2.05
   sun.intensity = value ? 0.22 : 3.2
   renderer.toneMappingExposure = value ? 1.28 : 1.15
+  world.setNight(value)
   highlight(hovered >= 0 ? hovered : selected)
 }
 app.querySelector('#overview').onclick = () => { walking = false; controls.enabled = true; moveTo(overview.position.clone(), overview.target.clone()) }
@@ -248,6 +256,7 @@ function frame() {
     if (t === 1) travel = null
     controls.update()
   } else controls.update()
+  world.update(dt)
   renderer.render(scene, camera)
 }
 renderer.setAnimationLoop(frame)
