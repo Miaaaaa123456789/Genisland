@@ -418,7 +418,7 @@ button,input{font-family:inherit}
     function videoAudible(){return videos.some(v=>!v.paused&&!v.ended&&!v.muted&&v.volume>0)}
     function updateBgm(){const playing=!bgm.paused;bgmToggle.setAttribute('aria-pressed',String(playing));bgmToggle.setAttribute('aria-label',playing?'关闭海浪白噪音':'开启海浪白噪音');bgmState.textContent=videoAudible()&&bgmWanted?'海浪 · 视频中暂停':playing?'海浪 · 播放中':bgmWanted?'海浪 · 点击播放':'海浪 · 已关闭'}
     function startBgm(){if(!bgmWanted||document.hidden||videoAudible()||tourVoiceActive||promoNarrationActive){updateBgm();return}bgm.volume=.38;bgm.play().then(updateBgm).catch(updateBgm)}
-    function syncBgm(){if(videoAudible()||tourVoiceActive||promoNarrationActive){bgm.pause();updateBgm()}else startBgm();tourSignal(videoAudible()?'video-start':'video-end')}
+    function syncBgm(){if(videoAudible()||tourVoiceActive||promoNarrationActive){bgm.pause();updateBgm()}else startBgm();tourSignal(videoAudible()||promoNarrationActive?'video-start':'video-end')}
     bgm.addEventListener('play',updateBgm);bgm.addEventListener('pause',updateBgm);
     bgmToggle.addEventListener('click',()=>{if(!bgmWanted||(bgm.paused&&!videoAudible())){bgmWanted=true;startBgm()}else{bgmWanted=false;bgm.pause();updateBgm()}});
     function pauseOthers(active){videos.forEach(v=>{if(v!==active)v.pause()})}
