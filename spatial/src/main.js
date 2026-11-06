@@ -14,6 +14,7 @@ app.innerHTML = `<div class="stage" aria-label="可旋转的空间概念模型">
   <p>同一条动线，故事随当下状态和自主选择变化。</p></header>
   <nav class="tools" aria-label="视角与光照"><button id="overview">全景</button><button id="walk">步行</button><button id="day">昼 / 夜</button><button id="quality">画质：高</button><button id="voice" aria-pressed="false">开启讲解</button></nav>
   <aside class="detail"><span class="tag">建筑与灯光概念模型 · 站点精模待制作</span><div class="counter">01 / 09</div><h2>入口与形象</h2><p class="question"></p><p class="function"></p>
+  <div class="generation-control" hidden><button id="regenerate" type="button">重新生成岛屿</button><small id="generationResult" aria-live="polite">第一次航线 · 潮汐岸线</small><span>当前是可复现的程序生成示意，尚未接入个案化 AI 决策。</span></div>
   <img class="reference" alt="当前场景视觉母版，仅供建模参照，不是三维背景" hidden><p class="credit">概念图未随本次公开发布；三维画面需由真实几何、PBR 材质和灯光实现。</p><div class="pager"><button id="previous">上一站</button><button id="next">下一站</button></div></aside>
   <div class="asset-status" role="status" aria-live="polite"></div><div class="hint">拖拽旋转 · 滚轮缩放 · 点击区域 · 步行模式 WASD / QE</div>`
 
@@ -67,6 +68,10 @@ floor.rotation.x = -Math.PI / 2
 floor.receiveShadow = true
 scene.add(floor)
 const world = createWorld(scene, stations)
+app.querySelector('#regenerate').onclick = () => {
+  const name = world.regenerate()
+  app.querySelector('#generationResult').textContent = `本次生成 · ${name}`
+}
 const routePoints = stations.map(s => new THREE.Vector3(s.position[0], 0.035, s.position[2]))
 const curve = new THREE.CatmullRomCurve3(routePoints, false, 'centripetal', 0.35)
 const route = new THREE.Mesh(new THREE.TubeGeometry(curve, 180, 0.018, 5, false), new THREE.MeshStandardMaterial({ color: 0x7c9e9e, emissive: 0x153232, emissiveIntensity: 0.28, roughness: 0.55 }))
@@ -181,6 +186,7 @@ function select(index) {
   app.querySelector('h2').textContent = s.name
   app.querySelector('.question').textContent = s.question
   app.querySelector('.function').textContent = s.function
+  app.querySelector('.generation-control').hidden = s.id !== '03'
   reference.hidden = true
   reference.src = s.reference
   if (!walking) {

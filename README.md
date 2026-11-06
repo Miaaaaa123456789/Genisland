@@ -1,16 +1,9 @@
 # 梓笙园 AI 体验中心 · Genisland
 
-## 从这里开始
+这是正在使用的宣传页与三维游览源码。根目录 `index.html` 是宣传页；航线地图下方的 iframe 加载 `tour/index.html`。`tour/` 是 `spatial/` 的发布产物，Netlify 从仓库根目录发布。修改三维源码后须运行 `cd spatial && npm run build`，并把 `spatial/dist` 的 HTML、JS、CSS、audio 同步到 `tour/`，同时检验宣传页与游览页。
 
-本仓库有两个**不同阶段**，不要把它们混为一个已经完工的三维站点：
+**当前可运行 ≠ 最终美术**。目前有导航、镜头、昼夜、预录导览、父子页面音频互斥和第 03 站可复现的程序生成岛形；真实场地测绘、九站高保真 GLB、人物动作、临床决策驱动的生成及正式配音尚未完成。现有青色金属控制台是工作模型，不是验收画面。不得把缺失资产、摄影贴片或九个相似展台称作已完成的生成式世界。
 
-| 路径 | 状态 | 用途 |
-| --- | --- | --- |
-| 根目录 `index.html`、`assets/`、`netlify.toml` | 现有展示站 | 已有文字、图片和视频；Netlify 继续发布根目录，不改动现有站点 |
-| `spatial/` | 新三维制作工作台 | 可运行的镜头、区域选择、昼夜和资产加载基础；九个房间模型尚待制作 |
+接手顺序：`AGENTS.md` → `spatial/docs/PRODUCTION_PROMPT.md` → `spatial/docs/INTERACTION_WORLD_SPEC.md` → `spatial/docs/ASSET_SPEC.md` → `spatial/src/`。先核对原场地视频和九张概念图（未获公开上传授权，不在仓库），制作一站高保真垂直切片，再按同一材料与性能管线完成动线。仓库中无截图里另一个本地 `zishengyuan.html` 的源码，不能声称已经改动那个页面。
 
-接手制作时先读 [`AGENTS.md`](AGENTS.md) 和 [`spatial/README.md`](spatial/README.md)，再读 [`spatial/docs/PRODUCTION_PROMPT.md`](spatial/docs/PRODUCTION_PROMPT.md) 和 [`spatial/docs/ASSET_SPEC.md`](spatial/docs/ASSET_SPEC.md)。九张概念图在原设计会话中，未随本次代码与提示词公开发布；文字化的逐站资产规范已记录在 `ASSET_SPEC.md`。取得素材发布授权后才可放入 `spatial/public/reference/`。
-
-**三维工作台**：`cd spatial && npm install && npm run dev`。`npm run build` 输出 `spatial/dist`。该目录不改变根目录的 Netlify 发布设置，也不自动宣称现有宣传页已经升级为三维页面。
-
-设计目标：真实尺度的未来医疗体验空间，开阔且有内容；同一人物贯穿入口、个人探索、情绪表达、团体互动、可选个人练习、镜映、咖啡厅、共创与报告。原场地视频决定最终连接关系；现有概念坐标只用于技术开发，不能视为实际平面图。
+参考：[Folio 2025](https://github.com/brunosimon/folio-2025) 的区域资源与品质调度；[A Long-Expected Party](https://github.com/MengTo/a-long-expected-party) 的章节声景与节奏。要转译其**结构方法**，不复制代码或直接套用游戏风格。逐项对应与验收写在 `spatial/docs/INTERACTION_WORLD_SPEC.md`。

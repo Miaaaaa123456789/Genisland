@@ -40,7 +40,8 @@ export function createVoice({ onState, onCaption }) {
   return {
     enable() { enabled = true; blocked = false; onState('voice-ready') },
     disable() { enabled = false; current = -1; stop(); onState('voice-off') },
-    hover(index) { clearTimeout(timer); if (index < 0) { current = -1; stop(); return } if (enabled && !blocked) timer = setTimeout(() => play(index), 900) },
+    // Leaving a hit target cancels only a pending cue; it never cuts off a spoken sentence.
+    hover(index) { clearTimeout(timer); if (index < 0) return; if (enabled && !blocked && current !== index) timer = setTimeout(() => play(index), 900) },
     select(index) { if (enabled && !blocked) play(index) },
     block(value) { blocked = value; if (value) { current = -1; stop() } },
     get enabled() { return enabled }

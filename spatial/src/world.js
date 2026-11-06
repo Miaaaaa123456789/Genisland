@@ -12,6 +12,8 @@ export function createWorld(scene, stations) {
     screen: new THREE.MeshBasicMaterial({ color: 0x93e5e6, transparent: true, opacity: .25, side: THREE.DoubleSide, depthWrite: false })
   }
   const zones = [], animated = []
+  const generated = new THREE.Group()
+  let generation = 0
   function box(g, w, h, d, x, y, z, material, bevel = 0) {
     const geo = bevel ? new THREE.BoxGeometry(w, h, d, 2, 2, 2) : new THREE.BoxGeometry(w, h, d)
     if (bevel) { /* Controlled edge lighting from separate trims; no false high-poly claim. */ }
@@ -74,9 +76,53 @@ export function createWorld(scene, stations) {
     lamp.position.set(0, 3.6, .3); g.add(lamp)
     g.traverse(o => { if (o.isMesh) o.userData.stationIndex = i })
   })
+  // A real 3D, seeded prototype at station 03. It varies form and connection,
+  // while the architectural route and clinical goal remain in place.
+  zones[2].add(generated)
+  const names = ['潮汐岸线', '折页群岛', '星轨浅滩', '回声海湾']
+  function regenerate(seed = generation + 1) {
+    generation = seed
+    for (const child of [...generated.children]) {
+      generated.remove(child)
+      child.geometry?.dispose()
+      child.material?.dispose()
+    }
+    let state = (seed * 1664525 + 1013904223) >>> 0
+    const random = () => { state = (Math.imul(state, 1664525) + 1013904223) >>> 0; return state / 4294967296 }
+    const colors = [0x70c5c6, 0xb9a4d3, 0x9cbbd5, 0xc5b28f]
+    const vertices = []
+    for (let k = 0; k < 5; k++) {
+      const angle = k * Math.PI * 2 / 5 + (random() - .5) * .35
+      const r = .65 + random() * .72
+      const x = Math.cos(angle) * r, z = Math.sin(angle) * r
+      const height = .18 + random() * .36
+      const geo = new THREE.CylinderGeometry(.15 + random() * .2, .22 + random() * .3, height, 7, 2)
+      const position = geo.attributes.position
+      for (let j = 0; j < position.count; j++) {
+        const p = new THREE.Vector3().fromBufferAttribute(position, j)
+        p.x += Math.sin(j * 4.71 + seed + k) * .017
+        p.z += Math.cos(j * 2.31 + seed) * .012
+        position.setXYZ(j, p.x, p.y, p.z)
+      }
+      geo.computeVertexNormals()
+      const mesh = new THREE.Mesh(geo, new THREE.MeshPhysicalMaterial({ color: colors[(seed + k) % colors.length], roughness: .38, metalness: .18, clearcoat: .28 }))
+      mesh.position.set(x, .75 + height / 2, z); mesh.castShadow = true; mesh.userData.stationIndex = 2
+      generated.add(mesh)
+      vertices.push([x, .79 + height, z])
+    }
+    const order = seed % 2 ? [0, 2, 4, 1, 3] : [0, 1, 3, 2, 4]
+    const path = new THREE.CatmullRomCurve3(order.map(k => new THREE.Vector3(...vertices[k])))
+    const geo = new THREE.TubeGeometry(path, 72, .012, 6, false)
+    const trace = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({ color: colors[seed % colors.length], transparent: true, opacity: .88 }))
+    trace.userData.stationIndex = 2
+    generated.add(trace)
+    return names[(seed - 1) % names.length]
+  }
+  regenerate(1)
   let t = 0
   return {
     zones,
+    regenerate,
     update(dt) { t += dt; animated.forEach(({ mesh, speed }) => { mesh.rotation.y += speed * dt }); mat.cyan.emissiveIntensity = 1.35 + .3 * Math.sin(t * 1.3) },
     setNight(night) { mat.cyan.emissiveIntensity = night ? 2.1 : 1.5; mat.screen.opacity = night ? .48 : .25 }
   }
