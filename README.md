@@ -7,3 +7,7 @@
 接手顺序：`AGENTS.md` → `spatial/docs/PRODUCTION_PROMPT.md` → `spatial/docs/INTERACTION_WORLD_SPEC.md` → `spatial/docs/ASSET_SPEC.md` → `spatial/src/`。先核对原场地视频和九张概念图（未获公开上传授权，不在仓库），制作一站高保真垂直切片，再按同一材料与性能管线完成动线。仓库中无截图里另一个本地 `zishengyuan.html` 的源码，不能声称已经改动那个页面。
 
 参考：[Folio 2025](https://github.com/brunosimon/folio-2025) 的区域资源与品质调度；[A Long-Expected Party](https://github.com/MengTo/a-long-expected-party) 的章节声景与节奏。要转译其**结构方法**，不复制代码或直接套用游戏风格。逐项对应与验收写在 `spatial/docs/INTERACTION_WORLD_SPEC.md`。
+
+## 宣传页统一旁白
+
+`assets/narration/manifest.json` 是页面 55 个场景和组件的旁白台本与音频路径；`guide.js` 根据视口和组件切换调度，`guide.css` 呈现短字幕。配音说明见 `assets/narration/VOICE_PRODUCTION.md`。目前没有获审听的统一真人录音，`audio:null` 只显示字幕，三个原视频继续播放原声。录制完成后逐条补路径；不得用浏览器语音或旧合成试听假装正式旁白。首次有声播放仍需用户手势。

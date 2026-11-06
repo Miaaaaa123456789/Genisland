@@ -7,35 +7,6 @@
     if(location.hash) history.replaceState(history.state,'',location.pathname+location.search);
     window.addEventListener('pageshow',()=>window.scrollTo({top:0,left:0,behavior:'instant'}));
 
-    // Scroll is the primary control. Secondary explanatory panels progress while visible;
-    // any direct interaction pauses that panel, and reduced-motion mode stays manual.
-    function autoPanel(sectionSelector, buttonSelector, dwell){
-      const section=document.querySelector(sectionSelector);if(!section)return;
-      const buttons=[...section.querySelectorAll(buttonSelector)];if(buttons.length<2)return;
-      let timer=null,manual=false;
-      section.addEventListener('pointerdown',()=>{manual=true;clearInterval(timer)});
-      section.addEventListener('focusin',()=>{manual=true;clearInterval(timer)});
-      const visibility=new IntersectionObserver(([entry])=>{
-        clearInterval(timer);
-        if(!entry.isIntersecting||document.hidden||manual||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
-        timer=setInterval(()=>{
-          if(document.hidden||section.contains(document.activeElement))return;
-          const current=buttons.findIndex(b=>b.classList.contains('active'));
-          buttons[(current+1+buttons.length)%buttons.length].click();
-        },dwell);
-      },{threshold:.18});visibility.observe(section);
-      document.addEventListener('visibilitychange',()=>{if(document.hidden)clearInterval(timer)});
-    }
-    autoPanel('#care','[data-care]',7200);
-    autoPanel('#devices','[data-device]',7600);
-    autoPanel('#methods','[data-method]',8000);
-    autoPanel('#engine','.input-row:first-child button',8200);
-    autoPanel('#s06','[data-mirror]',7800);
-    autoPanel('#s08','[data-report]',9000);
-    const reveal=new IntersectionObserver(entries=>entries.forEach(({target,isIntersecting})=>{
-      target.classList.toggle('in-view',isIntersecting)
-    }),{threshold:.22});
-    document.querySelectorAll('.story-condensed,.care,.avatar-studio,.map-section,.engine,.methods,.sensory,.devices,.evidence,.proof').forEach(el=>reveal.observe(el));
   </script>
   <meta charset="utf-8">
 <!-- This site is hosted on Netlify. Anyone can build and deploy a site
@@ -283,7 +254,7 @@ button,input{font-family:inherit}
 <style>.tour-embed{margin:70px auto 0;position:relative}.tour-heading{display:flex;align-items:end;justify-content:space-between;gap:30px;margin-bottom:20px}.tour-heading small{color:#83f1ea;letter-spacing:.16em;font-size:11px}.tour-heading h2{font:400 clamp(32px,4vw,54px) Georgia,"Songti SC",serif;margin:10px 0}.tour-heading p,.tour-heading span{color:#b4c8ce;font-size:12px;line-height:1.7}.tour-embed iframe{display:block;width:100%;height:min(74vw,720px);min-height:480px;border:1px solid rgba(131,241,234,.2);background:#102431;border-radius:10px;box-shadow:0 32px 85px #0008}@media(max-width:760px){.tour-heading{display:block}.tour-heading span{display:block;margin-top:12px}.tour-embed iframe{height:620px}}</style><style>
 .story-condensed{position:relative;padding:clamp(90px,11vw,170px) 0;background:#07131b;color:#edf4f2}.story-condensed small{color:#8ee3dc;letter-spacing:.16em;font-size:11px}.story-condensed h2{font:400 clamp(35px,5vw,68px)/1.17 Georgia,"Songti SC",serif;max-width:900px;margin:18px 0 42px}.story-flow{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:#6fcac32b}.story-flow>div{background:#081923;padding:25px 22px;min-height:170px}.story-flow b{display:block;font:11px monospace;color:#c8a778;margin-bottom:19px}.story-flow strong{display:block;font-size:18px;font-weight:500}.story-flow span{display:block;font-size:12px;line-height:1.7;color:#9bb2b8;margin-top:12px}.story-condensed>div>p{max-width:780px;color:#abc1c4;font-size:13px;line-height:1.8;margin:30px 0}.story-deep{border-top:1px solid #8ee3dc42;color:#adc5c7}.story-deep summary{cursor:pointer;list-style:none;padding:20px 0;color:#aee8e2;font-size:13px}.story-deep summary:after{content:'＋';float:right}.story-deep[open] summary:after{content:'－'}.story-deep>.product-story{padding:35px 0;background:transparent}.story-deep .story-index{display:none}.story-deep .story-next{display:none}.story-deep .story-chapter{margin:45px 0}.story-deep h2{font-size:32px}.story-condensed .story-deep .wrap{width:100%}
 @media(max-width:850px){.story-flow{grid-template-columns:repeat(2,1fr)}}@media(max-width:540px){.story-flow{grid-template-columns:1fr 1fr}.story-flow>div{min-height:150px;padding:16px}.story-flow strong{font-size:15px}}
-</style><style>.story-condensed,.care,.avatar-studio,.engine,.methods,.sensory,.devices,.evidence,.proof{transition:opacity .8s ease,filter .8s ease}.story-condensed:not(.in-view),.care:not(.in-view),.avatar-studio:not(.in-view),.engine:not(.in-view),.methods:not(.in-view),.sensory:not(.in-view),.devices:not(.in-view),.evidence:not(.in-view),.proof:not(.in-view){opacity:.76;filter:saturate(.8)}@media(prefers-reduced-motion:reduce){.story-condensed,.care,.avatar-studio,.engine,.methods,.sensory,.devices,.evidence,.proof{transition:none!important;opacity:1!important;filter:none!important}}</style><style>.deep-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px 30px}.deep-grid p{font-size:13px;line-height:1.8;color:#a8bec2}.deep-grid b{color:#e8eeee;margin-right:8px}@media(max-width:600px){.deep-grid{grid-template-columns:1fr}}</style><style>.hero-enter{font:inherit;cursor:pointer}</style></head>
+</style><style>.story-condensed,.care,.avatar-studio,.engine,.methods,.sensory,.devices,.evidence,.proof{transition:opacity .8s ease,filter .8s ease}.story-condensed:not(.in-view),.care:not(.in-view),.avatar-studio:not(.in-view),.engine:not(.in-view),.methods:not(.in-view),.sensory:not(.in-view),.devices:not(.in-view),.evidence:not(.in-view),.proof:not(.in-view){opacity:.76;filter:saturate(.8)}@media(prefers-reduced-motion:reduce){.story-condensed,.care,.avatar-studio,.engine,.methods,.sensory,.devices,.evidence,.proof{transition:none!important;opacity:1!important;filter:none!important}}</style><style>.deep-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px 30px}.deep-grid p{font-size:13px;line-height:1.8;color:#a8bec2}.deep-grid b{color:#e8eeee;margin-right:8px}@media(max-width:600px){.deep-grid{grid-template-columns:1fr}}</style><style>.hero-enter{font:inherit;cursor:pointer}</style><link rel="stylesheet" href="assets/narration/guide.css"><style>.stop-copy .line{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.stop-copy .mechanism,.stop-copy .micro{display:none}.clinical-detail{margin-top:17px;border-top:1px solid rgba(131,241,234,.25);font-size:12px;color:#a8bdc0}.clinical-detail summary{cursor:pointer;color:#9bdcd8;padding:13px 0}.clinical-detail p{font-size:12px;line-height:1.7}.clinical-detail .study{display:grid}.evidence-list>.clinical-detail{width:100%}@media(max-width:700px){.narration-dock{bottom:64px}}</style></head>
 <body>
   <button id="bgmToggle" class="bgm-toggle" type="button" aria-label="开启海浪白噪音" aria-pressed="false"><span class="bgm-dot" aria-hidden="true"></span><span id="bgmState">海浪 · 待播放</span></button>
   <header class="topbar"><div class="brand">生成式群岛 <span>梓笙园</span></div><nav class="toplinks"><a href="#product-story">中心介绍</a><a href="#avatar">登岛体验</a><a href="#devices">技术设备</a><a href="#evidence">循证</a><a href="#report">航行报告</a><a href="#proof">成果</a></nav></header>
@@ -412,7 +383,7 @@ button,input{font-family:inherit}
     document.querySelectorAll('[data-island]').forEach(b=>b.addEventListener('click',()=>{islandChoice=b.dataset.island;document.querySelectorAll('[data-island]').forEach(x=>x.classList.toggle('active',x===b));document.getElementById('islandResult').textContent=islandText[islandChoice][1];renderAvatar()}));
     renderAvatar();
     const tourFrame=document.getElementById('tourFrame');
-    let tourVoiceActive=false;
+    let tourVoiceActive=false,promoNarrationActive=false;
     function tourSignal(type){tourFrame?.contentWindow?.postMessage({source:'genisland-promo',type},location.origin)}
     window.addEventListener('message',e=>{if(e.origin!==location.origin||e.source!==tourFrame?.contentWindow||e.data?.source!=='genisland-tour')return;
       if(e.data.type==='voice-start'){tourVoiceActive=true;videos.forEach(v=>v.pause());bgm.pause()}
@@ -446,12 +417,12 @@ button,input{font-family:inherit}
     const bgmToggle=document.getElementById('bgmToggle'),bgmState=document.getElementById('bgmState');let bgmWanted=true;
     function videoAudible(){return videos.some(v=>!v.paused&&!v.ended&&!v.muted&&v.volume>0)}
     function updateBgm(){const playing=!bgm.paused;bgmToggle.setAttribute('aria-pressed',String(playing));bgmToggle.setAttribute('aria-label',playing?'关闭海浪白噪音':'开启海浪白噪音');bgmState.textContent=videoAudible()&&bgmWanted?'海浪 · 视频中暂停':playing?'海浪 · 播放中':bgmWanted?'海浪 · 点击播放':'海浪 · 已关闭'}
-    function startBgm(){if(!bgmWanted||document.hidden||videoAudible()||tourVoiceActive){updateBgm();return}bgm.volume=.38;bgm.play().then(updateBgm).catch(updateBgm)}
-    function syncBgm(){if(videoAudible()||tourVoiceActive){bgm.pause();updateBgm()}else startBgm();tourSignal(videoAudible()?'video-start':'video-end')}
+    function startBgm(){if(!bgmWanted||document.hidden||videoAudible()||tourVoiceActive||promoNarrationActive){updateBgm();return}bgm.volume=.38;bgm.play().then(updateBgm).catch(updateBgm)}
+    function syncBgm(){if(videoAudible()||tourVoiceActive||promoNarrationActive){bgm.pause();updateBgm()}else startBgm();tourSignal(videoAudible()?'video-start':'video-end')}
     bgm.addEventListener('play',updateBgm);bgm.addEventListener('pause',updateBgm);
     bgmToggle.addEventListener('click',()=>{if(!bgmWanted||(bgm.paused&&!videoAudible())){bgmWanted=true;startBgm()}else{bgmWanted=false;bgm.pause();updateBgm()}});
     function pauseOthers(active){videos.forEach(v=>{if(v!==active)v.pause()})}
-    async function playVisible(v){if(tourVoiceActive)return;pauseOthers(v);v.muted=!soundUnlocked;try{await v.play()}catch(e){v.muted=true;try{await v.play()}catch(_){}}syncBgm()}
+    async function playVisible(v){if(tourVoiceActive||promoNarrationActive)return;pauseOthers(v);v.muted=!soundUnlocked;try{await v.play()}catch(e){v.muted=true;try{await v.play()}catch(_){}}syncBgm()}
     const videoObserver=new IntersectionObserver(entries=>{entries.forEach(({target,isIntersecting,intersectionRatio})=>{if(isIntersecting&&intersectionRatio>=.45)playVisible(target);else target.pause()})},{threshold:[0,.45,.75]});videos.forEach(v=>videoObserver.observe(v));
     function unlockSound(e){soundUnlocked=true;const v=videos.find(x=>{const r=x.getBoundingClientRect();return r.top<innerHeight*.8&&r.bottom>innerHeight*.2});if(v){v.muted=false;playVisible(v)}if(!e?.target?.closest?.('#bgmToggle'))startBgm()}
     document.getElementById('enterExperience').addEventListener('click',()=>{unlockSound();document.getElementById('avatar').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',block:'start'})});
@@ -459,6 +430,7 @@ button,input{font-family:inherit}
     videos.forEach(v=>{v.addEventListener('play',syncBgm);v.addEventListener('pause',syncBgm);v.addEventListener('ended',syncBgm);v.addEventListener('volumechange',syncBgm)});
     document.addEventListener('visibilitychange',()=>{if(document.hidden)bgm.pause();else startBgm()});
     startBgm();
+    window.genislandAudio={setNarration(active){promoNarrationActive=active;if(active){videos.forEach(v=>v.pause());bgm.pause();tourSignal('video-start')}else{tourSignal('video-end');syncBgm()}},isVideoAudible:videoAudible};
 
     const careStages={
       screen:['进入前 · 私密评估','先知道什么需要被保护','利笙在独立流程中完成筛查与风险识别；需要临床处理的信息进入专业路径，不被当作故事素材公开。','标准化筛查与分层管理；研究支持的是量表方法，不等于利笙设备效能。体验资格和风险处置由临床人员决定。','s01','https://pubmed.ncbi.nlm.nih.gov/22193671/'],
@@ -504,5 +476,46 @@ button,input{font-family:inherit}
     document.querySelectorAll('[data-method]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('[data-method]').forEach(x=>x.classList.toggle('active',x===b));const [scene,action,observe,evidence,source,img]=methods[b.dataset.method];document.getElementById('methodScene').textContent=scene;document.getElementById('methodAction').textContent=action;document.getElementById('methodObserve').textContent=observe;document.getElementById('methodEvidence').textContent=evidence;document.getElementById('methodLink').href=source;document.getElementById('methodVisual').style.backgroundImage="linear-gradient(0deg,rgba(4,12,19,.9),rgba(4,12,19,.05)),url('assets/"+img+"')"}));
     document.querySelectorAll('[data-report]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('[data-report]').forEach(x=>x.classList.toggle('active',x===b));const clinical=b.dataset.report==='clinical';document.getElementById('reportView').classList.toggle('clinical',clinical);document.getElementById('reportView').innerHTML=clinical?'<div><small>02 / 给专业人员</small><h4>评估与复盘</h4><p>授权资料、量表、过程事件和风险提示分层呈现，AI仅辅助整理；专业人员核验并决定后续计划。</p></div><img src="assets/clinical-report.webp" alt="多模态评估报告示例">':'<figure><img src="assets/voyage-trajectory.webp" alt="三座岛屿与单一航线的简约轨迹图"><figcaption>航行轨迹 · 三个经确认的场景节点</figcaption></figure><figure><img src="assets/voyage-moment.webp" alt="点亮群岛航线的精彩瞬间"><figcaption>精彩瞬间 · 一次主动选择</figcaption></figure>'}));
     const stops=[...document.querySelectorAll('.stop')],nav=[...document.querySelectorAll('.progress a')],ports=[...document.querySelectorAll('.port')];ports.forEach(p=>p.addEventListener('click',()=>document.getElementById(p.dataset.target).scrollIntoView({behavior:'smooth',block:'start'})));const observer=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('in-view');const id=entry.target.id,i=stops.indexOf(entry.target);nav.forEach((a,n)=>a.classList.toggle('active',n===i));ports.forEach(p=>p.classList.toggle('active',p.dataset.target===id))}})},{threshold:.32});stops.forEach(s=>observer.observe(s));
+    // Keep professional detail available without placing long paragraphs in the visual path.
+    function fold(nodes,label){
+      const valid=[...nodes].filter(Boolean);if(!valid.length)return;
+      const details=document.createElement('details');details.className='clinical-detail';
+      const summary=document.createElement('summary');summary.textContent=label;details.append(summary);
+      valid[0].before(details);valid.forEach(node=>details.append(node));
+    }
+    fold(document.querySelectorAll('.method-copy > div:nth-child(n+2),.method-copy > a'),'查看观察方式与研究依据');
+    fold(['deviceText','deviceEvidence','deviceBoundary'].map(id=>document.getElementById(id)),'查看设备说明与证据边界');
+    document.querySelectorAll('.sensory-grid article').forEach(article=>fold(article.querySelectorAll('p'),'了解可调方式'));
+    fold(document.querySelectorAll('.evidence-list .study'),'查看原始研究');
+    // Scroll is the primary control. Secondary explanatory panels progress while visible;
+    // any direct interaction pauses that panel, and reduced-motion mode stays manual.
+    function autoPanel(sectionSelector, buttonSelector, dwell){
+      const section=document.querySelector(sectionSelector);if(!section)return;
+      const buttons=[...section.querySelectorAll(buttonSelector)];if(buttons.length<2)return;
+      let timer=null,manual=false;
+      section.addEventListener('pointerdown',()=>{manual=true;clearInterval(timer)});
+      section.addEventListener('focusin',()=>{manual=true;clearInterval(timer)});
+      const visibility=new IntersectionObserver(([entry])=>{
+        clearInterval(timer);
+        if(!entry.isIntersecting||document.hidden||manual||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+        timer=setInterval(()=>{
+          if(document.hidden||section.contains(document.activeElement))return;
+          const current=buttons.findIndex(b=>b.classList.contains('active'));
+          buttons[(current+1+buttons.length)%buttons.length].click();
+        },dwell);
+      },{threshold:.18});visibility.observe(section);
+      document.addEventListener('visibilitychange',()=>{if(document.hidden)clearInterval(timer)});
+    }
+    autoPanel('#care','[data-care]',7200);
+    autoPanel('#devices','[data-device]',7600);
+    autoPanel('#methods','[data-method]',8000);
+    autoPanel('#engine','.input-row:first-child button',8200);
+    autoPanel('#s06','[data-mirror]',7800);
+    autoPanel('#s08','[data-report]',9000);
+    const reveal=new IntersectionObserver(entries=>entries.forEach(({target,isIntersecting})=>{
+      target.classList.toggle('in-view',isIntersecting)
+    }),{threshold:.22});
+    document.querySelectorAll('.story-condensed,.care,.avatar-studio,.map-section,.engine,.methods,.sensory,.devices,.evidence,.proof').forEach(el=>reveal.observe(el));
   </script>
+<script src="assets/narration/guide.js" defer></script>
 </body></html>

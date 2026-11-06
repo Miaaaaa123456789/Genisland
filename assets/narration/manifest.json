@@ -1,0 +1,391 @@
+{
+  "version": 1,
+  "voiceId": "one-documentary-narrator",
+  "tracks": [
+    {
+      "id": "opening",
+      "selector": ".hero",
+      "kind": "section",
+      "audio": null,
+      "text": "梓笙园 AI 体验中心面向经评估适宜、自愿参与的青少年。已有筛查、个案管理与陪伴服务在这里接上沉浸练习；新的群岛会因每次选择而改变，专业目标始终由人确认。"
+    },
+    {
+      "id": "foundation",
+      "selector": "#product-story",
+      "kind": "section",
+      "audio": null,
+      "text": "这座中心从已有产品出发。利笙帮助整理筛查线索，Copilot协助专业人员确定目标；沉浸空间把目标转成可以尝试的行动，报告和随访再把过程接回现实。"
+    },
+    {
+      "id": "care",
+      "selector": "#care",
+      "kind": "section",
+      "audio": null,
+      "text": "专业路径先于故事。进入前确认适宜性和风险边界，体验中保留暂停与退出，离场后由本人和专业人员回看记录。AI改变的是表达形式，不替代临床判断。"
+    },
+    {
+      "id": "avatar",
+      "selector": "#avatar",
+      "kind": "section",
+      "audio": null,
+      "text": "入口的形象是一次自主选择。它会沿航线保持同一身份，镜映时也仍然可辨；发生变化的是姿态、选择和愿意保留的线索，而不是系统给出的人格评判。"
+    },
+    {
+      "id": "map",
+      "selector": "#map",
+      "kind": "section",
+      "audio": null,
+      "text": "航线从入口经过生成走廊、共享航段、个人岛与镜映，最后在共创和报告区收束。地图呈现空间先后关系；三维游览可以走近装置，看清每一处如何接续。"
+    },
+    {
+      "id": "s01",
+      "selector": "#s01",
+      "kind": "section",
+      "audio": null,
+      "text": "入口先说明服务边界、信息使用和暂停方式。机器人与院区地图负责定位，形象选择让参与者在进入故事前先拥有一个可以辨认的起点。"
+    },
+    {
+      "id": "s02",
+      "selector": "#s02",
+      "kind": "section",
+      "audio": null,
+      "text": "筛查线索、已有资料和专业计划在这里各归其位。利笙辅助整理信息，Copilot支持专业人员查看来源与目标；未经确认的内容不会被写成生成故事的事实。"
+    },
+    {
+      "id": "s03",
+      "selector": "#s03",
+      "kind": "section",
+      "audio": null,
+      "text": "从这段走廊开始，光点汇成岸线。经授权的线索、本次选择和允许的练习主题可以改变岛的形态与角色；固定的通道、退出方式和临床边界仍然清楚。"
+    },
+    {
+      "id": "s04",
+      "selector": "#s04",
+      "kind": "section",
+      "audio": null,
+      "text": "共享航段让同一张航图出现不同的看法。倾听、表达偏好和请求确认可以在安全情境中练习；团体人际技能的研究为方法提供依据，生成航船本身仍需验证。"
+    },
+    {
+      "id": "s05",
+      "selector": "#s05",
+      "kind": "section",
+      "audio": null,
+      "text": "个人岛承接本人确认的一小段经历。天气、距离和角色使难说出的感受可以被观察，也允许降低刺激、暂停或跳过；场景不会替人解释问题。"
+    },
+    {
+      "id": "s06",
+      "selector": "#s06",
+      "kind": "section",
+      "audio": null,
+      "text": "镜映保留入口时的同一形象，重新呈现刚才的选择。视角和姿态能够变化，原来的看法也可以保留；这是一种回顾与观点练习，不是对未来自我的预测。"
+    },
+    {
+      "id": "s07",
+      "selector": "#s07",
+      "kind": "section",
+      "audio": null,
+      "text": "个人空间形成的说法来到共创桌。岛屿可以靠近、移远，也能撤回连接；真正被观察的是请求、回应与协商，而不是拼出一张标准地图。"
+    },
+    {
+      "id": "s08",
+      "selector": "#s08",
+      "kind": "section",
+      "audio": null,
+      "text": "出口的数字墙把航迹、本人确认的片段和专业评估分层展示。精彩瞬间属于体验记录；量表、风险和临床结论必须标明来源并经过专业复核。"
+    },
+    {
+      "id": "s09",
+      "selector": "#s09",
+      "kind": "section",
+      "audio": null,
+      "text": "离场后，现实中的尝试和阻碍可以在下次会面时被重新讨论。再次进入会生成新的角色与景象，但只有本人同意保留的线索才可能延续。"
+    },
+    {
+      "id": "engine",
+      "selector": "#engine",
+      "kind": "section",
+      "audio": null,
+      "text": "同一目标可以遇见不同的世界。本次表达、愿意保存的旧线索和同行方式改变事件；网页只演示这种组合，正式生成仍需授权、规则记录与专业复核。"
+    },
+    {
+      "id": "methods",
+      "selector": "#methods",
+      "kind": "section",
+      "audio": null,
+      "text": "沉浸体验并不靠画面本身产生改变。可观察的部分是参与者怎样选择、调节、表达或尝试新行动；方法研究与本中心整体效果需要分别评价。"
+    },
+    {
+      "id": "sensory",
+      "selector": "#sensory",
+      "kind": "section",
+      "audio": null,
+      "text": "温度、可选气味与环绕声音共同建立场景的方向和距离。强度应能调整或关闭；舒缓时减少突然的刺激，为停顿和恢复留出空间。"
+    },
+    {
+      "id": "devices",
+      "selector": "#devices",
+      "kind": "section",
+      "audio": null,
+      "text": "设备只在帮助完成具体行动时出现。多人投影承载共同场景，VR用于经评估适宜的个人练习，机器人负责引导与等待；每项设备的研究证据有不同适用范围。"
+    },
+    {
+      "id": "evidence",
+      "selector": "#evidence",
+      "kind": "section",
+      "audio": null,
+      "text": "这一页把已有方法研究、沉浸技术研究和本中心待验证的整体效果分开。借鉴有效的治疗技术，不意味着新空间已经获得相同的临床结论。"
+    },
+    {
+      "id": "proof",
+      "selector": "#proof",
+      "kind": "section",
+      "audio": null,
+      "text": "团队已有筛查产品和临床研究基础。器械注册信息、既往成果与本中心未来的验证计划应各自可核查；最终报告要让体验记录和临床评估并列而不混淆。"
+    },
+    {
+      "id": "care-screen",
+      "selector": "[data-care=\"screen\"]",
+      "kind": "control",
+      "audio": null,
+      "text": "利笙辅助收集需要进一步追问的线索，风险信息进入独立的专业流程，不作为公共故事素材。"
+    },
+    {
+      "id": "care-goal",
+      "selector": "[data-care=\"goal\"]",
+      "kind": "control",
+      "audio": null,
+      "text": "Copilot帮助专业人员查看来源明确的资料，共同确认本次练习目标；AI不自行制定诊断和治疗计划。"
+    },
+    {
+      "id": "care-robot",
+      "selector": "[data-care=\"robot\"]",
+      "kind": "control",
+      "audio": null,
+      "text": "机器人负责迎宾、解释操作和等待回应。暂停、不分享与请求换一种表达，都应得到清楚反馈。"
+    },
+    {
+      "id": "care-scene",
+      "selector": "[data-care=\"scene\"]",
+      "kind": "control",
+      "audio": null,
+      "text": "沉浸场景把表达、调节和人际练习变得可见、可暂停；技术承载练习，不等于技术本身已证明疗效。"
+    },
+    {
+      "id": "care-moment",
+      "selector": "[data-care=\"moment\"]",
+      "kind": "control",
+      "audio": null,
+      "text": "当下询问与及时提示只在适用范围内提供，参与者可以拒绝；触发规则与负担需要单独评估。"
+    },
+    {
+      "id": "care-review",
+      "selector": "[data-care=\"review\"]",
+      "kind": "control",
+      "audio": null,
+      "text": "出口报告由AI辅助整理，经本人确认和专业人员核验后才成为后续讨论的材料。"
+    },
+    {
+      "id": "care-between",
+      "selector": "[data-care=\"between\"]",
+      "kind": "control",
+      "audio": null,
+      "text": "复诊与陪伴产品承接愿意记录的现实变化，下一次进入时先回看，再决定是否继续使用旧线索。"
+    },
+    {
+      "id": "device-art",
+      "selector": "[data-device=\"art\"]",
+      "kind": "control",
+      "audio": null,
+      "text": "ART沉浸厅让多人共享一片可回应的空间，练习表达偏好和协商距离。投影是交互载体，团体技能仍需专业带领。"
+    },
+    {
+      "id": "device-vr",
+      "selector": "[data-device=\"vr\"]",
+      "kind": "control",
+      "audio": null,
+      "text": "VR情境舱只用于经评估适宜的个人练习。任务和刺激强度由专业人员安排，暂停与退出始终可用。"
+    },
+    {
+      "id": "device-three",
+      "selector": "[data-device=\"three\"]",
+      "kind": "control",
+      "audio": null,
+      "text": "裸眼三维屏用于解释立体航迹和关系变化，不需头显，也不承担情绪诊断。"
+    },
+    {
+      "id": "device-robot",
+      "selector": "[data-device=\"robot\"]",
+      "kind": "control",
+      "audio": null,
+      "text": "具身机器人提供导航、确认和低强度陪伴；涉及风险的判断与处置转交专业人员。"
+    },
+    {
+      "id": "device-sleep",
+      "selector": "[data-device=\"sleep\"]",
+      "kind": "control",
+      "audio": null,
+      "text": "舒缓舱是可离开的低刺激休息空间。光声和时长可调，一次使用不被描述为失眠治疗。"
+    },
+    {
+      "id": "device-wear",
+      "selector": "[data-device=\"wear\"]",
+      "kind": "control",
+      "audio": null,
+      "text": "可穿戴设备只在授权后补充过程信号。单一心率或睡眠数值不能推出情绪和诊断。"
+    },
+    {
+      "id": "method-choice",
+      "selector": "[data-method=\"choice\"]",
+      "kind": "control",
+      "audio": null,
+      "text": "选择说、画、观察或暂停，本身都是有效的参与方式。机器人要等待回答，而非自动推进。"
+    },
+    {
+      "id": "method-regulate",
+      "selector": "[data-method=\"regulate\"]",
+      "kind": "control",
+      "audio": null,
+      "text": "调低浪声、调整距离和尝试接地，是把情绪调节技能放进可操作环境的示例。"
+    },
+    {
+      "id": "method-action",
+      "selector": "[data-method=\"action\"]",
+      "kind": "control",
+      "audio": null,
+      "text": "小步行动从场景内的尝试开始，能否带回生活，需要在复访中询问真实情况。"
+    },
+    {
+      "id": "method-relation",
+      "selector": "[data-method=\"relation\"]",
+      "kind": "control",
+      "audio": null,
+      "text": "两种看法可以并存。共创桌观察的是如何提出请求和回应，而不是意见是否统一。"
+    },
+    {
+      "id": "method-external",
+      "selector": "[data-method=\"external\"]",
+      "kind": "control",
+      "audio": null,
+      "text": "将困扰暂时放进天气和地形，有助于描述和观察；系统不据此给人贴类型标签。"
+    },
+    {
+      "id": "mirror-self",
+      "selector": "[data-mirror=\"self\"]",
+      "kind": "control",
+      "audio": null,
+      "text": "镜中的形象先停在原来的位置，回顾本人已作出的选择。"
+    },
+    {
+      "id": "mirror-other",
+      "selector": "[data-mirror=\"other\"]",
+      "kind": "control",
+      "audio": null,
+      "text": "改变观看位置可以尝试另一种理解，但不替真实同伴猜测想法。"
+    },
+    {
+      "id": "mirror-both",
+      "selector": "[data-mirror=\"both\"]",
+      "kind": "control",
+      "audio": null,
+      "text": "两种看法可以并存，练习不要求立即选出一个正确答案。"
+    },
+    {
+      "id": "report-journey",
+      "selector": "[data-report=\"experience\"]",
+      "kind": "control",
+      "audio": null,
+      "text": "航行轨迹和精彩瞬间由本人选择保存，属于体验记录，不是症状改善证明。"
+    },
+    {
+      "id": "report-clinical",
+      "selector": "[data-report=\"clinical\"]",
+      "kind": "control",
+      "audio": null,
+      "text": "专业报告标明量表时间点、资料来源和复核者；风险提示须进入临床流程。"
+    },
+    {
+      "id": "avatar-outfit",
+      "selector": "[data-avatar-option=\"outfit\"]",
+      "kind": "control",
+      "audio": null,
+      "text": "旅装只改变形象外观，不构成临床分类。"
+    },
+    {
+      "id": "avatar-hair",
+      "selector": "[data-avatar-option=\"hair\"]",
+      "kind": "control",
+      "audio": null,
+      "text": "发型由参与者自由选择，镜映中的身份保持连续。"
+    },
+    {
+      "id": "avatar-color",
+      "selector": "[data-avatar-option=\"color\"]",
+      "kind": "control",
+      "audio": null,
+      "text": "光色是视觉偏好，不用于推断人格或风险。"
+    },
+    {
+      "id": "avatar-mark",
+      "selector": "[data-avatar-option=\"mark\"]",
+      "kind": "control",
+      "audio": null,
+      "text": "航标是本次旅程的辨认线索，可以随时修改。"
+    },
+    {
+      "id": "avatar-stance",
+      "selector": "[data-avatar-option=\"stance\"]",
+      "kind": "control",
+      "audio": null,
+      "text": "出发姿态可以是观察、表达或靠近关系，没有优劣排序。"
+    },
+    {
+      "id": "avatar-direction",
+      "selector": "[data-avatar-option=\"direction\"]",
+      "kind": "control",
+      "audio": null,
+      "text": "练习方向由本人提出，并与专业人员共同确认。"
+    },
+    {
+      "id": "sensory-air",
+      "selector": ".sensory-grid article:nth-child(1)",
+      "kind": "section",
+      "audio": null,
+      "text": "温度与气流以舒适和可调为原则。轻微的空气流动提示海岸场景，也可以完全关闭。"
+    },
+    {
+      "id": "sensory-scent",
+      "selector": ".sensory-grid article:nth-child(2)",
+      "kind": "section",
+      "audio": null,
+      "text": "气味只是可选的环境线索。使用前确认偏好与敏感情况，始终保留无香的体验方式。"
+    },
+    {
+      "id": "sensory-sound",
+      "selector": ".sensory-grid article:nth-child(3)",
+      "kind": "section",
+      "audio": null,
+      "text": "环绕声用方向和远近串起空间；舒缓段减少突发声响，让安静也成为声景的一部分。"
+    },
+    {
+      "id": "proof-report",
+      "selector": ".report-switch",
+      "kind": "section",
+      "audio": null,
+      "text": "报告墙把本人保存的航迹与正式专业报告分开展示，所有临床数据要标明时间、来源与复核者。"
+    },
+    {
+      "id": "proof-medical",
+      "selector": ".medical-example",
+      "kind": "section",
+      "audio": null,
+      "text": "利笙多模态评估图展示已有产品的报告形式。风险提示和诊断建议必须进入临床人员复核流程。"
+    },
+    {
+      "id": "proof-platform",
+      "selector": ".legacy-gallery",
+      "kind": "section",
+      "audio": null,
+      "text": "团队已有筛查技术与数据平台基础。它们说明建设从哪里出发，不等于新体验中心已经完成效果验证。"
+    }
+  ]
+}
