@@ -24,14 +24,13 @@ const TEAL = 0x76a98c
 const TEAL_BRIGHT = 0xd6ffed
 const GOLD = 0xdfaa7f
 const GOLD_BRIGHT = 0xffd9b1
-const VOICE_BASE = '../assets/narration/audio/'
 
 /* ------------------------------------------------------------------ */
 /* 章节：每章 = 一段旁白 + 一个机位 + 一个生成目标                     */
 /* ------------------------------------------------------------------ */
 const CHAPTERS = [
   {
-    id: 'intro', audio: 'g-intro.m4a',
+    id: 'intro', duration: 13,
     kicker: 'THE PROJECT / 这是什么',
     title: '面向经专业评估适宜的青少年',
     desc: '在专业支持下，练习表达、情绪调节与人际沟通。',
@@ -39,7 +38,7 @@ const CHAPTERS = [
     gen: 0.24,
   },
   {
-    id: 'entry', audio: 'g-entry.m4a',
+    id: 'entry', duration: 13,
     kicker: '01 / ENTRY · 入口',
     title: '黑暗中的一枚航标',
     desc: '先建立一个愿意带走的形象，以及可以随时撤回的边界。',
@@ -47,7 +46,7 @@ const CHAPTERS = [
     gen: 0.34,
   },
   {
-    id: 'corridor', audio: 'g-corridor.m4a',
+    id: 'corridor', duration: 15,
     kicker: '03 / GROWTH CORRIDOR · 生成长廊',
     title: '确认的线索，长出不同的岸线',
     desc: '改变一条确认线索，岛岸与岸边角色会给出不同回应。',
@@ -55,7 +54,7 @@ const CHAPTERS = [
     gen: 0.72,
   },
   {
-    id: 'shared', audio: 'g-shared.m4a',
+    id: 'shared', duration: 14,
     kicker: '04 / SHARED · 团体互动区',
     title: '几个人，面对同一张航图',
     desc: '一次清楚的请求，或一次认真倾听，都值得被看见。',
@@ -63,7 +62,7 @@ const CHAPTERS = [
     gen: 0.79,
   },
   {
-    id: 'personal', audio: 'g-personal.m4a',
+    id: 'personal', duration: 13,
     kicker: '05 / PERSONAL · 个人岛',
     title: '一个人，也可以先照顾自己',
     desc: '走近、停留，或换一条更安静的路线。节奏由本人决定。',
@@ -71,7 +70,7 @@ const CHAPTERS = [
     gen: 0.93,
   },
   {
-    id: 'mirror', audio: 'g-mirror.m4a',
+    id: 'mirror', duration: 13,
     kicker: '06 / MIRROR · 镜映',
     title: '镜中的人，仍是入口时的你',
     desc: '同一个形象、同一件长外套、同一枚胸前的航标。',
@@ -79,7 +78,7 @@ const CHAPTERS = [
     gen: 0.96,
   },
   {
-    id: 'cocreate', audio: 'g-cocreate.m4a',
+    id: 'cocreate', duration: 14,
     kicker: '07 / CO-CREATION · 共创空间',
     title: '两座岛，可以靠近，也可以移远',
     desc: '调整距离会立刻改变连线与关系标签；随时可以撤回。',
@@ -87,7 +86,7 @@ const CHAPTERS = [
     gen: 0.99,
   },
   {
-    id: 'report', audio: 'g-report.m4a',
+    id: 'report', duration: 15,
     kicker: '08 / REPORT · 报告数字墙',
     title: '离开前，看清每一条记录的来源',
     desc: '本人确认、AI 整理、量表观察、专业判断，分层呈现。',
@@ -105,8 +104,6 @@ const state = {
   free: false,
   genTime: 0,
   genTarget: 0,
-  voice: null,
-  voiceToken: 0,
   hovered: null,
   clue: 'steady',
   clueHistory: [],
@@ -759,7 +756,6 @@ const progFill = document.getElementById('progFill')
 const progDot = document.getElementById('progDot')
 const introCopy = document.getElementById('introCopy')
 const hoverHint = document.getElementById('hoverHint')
-const soundHint = document.getElementById('soundHint')
 const viewToggle = document.getElementById('viewToggle')
 
 const camTarget = {
@@ -799,56 +795,30 @@ function setChapter(idx, opts = {}) {
   progDot.style.left = (p * 100).toFixed(1) + '%'
 
   renderToolPanel()
-  if (!opts.silent) playVoice(ch.audio)
+  if (!opts.silent) scheduleAdvance(ch.duration)
 }
 
 /* ------------------------------------------------------------------ */
-/* 旁白：全部来自 <audio> 文件，绝不使用浏览器语音合成                 */
+/* 章节推进：按每章的停留时长自动向前，无旁白驱动                     */
 /* ------------------------------------------------------------------ */
-function playVoice(file) {
-  stopVoice()
-  const token = ++state.voiceToken
-  const a = new Audio(VOICE_BASE + file)
-  a.preload = 'auto'
-  a.volume = 0
-  state.voice = a
-  const start = performance.now()
-  const rise = () => {
-    if (state.voiceToken !== token) return
-    a.volume = Math.min(0.92, 0.92 * (performance.now() - start) / 520)
-    if (a.volume < 0.92) requestAnimationFrame(rise)
-  }
-  a.play().then(() => requestAnimationFrame(rise)).catch(() => {})
-  a.onended = () => {
-    if (state.voiceToken !== token) return
-    state.voice = null
-    advanceChapter()
-  }
-}
-
-function stopVoice() {
-  state.voiceToken++
-  if (state.voice) {
-    state.voice.pause()
-    state.voice.onended = null
-    state.voice = null
-  }
-}
-
 let advanceTimer = 0
+
+function scheduleAdvance(duration = 14) {
+  clearTimeout(advanceTimer)
+  advanceTimer = setTimeout(() => advanceChapter(), Math.max(4, duration) * 1000)
+}
+
 function advanceChapter() {
   if (state.free) return
   clearTimeout(advanceTimer)
-  advanceTimer = setTimeout(() => {
-    if (state.chapter < CHAPTERS.length - 1) {
-      setChapter(state.chapter + 1)
-    } else {
-      state.free = true
-      viewToggle.classList.add('show')
-      viewToggle.textContent = '自由观察'
-      document.getElementById('afterword')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-    }
-  }, 1600)
+  if (state.chapter < CHAPTERS.length - 1) {
+    setChapter(state.chapter + 1)
+  } else {
+    state.free = true
+    viewToggle.classList.add('show')
+    viewToggle.textContent = '自由观察'
+    document.getElementById('afterword')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
 }
 
 /* ------------------------------------------------------------------ */
@@ -1137,12 +1107,6 @@ function begin() {
   if (state.started) return
   state.started = true
   introCopy.classList.add('hidden')
-  soundHint.classList.remove('show')
-  try {
-    const AC = window.AudioContext || window.webkitAudioContext
-    if (AC) { const c = new AC(); c.resume?.(); setTimeout(() => c.close?.(), 800) }
-  } catch (_) {}
-  window.parent?.postMessage({ type: 'genesis-voice', state: 'start' }, '*')
   setChapter(0)
 }
 
@@ -1152,11 +1116,11 @@ addEventListener('pointermove', onPointerMove)
 addEventListener('keydown', e => {
   if (!state.started) return
   if (e.key === 'ArrowRight') {
-    stopVoice()
+    clearTimeout(advanceTimer)
     if (state.chapter < CHAPTERS.length - 1) setChapter(state.chapter + 1)
   }
   if (e.key === 'ArrowLeft' && state.chapter > 0) {
-    stopVoice()
+    clearTimeout(advanceTimer)
     setChapter(state.chapter - 1)
   }
   if (e.key === 'Escape') {
@@ -1172,7 +1136,7 @@ viewToggle.addEventListener('click', () => {
 })
 
 document.addEventListener('visibilitychange', () => {
-  if (document.hidden) { running = false; stopVoice() }
+  if (document.hidden) { running = false; clearTimeout(advanceTimer) }
   else { running = true; clock.getDelta(); tick() }
 })
 
@@ -1181,11 +1145,11 @@ window.addEventListener('message', e => {
     running = true
     clock.getDelta()
     tick()
-    if (state.started && !state.free && !state.voice) advanceChapter()
+    if (state.started && !state.free) advanceChapter()
   }
   if (e.data?.type === 'genesis-hidden') {
     running = false
-    stopVoice()
+    clearTimeout(advanceTimer)
   }
 })
 
@@ -1196,7 +1160,6 @@ window.__genesis = {
   get chapter() { return state.chapter },
   get clue() { return state.clue },
   get distance() { return state.distance },
-  get voice() { return state.voice?.src || '' },
   get gen() { return state.genTime },
   get lineCount() { return lineObjects.length },
   get visitor() { return { ...state.visitor } },

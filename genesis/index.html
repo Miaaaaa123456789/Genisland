@@ -43,9 +43,6 @@ canvas#stage{position:fixed;inset:0;width:100%;height:100%;display:block;touch-a
 .progress i{position:absolute;left:0;top:0;bottom:0;width:0;background:linear-gradient(90deg,var(--teal-dim),var(--teal));transition:width .6s ease}
 .progress b{position:absolute;top:-5px;width:11px;height:11px;border-radius:50%;background:var(--teal-bright);box-shadow:0 0 12px rgba(118,169,140,.9);transform:translateX(-5px);transition:left .6s ease}
 
-/* 声音提示（浏览器手势要求） */
-.sound-hint{position:fixed;left:50%;bottom:calc(74px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:9;font-size:11px;letter-spacing:.14em;color:var(--gold);opacity:0;transition:opacity .5s;pointer-events:none;text-align:center}
-.sound-hint.show{opacity:.92}
 
 /* 悬停航线提示 */
 .hover-hint{position:fixed;z-index:8;pointer-events:none;font-size:11px;line-height:1.6;color:var(--teal-bright);background:rgba(6,13,12,.86);border:1px solid rgba(118,169,140,.35);padding:9px 13px;border-radius:3px;max-width:230px;opacity:0;transition:opacity .25s;backdrop-filter:blur(6px)}
@@ -124,7 +121,7 @@ canvas#stage{position:fixed;inset:0;width:100%;height:100%;display:block;touch-a
 <div class="intro-copy" id="introCopy">
   <h1>一段旅程，<br>如何从一次选择开始。</h1>
   <p>这是面向经专业评估适宜的青少年的生成式沉浸体验——在专业支持下练习表达、情绪调节与人际沟通。眼前这条由光与线生成的动线，就是一次完整旅程的样子。</p>
-  <button class="enter" id="enterBtn">开启声音，进入生成 <span aria-hidden="true">→</span></button>
+  <button class="enter" id="enterBtn">进入生成 <span aria-hidden="true">→</span></button>
 </div>
 
 <div class="chapter" id="chapter"><small id="chKicker"></small><h2 id="chTitle"></h2><p id="chDesc"></p></div>
@@ -134,7 +131,7 @@ canvas#stage{position:fixed;inset:0;width:100%;height:100%;display:block;touch-a
 <button class="view-toggle" id="viewToggle" aria-label="切换自由观察">自由观察</button>
 
 <div class="progress" aria-hidden="true"><i id="progFill"></i><b id="progDot"></b></div>
-<div class="sound-hint" id="soundHint">点击画面任意处开启声音</div>
+
 
 <section class="afterword" id="afterword">
   <div class="wrap">
@@ -176,11 +173,6 @@ canvas#stage{position:fixed;inset:0;width:100%;height:100%;display:block;touch-a
     }catch(_){}
     return _fetch.call(this,input,init);
   };
-  var _Audio=window.Audio;
-  if(_Audio){
-    window.Audio=function(src){return new _Audio(src?fix(src):src)};
-    window.Audio.prototype=_Audio.prototype;
-  }
 
   /* importmap 补参：把「不带参数的旧 importmap」换成「带参数的」 */
   if(q){
