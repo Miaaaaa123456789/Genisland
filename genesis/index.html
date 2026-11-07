@@ -150,11 +150,11 @@ canvas#stage{position:fixed;inset:0;width:100%;height:100%;display:block;touch-a
 </section>
 
 <script>
-/* 与首页一致：线上带 sharecode 访问时，同源子资源若不带该参数会返回 403。
-   这里为 importmap 指向的模块、音频与贴图统一补参。 */
+/* 线上带 sharecode 访问时，同源子资源若不带该参数会返回 403。
+   importmap 必须在模块脚本之前生效，且同一文档只能有一个，因此这里：
+   先把带参数的 importmap 写进 DOM，再移除不带参数的旧版。 */
 (function(){
   var params=new URLSearchParams(location.search);
-  if(!params.get('sharecode'))return;
   var q=params.toString();
   function fix(url){
     if(!url)return url;
@@ -166,21 +166,8 @@ canvas#stage{position:fixed;inset:0;width:100%;height:100%;display:block;touch-a
     return abs.pathname+(abs.search?'&':'?')+q;
   }
   window.__genislandFixUrl=fix;
-  /* 补写 importmap 条目：把 ?sharecode 直接加进模块路径 */
-  var im=document.querySelector('script[type="importmap"]');
-  if(im){
-    try{
-      var map=JSON.parse(im.textContent);
-      Object.keys(map.imports||{}).forEach(function(k){
-        var v=map.imports[k];
-        if(typeof v==='string'&&!v.includes('sharecode'))map.imports[k]=fix(v);
-      });
-      var s=document.createElement('script');
-      s.type='importmap';
-      s.textContent=JSON.stringify(map);
-      im.parentNode.replaceChild(s,im);
-    }catch(_){}
-  }
+
+  /* 音频与动态资源补参 */
   var _fetch=window.fetch;
   if(_fetch)window.fetch=function(input,init){
     try{
@@ -194,11 +181,38 @@ canvas#stage{position:fixed;inset:0;width:100%;height:100%;display:block;touch-a
     window.Audio=function(src){return new _Audio(src?fix(src):src)};
     window.Audio.prototype=_Audio.prototype;
   }
+
+  /* importmap 补参：把「不带参数的旧 importmap」换成「带参数的」 */
+  if(q){
+    var im=document.querySelector('script[type="importmap"]');
+    if(im){
+      try{
+        var map=JSON.parse(im.textContent);
+        Object.keys(map.imports||{}).forEach(function(k){
+          var v=map.imports[k];
+          if(typeof v==='string')map.imports[k]=fix(v);
+        });
+        var s=document.createElement('script');
+        s.type='importmap';
+        s.textContent=JSON.stringify(map);
+        im.parentNode.insertBefore(s,im);
+        im.remove();
+      }catch(_){}
+    }
+  }
 })();
 </script>
-<script type="importmap">
-{"imports":{"three":"../assets/vendor/three.module.js","three/addons/":"../assets/vendor/three-addons/"}}
+<script type="module">
+/* 线上带 sharecode 访问时，模块的相对路径不会继承查询参数（会被网关 403）。
+   这里在运行时补参后再动态加载入口模块。 */
+(async () => {
+  const fix = window.__genislandFixUrl || (u => u)
+  try {
+    await import(fix('./genesis.js'))
+  } catch (e) {
+    console.error('生成式旅程加载失败', e)
+  }
+})()
 </script>
-<script type="module" src="./genesis.js"></script>
 </body>
 </html>

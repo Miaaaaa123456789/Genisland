@@ -2,7 +2,10 @@
    只生成「线」：岛岸、人物轮廓、航线、粒子、数字墙。
    约定：所有线条带 aOrder（生成顺序），自下而上 / 由核心向外生长。 */
 
-import * as THREE from 'three'
+/* three 由入口模块注入：线上带 sharecode 访问时，模块内的相对 import 不会
+   继承查询参数，会被网关拒绝，因此统一在运行时按补参后的路径动态加载。 */
+let THREE = null
+export function setThree(t){ THREE = t }
 
 /* ---------- 确定性随机与噪声 ---------- */
 export function mulberry32(seed) {

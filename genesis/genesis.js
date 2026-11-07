@@ -5,15 +5,20 @@
 
    本文件负责：场景、章节推进、镜头、交互、旁白同步、界面。 */
 
-import * as THREE from 'three'
-import { EffectComposer } from '../assets/vendor/three-addons/postprocessing/EffectComposer.js'
-import { RenderPass } from '../assets/vendor/three-addons/postprocessing/RenderPass.js'
-import { UnrealBloomPass } from '../assets/vendor/three-addons/postprocessing/UnrealBloomPass.js'
-import { OutputPass } from '../assets/vendor/three-addons/postprocessing/OutputPass.js'
-import {
+/* 模块路径在运行时拼接：线上带 sharecode 访问时，相对路径 import 不会继承
+   查询参数，会被网关拒绝（403）。这里统一走 fix() 补参后再动态 import。 */
+const fix = window.__genislandFixUrl || (u => u)
+const V = '../assets/vendor/'
+const [THREE, worldMod] = await Promise.all([
+  import(fix(V + 'three-bundle.js')),
+  import(fix('./world.js')),
+])
+const { EffectComposer, RenderPass, UnrealBloomPass, OutputPass } = THREE
+const {
   buildIsland, buildFigure, buildRoute, buildParticles, buildReportTexture,
-  lineGeometry, LineBuf, REPORT_LAYERS,
-} from './world.js'
+  lineGeometry, LineBuf, REPORT_LAYERS, setThree,
+} = worldMod
+setThree(THREE)
 
 const TEAL = 0x76a98c
 const TEAL_BRIGHT = 0xd6ffed
