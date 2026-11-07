@@ -1214,7 +1214,7 @@ window.__genesis = {
     }
     return out
   },
-  goto(i) { stopVoice(); setChapter(i) },
+  goto(i) { clearTimeout(advanceTimer); setChapter(i) },
   setClue, setDistance, undoDistance, undoClue,
   begin,
 }
