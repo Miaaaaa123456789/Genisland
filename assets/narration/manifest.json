@@ -11,6 +11,13 @@
       "source": "system-synth-warm"
     },
     {
+      "id": "genesis",
+      "kind": "section",
+      "selector": "#genesis",
+      "text": "生成式不是随机换一张背景。一次选择会改变岛岸、角色回应和接下来能够尝试的行动。下面的动线沿同一位访客展开，从入口航标到报告数字墙；世界可以重新生长，旧线索是否保留由本人决定。",
+      "handledBy": "genesis-3d"
+    },
+    {
       "id": "foundation",
       "selector": "#product-story",
       "kind": "section",

@@ -63,6 +63,8 @@
   }
   async function show(track) {
     if (!enabled || held || !track || active === track.id) return
+    // 由三维体验承载旁白的区块（#genesis），不在此重复播报
+    if (track.handledBy === 'genesis-3d') { active = track.id; return }
     active = track.id
     clearTimeout(timer)
     const wasPlaying = !audio.paused
