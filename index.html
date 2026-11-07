@@ -9,6 +9,81 @@
 
   </script>
   <meta charset="utf-8">
+  <script>
+  /* 线上分享链接（带 sharecode）访问时，同源子资源若不带该参数会返回 403。
+     这里统一为所有相对路径资源补上当前页面的查询参数，覆盖图片、视频、样式、
+     脚本、旁白音频，以及三维模块在运行时动态 import 的文件。 */
+  (function(){
+    var params=new URLSearchParams(location.search);
+    if(!params.get('sharecode'))return;
+    var q=params.toString();
+    function fix(url){
+      if(!url)return url;
+      if(/^(https?:)?\/\//i.test(url)||url.startsWith('data:')||url.startsWith('blob:')||url.startsWith('#'))return url;
+      var base=url.split('#')[0].split('?')[0];
+      var frag=url.indexOf('#')>=0?url.slice(url.indexOf('#')):'';
+      if(!base)return url;
+      // 已经是同源绝对地址，直接补参
+      if(base.startsWith('/')){
+        return origin+base+(base.indexOf('?')>=0?'&':'?')+q+frag;
+      }
+      var abs=new URL(base,document.baseURI);
+      if(abs.origin!==location.origin)return url;
+      return abs.pathname+(abs.search?'&':'?')+q+frag;
+    }
+    function patch(el){
+      if(!el||el.dataset.sharecodeFixed)return;
+      el.dataset.sharecodeFixed='1';
+      if(el.src&&el.tagName!=='IFRAME'){
+        var n=fix(el.getAttribute('src'));
+        if(n)el.setAttribute('src',n);
+      }
+      if(el.tagName==='IFRAME'){
+        var n2=fix(el.getAttribute('src'));
+        if(n2)el.setAttribute('src',n2);
+      }
+      if(el.tagName==='LINK'&&el.rel==='stylesheet'){
+        var n3=fix(el.getAttribute('href'));
+        if(n3)el.setAttribute('href',n3);
+      }
+      if(el.tagName==='SOURCE'){
+        var n4=fix(el.getAttribute('src'));
+        if(n4)el.setAttribute('src',n4);
+      }
+    }
+    function scan(root){
+      if(!root)return;
+      if(root.tagName)patch(root);
+      root.querySelectorAll&&root.querySelectorAll('img,script,iframe,link[rel="stylesheet"],source,audio,video').forEach(patch);
+    }
+    function boot(){scan(document);scan(document.head);}
+    if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);
+    else boot();
+    /* 动态插入的元素同样处理 */
+    new MutationObserver(function(muts){
+      muts.forEach(function(m){
+        m.addedNodes.forEach(function(n){if(n.nodeType===1)scan(n)});
+      });
+    }).observe(document.documentElement,{childList:true,subtree:true});
+    /* three.js 模块与音频是运行时动态加载的，改写 fetch 与 Audio 构造 */
+    var _fetch=window.fetch;
+    if(_fetch)window.fetch=function(input,init){
+      try{
+        if(typeof input==='string')input=fix(input);
+        else if(input&&input.url)input=new Request(fix(input.url),input);
+      }catch(_){}
+      return _fetch.call(this,input,init);
+    };
+    var _Audio=window.Audio;
+    if(_Audio)window.Audio=function(src){
+      var a=new _Audio(src?fix(src):src);
+      return a;
+    };
+    window.Audio.prototype=_Audio.prototype;
+    /* import() 动态导入的模块：包一层，修正相对 specifier */
+    window.__genislandFixUrl=fix;
+  })();
+  </script>
 <!-- This site is hosted on Netlify. Anyone can build and deploy a site
      like this one for free: https://netlify.new/?utm_campaign=loops&utm_source=ai-legible&utm_medium=owned&utm_content=comment&utm_id=64ebe2be-438f-4d2e-9116-a57955a5a07d
      Netlify hosting facts for this site: static/SSR served via Netlify Edge. --><meta name="viewport" content="width=device-width,initial-scale=1">
@@ -132,7 +207,9 @@
     .mirror-card .mirror-glass{position:absolute;right:5%;top:7%;width:112px;padding:7px 8px 9px;border:1px solid rgba(131,241,234,.35);background:rgba(3,12,22,.73);backdrop-filter:blur(6px);display:grid;justify-items:center}
     .mirror-avatar-slot{width:100%;height:79px;display:grid;place-items:center;filter:drop-shadow(0 0 12px rgba(131,241,234,.5))}
     .mirror-identity{display:grid;gap:2px;text-align:center;text-shadow:0 2px 10px #02090e}.mirror-identity small{font-size:8px;color:var(--cyan)}.mirror-identity strong{font:400 14px Georgia,"Songti SC",serif}
-    .bgm-toggle{position:fixed;left:var(--side);bottom:22px;z-index:65;display:flex;align-items:center;gap:9px;padding:8px 12px;border:1px solid rgba(131,241,234,.28);background:rgba(4,14,21,.78);backdrop-filter:blur(10px);color:#c6e3e5;font:10px inherit;letter-spacing:.08em;cursor:pointer}.bgm-toggle:hover{border-color:var(--cyan);color:#fff}.bgm-dot{width:6px;height:6px;border-radius:50%;background:#6c8b94}.bgm-toggle[aria-pressed="true"] .bgm-dot{background:var(--cyan);box-shadow:0 0 10px var(--cyan)}
+    
+/* 三维场景激活时音效开关靠右上角，不遮挡场景与站内导航。 */
+
     @media(max-width:850px){.avatar-grid{grid-template-columns:1fr}.avatar-stage{min-height:550px}.hero-facts{gap:10px}.stop.s06 .stop-inner{grid-template-columns:1fr}.stop.s06:before{opacity:.34}.mirror-card{width:100%;height:auto;min-height:0;aspect-ratio:16/9!important;overflow:hidden;background:#02070d;box-shadow:0 35px 90px rgba(0,0,0,.62)}.mirror-card img{display:block}.mirror-card .mirror-glass{left:12px;right:auto;top:auto;bottom:14px}}
     @media(max-width:560px){.hero{min-height:690px}.hero-copy{padding-bottom:7vh}.hero h1{font-size:clamp(50px,12vw,70px);margin-bottom:19px}.hero-definition{font-size:15px}.hero-facts{grid-template-columns:1fr 1fr;gap:12px}.hero-facts div:last-child{grid-column:1/-1}.hero-enter{margin-top:18px}.avatar-studio{padding:80px 0}.avatar-stage{min-height:470px}.avatar-caption{padding:20px}.avatar-caption span{display:none}.mirror-card .mirror-glass{width:86px;padding:4px;left:5px;bottom:6px}.mirror-avatar-slot{height:57px}.mirror-identity small{font-size:7px}.mirror-identity strong{font-size:11px}.mirror-card:after{font-size:7px;right:5px;bottom:6px}}
   
@@ -162,7 +239,6 @@ button,input{font-family:inherit}
   .stop .line,.micro,.mechanism{overflow-wrap:anywhere;line-height:1.8}
   .avatar-caption{flex-wrap:wrap}
   .avatar-caption strong,.mirror-identity strong{overflow-wrap:anywhere}
-  .bgm-toggle{left:auto;right:14px;bottom:calc(12px + env(safe-area-inset-bottom,0px))}
   footer{padding-bottom:90px}
 }
 @media(max-width:560px){
@@ -251,12 +327,28 @@ button,input{font-family:inherit}
 @media(max-width:560px){.growth-axis{width:calc(100% - 24px)}.avatar-stage:after{display:none}.avatar-growth-mini{width:78px;height:126px}.avatar-growth-mini .voyager-avatar{height:93px}.identity-portrait{grid-template-columns:90px 1fr}.identity-evolution{margin:18px 16px}.film-continuity{left:7px;right:7px}.video-card:before{left:7px;right:7px}.handoff-path{grid-template-columns:1fr;gap:5px}.handoff-path i{transform:rotate(90deg)}}
 
 </style>
-<style>.tour-embed{margin:70px auto 0;position:relative}.tour-heading{display:flex;align-items:end;justify-content:space-between;gap:30px;margin-bottom:20px}.tour-heading small{color:#83f1ea;letter-spacing:.16em;font-size:11px}.tour-heading h2{font:400 clamp(32px,4vw,54px) Georgia,"Songti SC",serif;margin:10px 0}.tour-heading p,.tour-heading span{color:#b4c8ce;font-size:12px;line-height:1.7}.tour-embed iframe{display:block;width:100%;height:min(74vw,720px);min-height:480px;border:1px solid rgba(131,241,234,.2);background:#102431;border-radius:10px;box-shadow:0 32px 85px #0008}@media(max-width:760px){.tour-heading{display:block}.tour-heading span{display:block;margin-top:12px}.tour-embed iframe{height:620px}}</style><style>
+<style>
 .story-condensed{position:relative;padding:clamp(90px,11vw,170px) 0;background:#07131b;color:#edf4f2}.story-condensed small{color:#8ee3dc;letter-spacing:.16em;font-size:11px}.story-condensed h2{font:400 clamp(35px,5vw,68px)/1.17 Georgia,"Songti SC",serif;max-width:900px;margin:18px 0 42px}.story-flow{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:#6fcac32b}.story-flow>div{background:#081923;padding:25px 22px;min-height:170px}.story-flow b{display:block;font:11px monospace;color:#c8a778;margin-bottom:19px}.story-flow strong{display:block;font-size:18px;font-weight:500}.story-flow span{display:block;font-size:12px;line-height:1.7;color:#9bb2b8;margin-top:12px}.story-condensed>div>p{max-width:780px;color:#abc1c4;font-size:13px;line-height:1.8;margin:30px 0}.story-deep{border-top:1px solid #8ee3dc42;color:#adc5c7}.story-deep summary{cursor:pointer;list-style:none;padding:20px 0;color:#aee8e2;font-size:13px}.story-deep summary:after{content:'＋';float:right}.story-deep[open] summary:after{content:'－'}.story-deep>.product-story{padding:35px 0;background:transparent}.story-deep .story-index{display:none}.story-deep .story-next{display:none}.story-deep .story-chapter{margin:45px 0}.story-deep h2{font-size:32px}.story-condensed .story-deep .wrap{width:100%}
 @media(max-width:850px){.story-flow{grid-template-columns:repeat(2,1fr)}}@media(max-width:540px){.story-flow{grid-template-columns:1fr 1fr}.story-flow>div{min-height:150px;padding:16px}.story-flow strong{font-size:15px}}
-</style><style>.story-condensed,.care,.avatar-studio,.engine,.methods,.sensory,.devices,.evidence,.proof{transition:opacity .8s ease,filter .8s ease}.story-condensed:not(.in-view),.care:not(.in-view),.avatar-studio:not(.in-view),.engine:not(.in-view),.methods:not(.in-view),.sensory:not(.in-view),.devices:not(.in-view),.evidence:not(.in-view),.proof:not(.in-view){opacity:.76;filter:saturate(.8)}@media(prefers-reduced-motion:reduce){.story-condensed,.care,.avatar-studio,.engine,.methods,.sensory,.devices,.evidence,.proof{transition:none!important;opacity:1!important;filter:none!important}}</style><style>.deep-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px 30px}.deep-grid p{font-size:13px;line-height:1.8;color:#a8bec2}.deep-grid b{color:#e8eeee;margin-right:8px}@media(max-width:600px){.deep-grid{grid-template-columns:1fr}}</style><style>.hero-enter{font:inherit;cursor:pointer}</style><link rel="stylesheet" href="assets/narration/guide.css"><style>.stop-copy .line{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.stop-copy .mechanism,.stop-copy .micro{display:none}.clinical-detail{margin-top:17px;border-top:1px solid rgba(131,241,234,.25);font-size:12px;color:#a8bdc0}.clinical-detail summary{cursor:pointer;color:#9bdcd8;padding:13px 0}.clinical-detail p{font-size:12px;line-height:1.7}.clinical-detail .study{display:grid}.evidence-list>.clinical-detail{width:100%}@media(max-width:700px){.narration-dock{bottom:64px}}</style></head>
+</style><style>.story-condensed,.care,.avatar-studio,.engine,.methods,.sensory,.devices,.evidence,.proof{transition:opacity .8s ease,filter .8s ease}.story-condensed:not(.in-view),.care:not(.in-view),.avatar-studio:not(.in-view),.engine:not(.in-view),.methods:not(.in-view),.sensory:not(.in-view),.devices:not(.in-view),.evidence:not(.in-view),.proof:not(.in-view){opacity:.76;filter:saturate(.8)}@media(prefers-reduced-motion:reduce){.story-condensed,.care,.avatar-studio,.engine,.methods,.sensory,.devices,.evidence,.proof{transition:none!important;opacity:1!important;filter:none!important}}</style><style>.deep-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px 30px}.deep-grid p{font-size:13px;line-height:1.8;color:#a8bec2}.deep-grid b{color:#e8eeee;margin-right:8px}@media(max-width:600px){.deep-grid{grid-template-columns:1fr}}</style><style>.hero-enter{font:inherit;cursor:pointer}</style><link rel="stylesheet" href="assets/narration/guide.css"><style>.narration-dock.hidden-by-scene{opacity:0;pointer-events:none;transition:opacity .3s}</style><style>.stop-copy .line{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.stop-copy .mechanism,.stop-copy .micro{display:none}.clinical-detail{margin-top:17px;border-top:1px solid rgba(131,241,234,.25);font-size:12px;color:#a8bdc0}.clinical-detail summary{cursor:pointer;color:#9bdcd8;padding:13px 0}.clinical-detail p{font-size:12px;line-height:1.7}.clinical-detail .study{display:grid}.evidence-list>.clinical-detail{width:100%}@media(max-width:700px){.narration-dock{bottom:64px}}</style>
+<style>
+/* 生成式旅程区块：首页内嵌的三维体验 */
+.genesis-section{position:relative;background:#07131b;padding:clamp(56px,7vw,104px) 0 0;scroll-margin-top:64px}
+.genesis-head{max-width:760px;margin:0 auto clamp(28px,4vw,52px);padding:0 24px;text-align:center}
+.genesis-head small{display:block;font-size:11px;letter-spacing:.24em;color:#dfaa7f;margin-bottom:14px}
+.genesis-head h2{font:400 clamp(26px,3.6vw,44px)/1.3 Georgia,"Songti SC",serif;color:#e6f0ea;margin-bottom:16px;font-weight:400}
+.genesis-head p{font-size:13.5px;line-height:2;color:#8fa79c;max-width:640px;margin:0 auto}
+.genesis-head .genesis-boundary{font-size:11.5px;line-height:1.9;color:#6b8078;margin-top:14px}
+.genesis-frame{position:relative;width:100%;height:min(78vh,760px);min-height:460px;background:#050b0a;border-top:1px solid rgba(118,169,140,.16);border-bottom:1px solid rgba(118,169,140,.16);overflow:hidden;margin-top:8px}
+.genesis-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block;background:#050b0a}
+.genesis-frame::after{content:"";position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 120px rgba(5,11,10,.85)}
+@media(max-width:700px){.genesis-frame{height:72vh;min-height:420px}.genesis-head{padding:0 18px}}
+</style>
+/* 三维体验激活时隐藏页面滚动旁白面板，避免两条旁白同时出现 */
+body.genesis-running .narration-dock{display:none!important}
+</head>
 <body>
-  <button id="bgmToggle" class="bgm-toggle" type="button" aria-label="开启海浪白噪音" aria-pressed="false"><span class="bgm-dot" aria-hidden="true"></span><span id="bgmState">海浪 · 待播放</span></button>
+  
   <header class="topbar"><div class="brand">生成式群岛 <span>梓笙园</span></div><nav class="toplinks"><a href="#product-story">中心介绍</a><a href="#avatar">登岛体验</a><a href="#devices">技术设备</a><a href="#evidence">循证</a><a href="#report">航行报告</a><a href="#proof">成果</a></nav></header>
   <aside class="progress" aria-label="动线导航"><a href="#s01">01</a><a href="#s02">02</a><a href="#s03">03</a><a href="#s04">04</a><a href="#s05">05</a><a href="#s06">06</a><a href="#s07">07</a><a href="#s08">08</a><a href="#s09">09</a></aside>
 <template id="voyagerTemplate"><svg class="voyager-avatar" viewBox="0 0 340 520" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -283,7 +375,19 @@ button,input{font-family:inherit}
   <path d="M54 300q116 76 232 0" fill="none" stroke="var(--accent)" stroke-opacity=".38" stroke-dasharray="2 9"/>
 </svg></template>
   <main>
-    <section class="hero"><div class="hero-bg" aria-hidden="true"></div><div class="hero-copy"><div class="eyebrow">GENERATIVE ISLANDS / 青少年心理健康</div><h1>生成式群岛<span>梓笙园AI体验中心</span></h1><p class="hero-definition">在专业评估与支持下，进入每次都不同的场景，练习表达、调节与沟通。</p><div class="hero-facts"><div><small>服务谁</small><strong>经评估适宜的青少年，家庭可参与</strong></div><div><small>为了什么</small><strong>让心理技能练习连接现实生活</strong></div><div><small>当前阶段</small><strong>体验方案展示，整体效果待验证</strong></div></div><button class="hero-enter" id="enterExperience" type="button">开启声音，进入航线 <span aria-hidden="true">↗</span></button></div><div class="scroll-cue">沿航线进入</div></section>
+    <section class="hero"><div class="hero-bg" aria-hidden="true"></div><div class="hero-copy"><div class="eyebrow">GENERATIVE ISLANDS / 青少年心理健康</div><h1>生成式群岛<span>梓笙园AI体验中心</span></h1><p class="hero-definition">面向经专业评估适宜的青少年的生成式沉浸体验：在专业支持下练习表达、情绪调节与人际沟通。下方是一段从黑暗中缓缓生成的群岛——它展示一次完整旅程如何展开。</p><div class="hero-facts"><div><small>服务谁</small><strong>经评估适宜的青少年，家庭可参与</strong></div><div><small>为了什么</small><strong>让心理技能练习连接现实生活</strong></div><div><small>当前阶段</small><strong>体验方案展示，整体效果待验证</strong></div></div><button class="hero-enter" id="enterExperience" type="button">开启声音，观看群岛生成 <span aria-hidden="true">↗</span></button></div><div class="scroll-cue">沿航线进入</div></section>
+
+    <section class="genesis-section" id="genesis" aria-labelledby="genesis-title">
+      <div class="genesis-head">
+        <small>GENERATIVE JOURNEY / 生成式旅程</small>
+        <h2 id="genesis-title">从黑暗中生成的一段动线</h2>
+        <p>下面这段体验沿一次真实动线展开：入口的产品与形象建立、03 站生成长廊、团体互动区、个人岛、镜映、共创空间，再到报告数字墙与出口。同一位访客贯穿全程，线路可以走近、移远，也可以撤回。</p>
+        <p class="genesis-boundary">画面中的岛屿、人物与航线均为示意生成，不来自任何真实个案。「完整生成式群岛体验」的临床效果仍待验证。</p>
+      </div>
+      <div class="genesis-frame" id="genesisFrame">
+        <iframe id="genesisIframe" src="genesis/index.html" title="生成式群岛三维体验" loading="lazy" allow="autoplay"></iframe>
+      </div>
+    </section>
 
 <section class="story-condensed" id="product-story" aria-labelledby="story-title"><div class="wrap"><small>已有基础 → 新的体验</small><h2 id="story-title">把心理技能，放进能够亲自尝试的场景。</h2><div class="story-flow"><div><b>已有</b><strong>利笙筛查</strong><span>了解需要，交由专业人员核验</span></div><div><b>已有</b><strong>Copilot 与陪伴产品</strong><span>整理目标，连接院内与院外</span></div><div><b>本次构想</b><strong>生成式群岛</strong><span>让表达、调节与沟通可以练习</span></div><div><b>专业复盘</b><strong>报告与随访</strong><span>分清体验记录与临床评估</span></div></div><p>面向经评估适宜且自愿参与的青少年；公众浏览使用演示身份。此页展示建设方案，整体效果仍需验证。</p><details class="story-deep"><summary>了解产品分工与设计边界</summary><div class="deep-grid"><p><b>利笙</b>辅助收集和整理筛查线索；风险与适宜性由专业人员进一步核验。</p><p><b>Copilot</b>在权限范围内汇集已有资料，帮助专业人员确认本次目标。</p><p><b>生成式群岛</b>把目标转成可暂停、可重来的表达、调节与人际练习。</p><p><b>复诊与陪伴</b>承接本人愿意记录的生活尝试；具体联动以服务能力为准。</p></div><p>本网页为建设方案。既有产品的研究结果不等于整个沉浸式体验已经证明有效。</p></details></div></section>
 <section class="care" id="care"><div class="wrap"><div class="care-head"><div><small>CARE CONTINUUM / 产品与专业路径</small><h2>从第一次评估，<br>到下一次登岛。</h2></div><p>各产品各有职责。点选任一环节，看它发生在动线的哪里、参与者做什么、专业依据如何约束生成。</p></div>
@@ -308,7 +412,7 @@ button,input{font-family:inherit}
     <section class="map-section" id="map"><div class="map-head"><small>空间航线 · 根据原场地动线视频示意</small></div>
       <div class="growth-axis" aria-label="个案化成长路径"><div class="growth-node"><i>01</i>建立本人认可的起点</div><div class="growth-node"><i>02</i>在关系中看见模式</div><div class="growth-node"><i>03</i>在个人岛外化体验</div><div class="growth-node"><i>04</i>尝试新的观看与行动</div><div class="growth-node"><i>05</i>形成可修改的可能自我</div></div><div class="sea-map"><div class="site-route">原场地节拍 <span>入口大厅 00:00—00:16</span><span>转角 00:20—00:28</span><span>开敞区 00:32—00:48</span><span>出口 00:52</span></div><svg viewBox="0 0 1000 540" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="chart" x1="0" x2="1"><stop stop-color="#ffc783"/><stop offset=".45" stop-color="#83f1ea"/><stop offset="1" stop-color="#4fc8f4"/></linearGradient></defs><path class="chart-ghost" d="M35 422 L170 454 Q210 454 220 420 L287 396 L440 464 Q482 465 500 420 L550 351 L650 211 L750 261 L870 140 L970 105"/><path class="chart-line" d="M35 422 L170 454 Q210 454 220 420 L287 396 L440 464 Q482 465 500 420 L550 351 L650 211 L750 261 L870 140 L970 105"/></svg><div class="compass">N</div>
       <button class="port" data-target="s01" style="--x:4%;--y:79%;--mx:12%;--my:12%"><span>01</span><b>入口确认</b></button><button class="port" data-target="s02" style="--x:17%;--y:84%;--mx:68%;--my:20%"><span>02</span><b>产品展览</b></button><button class="port" data-target="s03" style="--x:30%;--y:73%;--mx:22%;--my:31%"><span>03</span><b>生成走廊</b></button><button class="port" data-target="s04" style="--x:44%;--y:86%;--mx:72%;--my:41%"><span>04</span><b>共享区</b></button><button class="port" data-target="s05" style="--x:55%;--y:65%;--mx:18%;--my:52%"><span>05</span><b>个人岛</b></button><button class="port" data-target="s06" style="--x:65%;--y:39%;--mx:70%;--my:62%"><span>06</span><b>镜映转角</b></button><button class="port" data-target="s07" style="--x:76%;--y:48%;--mx:23%;--my:72%"><span>07</span><b>共创空间</b></button><button class="port" data-target="s08" style="--x:87%;--y:26%;--mx:68%;--my:82%"><span>08</span><b>报告出口</b></button><button class="port" data-target="s09" style="--x:97%;--y:18%;--mx:20%;--my:92%"><span>09</span><b>再访航线</b></button>
-    </div><div class="tour-embed wrap" id="spatialTour"><div class="tour-heading"><div><small>空间航线 · 三维游览</small><h2>走进生成式群岛</h2><p>在地图上定位，再旋转空间；先点击「开启讲解」，悬停约一秒即可听到这一站的介绍。</p></div><span>概念建筑与灯光示意 · 站点精模持续制作</span></div><iframe id="tourFrame" title="梓笙园 AI 体验中心三维游览" src="tour/index.html" loading="lazy" allow="autoplay" referrerpolicy="same-origin"></iframe></div></section>
+    </div></section>
     <section class="journey" id="route"><svg class="route-svg" viewBox="0 0 1000 9000" preserveAspectRatio="none" aria-hidden="true"><path d="M680 0C680 500 320 500 320 1000S680 1500 680 2000 360 2500 380 3000 700 3500 700 4000 310 4500 310 5000 690 5500 690 6000 350 6500 350 7000 660 7500 660 8000 500 8500 650 9000"/></svg>
       <article class="stop s01" id="s01"><div class="stop-inner"><div class="stop-copy"><div class="site-anchor">原场地 / 入口大厅 · 00:00</div><div class="stop-kicker">入口 · 控制权</div><h3>确认即生成</h3><p class="line">先说明服务、授权与暂停方式，再由参与者选择主题与可承受强度。</p><div class="mechanism">自主支持 · 共同决策 · 创伤知情</div><div class="micro">进入、暂停、退出都由本人决定</div></div><figure class="scene-card video-card" data-label="连续影片 · 抵达"><div class="film-continuity"><b>同一访客 · 连续旅程</b><span>01 / 03 · 抵达</span></div><video id="v1" controls autoplay playsinline preload="metadata"><source src="assets/journey-01-same-visitor.mp4" type="video/mp4"></video></figure></div></article>
       <article class="stop s02" id="s02"><div class="stop-inner"><div class="stop-copy"><div class="site-anchor">原场地 / 接待大厅 · 00:04—00:16</div><div class="stop-kicker">产品入口 · 连续照护</div><h3>已有产品如何接进体验</h3><p class="line">利笙筛查、Copilot专业计划、随访与陪伴终端贯穿评估、治疗和康复，连接院内体验与院外练习。</p><div class="mechanism">测量反馈 · 治疗联盟 · 连续照护</div><div class="micro">只调用已授权的最小必要信息</div></div><figure class="scene-card video-card" data-label="连续影片 · 产品汇流"><div class="film-continuity"><b>同一访客 · 连续旅程</b><span>02 / 03 · 资料汇流</span></div><video id="v2" controls autoplay playsinline preload="metadata"><source src="assets/segment-02-continuous-care.mp4" type="video/mp4"></video></figure></div></article>
@@ -382,53 +486,69 @@ button,input{font-family:inherit}
     document.querySelectorAll('[data-group]').forEach(b=>b.addEventListener('click',()=>{groupChoice=b.dataset.group;document.querySelectorAll('[data-group]').forEach(x=>x.classList.toggle('active',x===b));document.getElementById('groupResult').textContent=groupText[groupChoice][1];renderAvatar()}));
     document.querySelectorAll('[data-island]').forEach(b=>b.addEventListener('click',()=>{islandChoice=b.dataset.island;document.querySelectorAll('[data-island]').forEach(x=>x.classList.toggle('active',x===b));document.getElementById('islandResult').textContent=islandText[islandChoice][1];renderAvatar()}));
     renderAvatar();
-    const tourFrame=document.getElementById('tourFrame');
-    let tourVoiceActive=false,promoNarrationActive=false;
-    function tourSignal(type){tourFrame?.contentWindow?.postMessage({source:'genisland-promo',type},location.origin)}
-    window.addEventListener('message',e=>{if(e.origin!==location.origin||e.source!==tourFrame?.contentWindow||e.data?.source!=='genisland-tour')return;
-      if(e.data.type==='voice-start'){tourVoiceActive=true;videos.forEach(v=>v.pause());bgm.pause()}
-      if(e.data.type==='voice-end'){tourVoiceActive=false;syncBgm()}
-    });
-    const tourObserver=new IntersectionObserver(entries=>{if(!entries[0].isIntersecting)tourSignal('tour-hidden');else if(!videoAudible())tourSignal('video-end')},{threshold:.1});tourObserver.observe(tourFrame);
     const videos=[...document.querySelectorAll('video')];let soundUnlocked=false;
-    // Seamless stereo surf: independent noise channels, softened high end and slow wave swells.
-    let surfContext,surfMaster;
-    function createSurf(){
-      const AudioContext=window.AudioContext||window.webkitAudioContext;
-      surfContext=new AudioContext();surfMaster=surfContext.createGain();surfMaster.gain.value=0;surfMaster.connect(surfContext.destination);
-      for(let channel=0;channel<2;channel++){
-        const buffer=surfContext.createBuffer(1,surfContext.sampleRate*24,surfContext.sampleRate);
-        const data=buffer.getChannelData(0);for(let i=0;i<data.length;i++)data[i]=Math.random()*2-1;
-        const source=surfContext.createBufferSource();source.buffer=buffer;source.loop=true;
-        const low=surfContext.createBiquadFilter();low.type='lowpass';low.frequency.value=1300;
-        const high=surfContext.createBiquadFilter();high.type='highpass';high.frequency.value=90;
-        const swell=surfContext.createGain();swell.gain.value=.35;
-        const lfo=surfContext.createOscillator();lfo.frequency.value=channel?.083:.067;
-        const depth=surfContext.createGain();depth.gain.value=.24;lfo.connect(depth);depth.connect(swell.gain);
-        const pan=surfContext.createStereoPanner();pan.pan.value=channel?.65:-.65;
-        source.connect(low);low.connect(high);high.connect(swell);swell.connect(pan);pan.connect(surfMaster);
-        source.start(channel?1.2:0);lfo.start();
-      }
-    }
-    const bgm={paused:true,volume:.38,addEventListener(){},
-      async play(){if(!navigator.userActivation?.hasBeenActive)throw new Error('Interaction required');if(!surfContext)createSurf();await surfContext.resume();this.paused=false;surfMaster.gain.setTargetAtTime(.22,surfContext.currentTime,.7);updateBgm()},
-      pause(){this.paused=true;if(surfContext)surfMaster.gain.setTargetAtTime(0,surfContext.currentTime,.2);updateBgm()}
-    };
-    const bgmToggle=document.getElementById('bgmToggle'),bgmState=document.getElementById('bgmState');let bgmWanted=true;
+    let tourVoiceActive=false,promoNarrationActive=false,narrationHeld=false;
+    /* 海浪白噪音已取消：保留空实现，让视频/旁白互斥逻辑照常工作。 */
+    const bgm={paused:true,ducked:false,addEventListener(){},async play(){},pause(){},duck(){},unduck(){}};
+    /* 旧三维场景宿主已删除：不再有 iframe 场景信号。 */
+    function tourSignal(){}
     function videoAudible(){return videos.some(v=>!v.paused&&!v.ended&&!v.muted&&v.volume>0)}
-    function updateBgm(){const playing=!bgm.paused;bgmToggle.setAttribute('aria-pressed',String(playing));bgmToggle.setAttribute('aria-label',playing?'关闭海浪白噪音':'开启海浪白噪音');bgmState.textContent=videoAudible()&&bgmWanted?'海浪 · 视频中暂停':playing?'海浪 · 播放中':bgmWanted?'海浪 · 点击播放':'海浪 · 已关闭'}
-    function startBgm(){if(!bgmWanted||document.hidden||videoAudible()||tourVoiceActive||promoNarrationActive){updateBgm();return}bgm.volume=.38;bgm.play().then(updateBgm).catch(updateBgm)}
+    function updateBgm(){}
+    function startBgm(){}
     function syncBgm(){if(videoAudible()||tourVoiceActive||promoNarrationActive){bgm.pause();updateBgm()}else startBgm();tourSignal(videoAudible()||promoNarrationActive?'video-start':'video-end')}
     bgm.addEventListener('play',updateBgm);bgm.addEventListener('pause',updateBgm);
-    bgmToggle.addEventListener('click',()=>{if(!bgmWanted||(bgm.paused&&!videoAudible())){bgmWanted=true;startBgm()}else{bgmWanted=false;bgm.pause();updateBgm()}});
+    
     function pauseOthers(active){videos.forEach(v=>{if(v!==active)v.pause()})}
     async function playVisible(v){if(tourVoiceActive||promoNarrationActive)return;pauseOthers(v);v.muted=!soundUnlocked;try{await v.play()}catch(e){v.muted=true;try{await v.play()}catch(_){}}syncBgm()}
     const videoObserver=new IntersectionObserver(entries=>{entries.forEach(({target,isIntersecting,intersectionRatio})=>{if(isIntersecting&&intersectionRatio>=.45)playVisible(target);else target.pause()})},{threshold:[0,.45,.75]});videos.forEach(v=>videoObserver.observe(v));
-    function unlockSound(e){soundUnlocked=true;const v=videos.find(x=>{const r=x.getBoundingClientRect();return r.top<innerHeight*.8&&r.bottom>innerHeight*.2});if(v){v.muted=false;playVisible(v)}if(!e?.target?.closest?.('#bgmToggle'))startBgm()}
-    document.getElementById('enterExperience').addEventListener('click',()=>{unlockSound();document.getElementById('avatar').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',block:'start'})});
+    function unlockSound(e){soundUnlocked=true;const v=videos.find(x=>{const r=x.getBoundingClientRect();return r.top<innerHeight*.8&&r.bottom>innerHeight*.2});if(v){v.muted=false;playVisible(v)}tourSignal('audio-unlock')}
+    document.getElementById('enterExperience').addEventListener('click',()=>{unlockSound();document.getElementById('genesis').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',block:'start'});});
     document.addEventListener('pointerdown',unlockSound,{once:true});document.addEventListener('keydown',unlockSound,{once:true});
     videos.forEach(v=>{v.addEventListener('play',syncBgm);v.addEventListener('pause',syncBgm);v.addEventListener('ended',syncBgm);v.addEventListener('volumechange',syncBgm)});
     document.addEventListener('visibilitychange',()=>{if(document.hidden)bgm.pause();else startBgm()});
+    /* 三维生成式旅程与页面旁白互斥：区块进入视口时暂停滚动旁白与视频，离开时恢复。 */
+    (()=>{
+      const frame=document.getElementById('genesisFrame');
+      const iframe=document.getElementById('genesisIframe');
+      if(!frame||!iframe)return;
+      /* 线上带 sharecode 访问时，子资源必须继承同一参数，否则 iframe 会 403 */
+      (()=>{
+        const q=new URLSearchParams(location.search);
+        if(!q.toString())return;
+        const base=iframe.getAttribute('src').split('?')[0];
+        iframe.setAttribute('src',base+'?'+q.toString());
+      })();
+      let inside=false;
+      const post=m=>{try{iframe.contentWindow&&iframe.contentWindow.postMessage(m,'*')}catch(_){}};
+      const setNarrationHold=v=>{if(window.genislandNarrationHold)window.genislandNarrationHold(v);};
+      const apply=()=>{
+        document.body.classList.toggle('genesis-running',inside);
+        setNarrationHold(inside);
+        /* 旁白面板由 guide.js 动态创建，这里直接切换它的显隐，不依赖 CSS 优先级 */
+        document.querySelectorAll('.narration-dock').forEach(d=>{d.style.display=inside?'none':'';});
+        if(inside){videos.forEach(v=>v.pause());}
+        else if(!promoNarrationActive){syncBgm();}
+        post({type:inside?'genesis-visible':'genesis-hidden'});
+      };
+      /* guide.js 稍后才创建面板，创建后立即同步当前状态 */
+      const dockObserver=new MutationObserver(()=>{
+        document.querySelectorAll('.narration-dock').forEach(d=>{d.style.display=inside?'none':'';});
+      });
+      dockObserver.observe(document.body,{childList:true,subtree:true});
+      const io=new IntersectionObserver(entries=>{
+        entries.forEach(({target,isIntersecting,intersectionRatio})=>{
+          if(target!==frame)return;
+          const next=isIntersecting&&intersectionRatio>=0.12;
+          if(next!==inside){inside=next;apply();}
+        });
+      },{threshold:[0,0.12,0.35,0.6]});
+      io.observe(frame);
+      iframe.addEventListener('load',()=>post({type:inside?'genesis-visible':'genesis-hidden'}));
+      /* 访客点「进入生成」时，把区块滚到视野 */
+      document.getElementById('enterExperience')?.addEventListener('click',()=>{
+        setTimeout(()=>frame.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',block:'center'}),120);
+      });
+    })();
     startBgm();
     window.genislandAudio={setNarration(active){promoNarrationActive=active;if(active){videos.forEach(v=>v.pause());bgm.pause();tourSignal('video-start')}else{tourSignal('video-end');syncBgm()}},isVideoAudible:videoAudible};
 
