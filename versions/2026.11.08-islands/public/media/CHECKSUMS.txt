@@ -1,0 +1,19 @@
+版本: 2026.11.08-islands
+文件来源: /workspace/public/media/ 下的用户提供的机器人与界面参考图
+文件内容: 这些图只作产品屏幕贴图，不是空间里的人物模型
+
+lisheng.jpg
+sha256: f755fe9fb767eb02a4e339b05b191af0eaa46ce2ab50f5d9e0970cadbf4462f8
+bytes: 163377
+
+xiaosheng.jpg
+sha256: fc446878c41669cdbe50ce3676565ee1c9f16750fc70886f969e24da2ba26aa4
+bytes: 21653
+
+copilot.jpg
+sha256: 2e0cd29b7a152437940a8ff7956aa36ee82fdbf52fa46adb98042f1f9018ddfb
+bytes: 177836
+
+wanxing.jpg
+sha256: 1a7c9e911b59165366982470f70dbcef3cd14c14358cb13cbeb863cd830c4ed3
+bytes: 63797
