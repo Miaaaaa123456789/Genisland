@@ -3,3 +3,27 @@
 .map-labels{position:fixed;inset:0;pointer-events:none;z-index:4}.map-label{position:absolute;transform:translate(-50%,-50%);pointer-events:auto;background:#071922d9;border:1px solid #b2ddd444;color:#d9f1ef;padding:5px 9px;white-space:nowrap;font-size:10px;letter-spacing:.04em;box-shadow:0 0 14px #5cd4cf26;transition:opacity .3s}.map-label:hover,.map-label.selected{color:#fff;border-color:#a2eee1;background:#21565bdb}@media(max-width:780px){.map-label{font-size:8px;padding:3px 5px}.map-label:nth-child(2n){display:none}}
 
 .branch{position:fixed;z-index:8;left:50%;bottom:112px;transform:translateX(-50%) translateY(15px);background:#091b23ed;border:1px solid #c4d4c056;padding:20px 25px;text-align:center;opacity:0;pointer-events:none;transition:.35s;backdrop-filter:blur(18px);width:min(440px,calc(100vw - 24px))}.branch.show{opacity:1;pointer-events:auto;transform:translateX(-50%)}.branch span{font-size:14px;color:#f3e4c9}.branch div{display:flex;gap:8px;margin:16px 0}.branch button{flex:1;background:#102f39;color:#dcefed;border:1px solid #74c9c58a;padding:11px 8px;font-size:12px}.branch button:hover{background:#28717a}.branch small{font-size:10px;color:#91aab0}@media(max-width:780px){.branch{bottom:100px;padding:15px}.branch div{margin:10px 0}}
+
+/* Each stop shows its own spatial image during the automatic route. */
+.detail{width:min(600px,43vw);max-height:calc(100vh - 148px);padding:24px;background:linear-gradient(145deg,#0d2029f2,#091319f7)}
+.detail h2{font-size:clamp(24px,2.1vw,34px);margin:11px 0 7px}
+.detail .intent{font-size:13px;line-height:1.6;margin:0 0 15px}
+.detail-image img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;margin:0 0 9px;border-radius:3px}
+.detail-image img+img{margin-top:13px}
+.detail-image small{margin:3px 0 8px}
+.detail-facts{margin-top:12px}
+@media(max-width:780px){.detail{width:auto;left:12px;right:12px;top:auto;bottom:98px;max-height:63vh;padding:18px}.detail .intent{font-size:12px}.detail-image img{height:auto;aspect-ratio:16/9}.detail-facts{margin-top:8px}}
+
+.still-world,.route-overview{display:none}
+.no-webgl #world{display:none}
+.no-webgl .still-world{display:block;position:fixed;inset:0;overflow:hidden;background:#071318}
+.still-world:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#02090ec9 0%,#02090e69 38%,#02090e33 75%,#02090e8c 100%),linear-gradient(0deg,#02090ec4,transparent 40%)}
+.still-world img{width:100%;height:100%;object-fit:cover;transition:opacity .45s,transform 10s linear;transform:scale(1.04)}
+.still-world img.changing{opacity:.4}
+.no-webgl .opening{max-width:min(470px,44vw)}
+.no-webgl .route-overview.open{display:grid;position:fixed;z-index:7;inset:120px 4vw 110px 4vw;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;overflow:auto;padding:8px 5px 24px;background:#051017d9;backdrop-filter:blur(16px)}
+.overview-tile{position:relative;border:1px solid #9fc6c15b;padding:0;background:#0a181e;min-height:145px;overflow:hidden;color:white;text-align:left}
+.overview-tile img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;opacity:.78;transition:transform .35s,opacity .35s}
+.overview-tile:hover img{transform:scale(1.07);opacity:1}
+.overview-tile span{position:absolute;left:11px;bottom:11px;right:11px;font-size:13px;text-shadow:0 2px 12px #000,0 1px 3px #000}
+@media(max-width:780px){.no-webgl .route-overview.open{inset:95px 12px 96px;grid-template-columns:repeat(2,minmax(0,1fr))}.overview-tile{min-height:112px}.overview-tile span{font-size:11px}.no-webgl .opening{max-width:calc(100vw - 44px)}}
