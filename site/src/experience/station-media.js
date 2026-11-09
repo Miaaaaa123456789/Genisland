@@ -5,6 +5,7 @@ export function createStationMedia(find, onFinish, signal) {
   const video = find('#stationVideo')
   const note = find('#filmNote')
   const sound = find('#sound')
+  const enableAudio = find('#enableAudio')
   const dialog = find('#modelDialog')
   const model = find('#modelFrame')
   let current = null
@@ -24,6 +25,7 @@ export function createStationMedia(find, onFinish, signal) {
     current = null
     pending = false
     soundBlocked = false
+    enableAudio.hidden = true
     playbackAttempt += 1
     resumeOnReturn = false
     film.hidden = true
@@ -58,11 +60,11 @@ export function createStationMedia(find, onFinish, signal) {
         note.textContent = '此浏览器限制自动播放，请点击影片的播放键。'
         return
       }
+      // Keep original audio enabled: never silently replace it with muted playback.
       soundBlocked = true
-      video.muted = true
-      note.textContent = '浏览器暂时将自动播放静音，点按页面即可开启原声。'
+      enableAudio.hidden = false
+      note.textContent = '原声默认已开启，但浏览器阻止了有声自动播放。点按「播放原声」即可继续。'
       updateSoundButton()
-      play()
     })
   }
 
@@ -86,8 +88,9 @@ export function createStationMedia(find, onFinish, signal) {
 
   function applySound() {
     const wasBlocked = soundBlocked
-    const resumeWithSound = wasBlocked && !video.paused
+    const resumeWithSound = wasBlocked && Boolean(current)
     soundBlocked = false
+    enableAudio.hidden = true
     video.muted = !soundEnabled || Boolean(current?.silentFilm)
     if (soundEnabled && video.volume === 0) video.volume = 1
     updateSoundButton()
@@ -100,10 +103,15 @@ export function createStationMedia(find, onFinish, signal) {
     applySound()
   }
 
-  find('#app').addEventListener('click', (event) => {
-    if (event.isTrusted && soundBlocked && !event.target.closest('#stationVideo')) {
-      applySound()
-    }
+  enableAudio.addEventListener('click', () => {
+    soundEnabled = true
+    applySound()
+  }, { signal })
+  video.addEventListener('playing', () => {
+    soundBlocked = false
+    enableAudio.hidden = true
+    if (current) showFilmNote()
+    updateSoundButton()
   }, { signal })
   video.addEventListener('volumechange', updateSoundButton, { signal })
   video.addEventListener('ended', () => {
@@ -112,6 +120,7 @@ export function createStationMedia(find, onFinish, signal) {
   video.addEventListener('error', () => {
     if (!current || !video.error) return
     soundBlocked = false
+    enableAudio.hidden = true
     note.textContent = '影片暂时无法播放，可继续看本站说明。'
     finish()
   }, { signal })

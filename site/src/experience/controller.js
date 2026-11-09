@@ -243,7 +243,7 @@ export function mountExperience(host) {
     clearTimeout(openingTimer)
     const automatic = openingAutoStart && !reducedMotion.matches
     find('#openingStatus').textContent = automatic
-      ? '约 5 秒后自动开始 · 最后一站可打开 3D 全景'
+      ? '约 5 秒后自动开始 · 原声默认开启 · 最后一站可打开 3D 全景'
       : '选择「从第一站开始」即可自动播放 · 最后一站可打开 3D 全景'
     if (!entered && !document.hidden && automatic) {
       openingTimer = setTimeout(() => enter(true), OPENING_DELAY)

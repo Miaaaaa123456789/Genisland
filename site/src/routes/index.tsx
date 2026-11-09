@@ -118,7 +118,7 @@ function Opening() {
         <button className="opening-map" id="enterMap" type="button">先看动线图</button>
       </div>
       <div className="opening-note">
-        <span id="openingStatus">约 5 秒后自动开始 · 最后一站可打开 3D 全景</span>
+        <span id="openingStatus">约 5 秒后自动开始 · 原声默认开启 · 最后一站可打开 3D 全景</span>
       </div>
     </div>
   )
@@ -141,6 +141,7 @@ function ChapterPanel() {
       <div className="station-film" id="stationFilm" hidden>
         <video id="stationVideo" controls playsInline preload="metadata" />
         <p id="filmNote" />
+        <button id="enableAudio" className="opening-map" type="button" hidden>播放原声 ▶</button>
       </div>
       <button className="scene-action" id="sceneAction" type="button" />
       <div className="panel-image">
