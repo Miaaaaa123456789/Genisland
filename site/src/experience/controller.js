@@ -5,7 +5,7 @@ import { stations } from './stations'
 import { sitePath } from '../site-paths'
 
 const OPENING_DELAY = 5000
-const READING_DELAY = 6500
+const READING_DELAY = 12000
 const BRANCH_DELAY = 5200
 const LAST_STATION = stations.length - 1
 
@@ -33,13 +33,14 @@ export function mountExperience(host) {
   const detailToggle = find('#detailToggle')
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)')
   const effects = createEffects(find('#cinemaFx'))
-  const stationMedia = createStationMedia(find, () => schedule(600), signal)
+  const stationMedia = createStationMedia(find, () => schedule(READING_DELAY), signal)
 
   const visitTrail = []
   let selected = -1
   let entered = false
   let openingAutoStart = true
   let autoplay = false
+  let autoPausedByUser = false
   let route = null
   let timer
   let openingTimer
@@ -98,7 +99,7 @@ export function mountExperience(host) {
     clearTimeout(timer)
     selected = index
     effects.setChapter(index)
-    setDetails(false)
+    setDetails(autoplay)
     world.classList.add('focused')
     panel.classList.add('open')
     branch.classList.remove('open')
@@ -156,7 +157,6 @@ export function mountExperience(host) {
     panel.scrollTop = 0
     find('#openModel').hidden = index !== LAST_STATION
     if (!stationMedia.show(station, autoplay || !reducedMotion.matches)) schedule(READING_DELAY)
-    if (index === LAST_STATION) setAuto(false)
   }
 
   function visit(index, nextRoute = route) {
@@ -167,8 +167,13 @@ export function mountExperience(host) {
 
   function schedule(delay) {
     clearTimeout(timer)
-    if (autoplay && !document.hidden && selected < LAST_STATION) {
-      timer = setTimeout(advance, delay)
+    if (autoplay && !document.hidden && selected <= LAST_STATION) {
+      timer = setTimeout(() => {
+        if (selected === LAST_STATION) {
+          setAuto(false)
+          stationMedia.openModel()
+        } else advance()
+      }, delay)
     }
   }
 
@@ -212,6 +217,7 @@ export function mountExperience(host) {
     clearTimeout(openingTimer)
     const fromOpening = !entered
     setEntered(true)
+    autoPausedByUser = !withRoute
     setAuto(withRoute)
     if (!withRoute) showOverview()
     else if (fromOpening) focus(0)
@@ -219,6 +225,7 @@ export function mountExperience(host) {
   }
 
   function goBack() {
+    autoPausedByUser = true
     setAuto(false)
     if (branch.classList.contains('open')) {
       focus(selected)
@@ -243,8 +250,8 @@ export function mountExperience(host) {
     clearTimeout(openingTimer)
     const automatic = openingAutoStart && !reducedMotion.matches
     find('#openingStatus').textContent = automatic
-      ? '约 5 秒后自动开始 · 原声默认开启 · 最后一站可打开 3D 全景'
-      : '选择「从第一站开始」即可自动播放 · 最后一站可打开 3D 全景'
+      ? '约 5 秒后自动开始 · 逐站播放原声与介绍 · 最后自动进入 3D 全景'
+      : '选择「从第一站开始」即可逐站自动播放 · 最后自动进入 3D 全景'
     if (!entered && !document.hidden && automatic) {
       openingTimer = setTimeout(() => enter(true), OPENING_DELAY)
     }
@@ -253,6 +260,7 @@ export function mountExperience(host) {
   onClick('#enter', () => enter(true))
   onClick('#enterMap', () => enter(false))
   function leaveStation() {
+    autoPausedByUser = true
     setAuto(false)
     showOverview()
   }
@@ -266,11 +274,16 @@ export function mountExperience(host) {
     void action.offsetWidth
     action.classList.add('activated')
   })
-  onClick('#detailToggle', () => setDetails(!facts.classList.contains('expanded')))
+  onClick('#detailToggle', () => {
+    autoPausedByUser = true
+    setAuto(false)
+    setDetails(!facts.classList.contains('expanded'))
+  })
   onClick('#advance', advance)
   onClick('#next', advance)
   onClick('#play', () => {
     if (autoplay) {
+      autoPausedByUser = true
       setAuto(false)
       stationMedia.pause()
       return
@@ -279,14 +292,19 @@ export function mountExperience(host) {
       enter(true)
       return
     }
+    autoPausedByUser = false
     setAuto(true)
+    setDetails(true)
     if (branch.classList.contains('open')) schedule(BRANCH_DELAY)
     else if (!stationMedia.resume()) schedule(READING_DELAY)
   })
   for (const button of host.querySelectorAll('[data-stop]')) {
     button.addEventListener('click', () => {
-      if (!entered) enter(false)
-      setAuto(false)
+      if (!entered) {
+        clearTimeout(openingTimer)
+        setEntered(true)
+      }
+      setAuto(!autoPausedByUser)
       visit(Number(button.dataset.stop), null)
     }, { signal })
   }
@@ -298,6 +316,7 @@ export function mountExperience(host) {
   }
   onClick('#sound', stationMedia.toggleSound)
   onClick('#openModel', () => {
+    autoPausedByUser = true
     setAuto(false)
     stationMedia.openModel()
   })

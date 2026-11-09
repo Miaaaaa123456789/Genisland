@@ -63,7 +63,7 @@ export function createStationMedia(find, onFinish, signal) {
       // Keep original audio enabled: never silently replace it with muted playback.
       soundBlocked = true
       enableAudio.hidden = false
-      note.textContent = '原声默认已开启，但浏览器阻止了有声自动播放。点按「播放原声」即可继续。'
+      note.textContent = '原声默认已开启，但浏览器阻止了有声自动播放。只需点按「开启原声并继续」，后续节点将按顺序播放。'
       updateSoundButton()
     })
   }
