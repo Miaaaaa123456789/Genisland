@@ -250,8 +250,7 @@ export const stations = [
       "summary": "个人练习与共创均由本人选择，选择可以撤回。两条路径体现儿少就医中尊重本人偏好与参与意愿的原则。",
       "sources": [clinicalSources.childHealthcare],
     },
-    "film": "06-branch-with-audio",
-    "silentFilm": true
+    "film": "06-branch-with-audio"
   },
   {
     "name": "隐秘个人岛",
