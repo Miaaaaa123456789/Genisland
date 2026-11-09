@@ -6,7 +6,7 @@ import { sitePath } from '../site-paths'
 
 const OPENING_DELAY = 5000
 const READING_DELAY = 12000
-const FILM_END_DELAY = 3000
+const FILM_END_DELAY = 0
 const BRANCH_DELAY = 5200
 const LAST_STATION = stations.length - 1
 
