@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { type CSSProperties, useEffect, useRef } from 'react'
 import { mountExperience } from '../experience/controller.js'
+import evidenceStyles from '../experience/station-evidence.css?url'
 import { stations } from '../experience/stations'
 import { sitePath } from '../site-paths'
 
@@ -13,6 +14,7 @@ export const Route = createFileRoute('/')({
     links: [
       { rel: 'stylesheet', href: sitePath('style.css') },
       { rel: 'stylesheet', href: sitePath('films.css') },
+      { rel: 'stylesheet', href: evidenceStyles },
     ],
   }),
   component: Experience,
@@ -127,6 +129,14 @@ function ChapterPanel() {
       <div className="panel-kicker" id="panelKicker" />
       <h2 id="panelTitle" />
       <p className="panel-lead" id="panelLead" />
+      <aside className="station-evidence" id="stationEvidence" aria-labelledby="evidenceHeading" hidden>
+        <div className="evidence-heading">
+          <h3 id="evidenceHeading">循证要点</h3>
+          <span id="evidenceTopic" />
+        </div>
+        <p id="evidenceSummary" />
+        <nav className="evidence-sources" id="evidenceSources" aria-label="循证来源" hidden />
+      </aside>
       <div className="station-film" id="stationFilm" hidden>
         <video id="stationVideo" controls playsInline muted preload="metadata" />
         <p id="filmNote" />

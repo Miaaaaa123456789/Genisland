@@ -24,6 +24,8 @@ export function mountExperience(host) {
   const sceneDepth = find('#sceneDepth')
   const transition = find('#cinematicTransition')
   const panel = find('#chapterPanel')
+  const evidencePanel = find('#stationEvidence')
+  const evidenceSources = find('#evidenceSources')
   const branch = find('#branchChoice')
   const facts = find('#facts')
   const detailToggle = find('#detailToggle')
@@ -47,6 +49,7 @@ export function mountExperience(host) {
     selected = -1
     route = null
     panel.classList.remove('open')
+    evidencePanel.hidden = true
     branch.classList.remove('open')
     world.classList.remove('focused')
     scenePlate.classList.remove('visible')
@@ -66,6 +69,22 @@ export function mountExperience(host) {
     detailToggle.innerHTML = expanded
       ? '收起设计细节 <span>－</span>'
       : '展开空间与专业设计 <span>＋</span>'
+  }
+
+  function showEvidence(evidence) {
+    find('#evidenceTopic').textContent = evidence.topic
+    find('#evidenceSummary').textContent = evidence.summary
+    const links = evidence.sources.map(({ label, url }) => {
+      const link = document.createElement('a')
+      link.href = url
+      link.target = '_blank'
+      link.rel = 'noopener noreferrer'
+      link.textContent = label + ' ↗'
+      return link
+    })
+    evidenceSources.replaceChildren(...links)
+    evidenceSources.hidden = links.length === 0
+    evidencePanel.hidden = false
   }
 
   function focus(index, manual = false) {
@@ -109,6 +128,7 @@ export function mountExperience(host) {
     find('#panelTitle').textContent = station.name
     find('#sceneAction').textContent = station.action + '  ↗'
     find('#panelLead').textContent = station.lead
+    showEvidence(station.evidence)
     const image = find('#panelImage')
     image.src = sceneImage
     image.alt = station.name + '概念画面'
@@ -157,6 +177,7 @@ export function mountExperience(host) {
     if (selected === 5 && !branch.classList.contains('open')) {
       stationMedia.clear()
       panel.classList.remove('open')
+      evidencePanel.hidden = true
       branch.classList.add('open')
       schedule(BRANCH_DELAY)
       return

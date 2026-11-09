@@ -1,3 +1,38 @@
+const clinicalSources = {
+  childHealthcare: {
+    label: 'NICE NG204',
+    url: 'https://www.nice.org.uk/guidance/ng204/chapter/Recommendations',
+  },
+  socialAnxiety: {
+    label: 'NICE CG159',
+    url: 'https://www.nice.org.uk/Guidance/CG159/chapter/recommendations',
+  },
+  emotionRegulation: {
+    label: '青少年情绪调节综述',
+    url: 'https://pubmed.ncbi.nlm.nih.gov/34275057/',
+  },
+  emotionMeasurement: {
+    label: '儿少情绪测量综述',
+    url: 'https://pubmed.ncbi.nlm.nih.gov/42387570/',
+  },
+  anxietyCbt: {
+    label: '儿少焦虑 CBT 综述',
+    url: 'https://www.cochrane.org/evidence/CD013162_cognitive-behavioural-therapy-anxiety-children-and-young-people',
+  },
+  vrSafety: {
+    label: '儿少 VR 安全综述',
+    url: 'https://pubmed.ncbi.nlm.nih.gov/38466416/',
+  },
+  clinicalAssessment: {
+    label: '儿少综合评估建议',
+    url: 'https://doi.org/10.3760/cma.j.cn113661-20250918-00391',
+  },
+  healthAi: {
+    label: 'WHO 医疗 AI 指南',
+    url: 'https://www.who.int/publications/i/item/9789240084759',
+  },
+}
+
 export const stations = [
   {
     "name": "院区序厅",
@@ -23,6 +58,11 @@ export const stations = [
     "y": 76,
     "pan": "0% 50%",
     "action": "扫描院区全景",
+    "evidence": {
+      "topic": "既有研究与产品资质",
+      "summary": "院内既有研究和器械资质按产品及适用范围展示。本体验中心整套方案的临床效果仍待验证。",
+      "sources": [],
+    },
     "film": "01-campus"
   },
   {
@@ -49,6 +89,11 @@ export const stations = [
     "y": 68,
     "pan": "15% 50%",
     "action": "重新聚合形象",
+    "evidence": {
+      "topic": "共同决策与隐私",
+      "summary": "自选形象、匿名或跳过，参照儿少就医中的共同决策与隐私保护。虚拟形象为来访者提供一种参与方式。",
+      "sources": [clinicalSources.childHealthcare],
+    },
     "film": "02-avatar"
   },
   {
@@ -75,6 +120,11 @@ export const stations = [
     "y": 58,
     "pan": "29% 50%",
     "action": "让岛屿再次生长",
+    "evidence": {
+      "topic": "情绪觉察与表达",
+      "summary": "情绪识别与命名是练习目标。绘画和声音用于表达，心率变异性（HRV）为可选生理线索，情绪含义由本人确认。多感官组合的耐受性待验证。",
+      "sources": [clinicalSources.emotionRegulation, clinicalSources.emotionMeasurement, clinicalSources.childHealthcare],
+    },
     "film": "03-emotion"
   },
   {
@@ -101,6 +151,11 @@ export const stations = [
     "y": 48,
     "pan": "42% 50%",
     "action": "唤醒一段时间切片",
+    "evidence": {
+      "topic": "经历回顾与认知调整",
+      "summary": "借鉴认知行为治疗（CBT）中观察和检视想法的方法。AI 依据本人认可的线索生成回顾问题，具体效果待验证。",
+      "sources": [clinicalSources.anxietyCbt],
+    },
     "film": "04-growth-corridor-4066"
   },
   {
@@ -127,6 +182,11 @@ export const stations = [
     "y": 48,
     "pan": "52% 50%",
     "action": "改写圆桌粒子场",
+    "evidence": {
+      "topic": "社交技能排演",
+      "summary": "参考儿少社交焦虑 CBT 的社交技能训练，在 VR 圆桌排演倾听、表达与协商。具体 VR 方案的耐受性和效果待验证。",
+      "sources": [clinicalSources.socialAnxiety, clinicalSources.vrSafety],
+    },
     "film": "05-roundtable"
   },
   {
@@ -153,6 +213,11 @@ export const stations = [
     "y": 49,
     "pan": "61% 50%",
     "action": "照亮另一条航线",
+    "evidence": {
+      "topic": "共同决策",
+      "summary": "个人练习与共创均由本人选择，选择可以撤回。两条路径体现儿少就医中尊重本人偏好与参与意愿的原则。",
+      "sources": [clinicalSources.childHealthcare],
+    },
     "film": "06-branch",
     "silentFilm": true
   },
@@ -179,7 +244,12 @@ export const stations = [
     "x": 68,
     "y": 28,
     "pan": "68% 30%",
-    "action": "调整舒缓节律"
+    "action": "调整舒缓节律",
+    "evidence": {
+      "topic": "个体分级练习",
+      "summary": "专业评估适宜后再安排分级情境，参考儿少焦虑 CBT。舒缓舱以可调光、声、温度提供休息选择，设备耐受性待验证。",
+      "sources": [clinicalSources.anxietyCbt, clinicalSources.vrSafety, clinicalSources.childHealthcare],
+    }
   },
   {
     "name": "共创空间",
@@ -204,7 +274,12 @@ export const stations = [
     "x": 69,
     "y": 68,
     "pan": "68% 68%",
-    "action": "重新连接共创岛屿"
+    "action": "重新连接共创岛屿",
+    "evidence": {
+      "topic": "自愿表达与合作",
+      "summary": "创作与合作是自愿的参与方式，作品展示范围由本人决定。能否促进人际连接，仍待项目验证。",
+      "sources": [clinicalSources.childHealthcare],
+    }
   },
   {
     "name": "镜映空间",
@@ -230,6 +305,11 @@ export const stations = [
     "y": 44,
     "pan": "77% 50%",
     "action": "让镜像回应",
+    "evidence": {
+      "topic": "自我观察与观点转换",
+      "summary": "以自我观察和认知调整为参照，引导来访者从另一角度回看自己的选择。虚拟镜映的具体效果待验证。",
+      "sources": [clinicalSources.anxietyCbt],
+    },
     "film": "07-mirror"
   },
   {
@@ -255,7 +335,12 @@ export const stations = [
     "x": 83,
     "y": 64,
     "pan": "81% 60%",
-    "action": "让光线回到日常"
+    "action": "让光线回到日常",
+    "evidence": {
+      "topic": "适龄照护环境",
+      "summary": "参照儿少照护环境的安静、舒适与适龄原则，设置可休息、独处或交谈的过渡空间。",
+      "sources": [clinicalSources.childHealthcare],
+    }
   },
   {
     "name": "报告展示厅",
@@ -282,6 +367,11 @@ export const stations = [
     "y": 39,
     "pan": "87% 50%",
     "action": "查看另一层数据",
+    "evidence": {
+      "topic": "多源评估与专业复核",
+      "summary": "自述、量表、生理信号、AI 整理与专业判断分层呈现，分别标注来源和时间。临床判断由专业人员负责。",
+      "sources": [clinicalSources.clinicalAssessment, clinicalSources.healthAi],
+    },
     "film": "08-report"
   },
   {
@@ -307,6 +397,11 @@ export const stations = [
     "x": 94,
     "y": 28,
     "pan": "100% 50%",
-    "action": "开启新的航程"
+    "action": "开启新的航程",
+    "evidence": {
+      "topic": "复访与重复练习",
+      "summary": "经本人同意保留相关线索，在新的情境中继续练习。参与度以及技能能否用到日常生活中，仍待项目验证。",
+      "sources": [],
+    }
   }
 ];
