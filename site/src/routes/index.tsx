@@ -40,7 +40,7 @@ function Experience() {
           </div>
           <div className="header-right">
             <span className="demo-tag">VISUAL DEMO · 概念演示</span>
-            <button id="sound" className="icon film-sound" type="button" aria-pressed="false">打开原声</button>
+            <button id="sound" className="icon film-sound" type="button" aria-pressed="true">关闭原声</button>
           </div>
         </header>
         <Opening />
@@ -51,6 +51,7 @@ function Experience() {
         <ChapterPanel />
         <BranchChoice />
         <nav className="transport" id="transport" aria-label="动线控制">
+          <button id="previous" type="button"><span aria-hidden="true">←</span> 返回</button>
           <button id="overview" type="button">◇ <span>全景</span></button>
           <div className="progress"><div id="progressFill" /></div>
           <span id="counter">00 / {stations.length - 1}</span>
@@ -138,7 +139,7 @@ function ChapterPanel() {
         <nav className="evidence-sources" id="evidenceSources" aria-label="循证来源" hidden />
       </aside>
       <div className="station-film" id="stationFilm" hidden>
-        <video id="stationVideo" controls playsInline muted preload="metadata" />
+        <video id="stationVideo" controls playsInline preload="metadata" />
         <p id="filmNote" />
       </div>
       <button className="scene-action" id="sceneAction" type="button" />

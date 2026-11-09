@@ -92,7 +92,7 @@ export const stations = [
     "action": "扫描院区全景",
     "evidence": {
       "topic": "既有研究与产品资质",
-      "summary": "院内既有研究和器械资质按产品及适用范围展示。本体验中心整套方案的临床效果仍待验证。",
+      "summary": "本体验中心的设计参考临床指南与相关研究。院内既有研究和器械资质按各自适用范围展示。",
       "sources": [],
     },
     "film": "01-campus"

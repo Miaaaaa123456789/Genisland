@@ -27,14 +27,18 @@ export function mountExperience(host) {
   const evidencePanel = find('#stationEvidence')
   const evidenceSources = find('#evidenceSources')
   const branch = find('#branchChoice')
+  const opening = find('#opening')
+  const tourControls = ['#topline', '#transport', '#hint'].map(find)
   const facts = find('#facts')
   const detailToggle = find('#detailToggle')
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)')
   const effects = createEffects(find('#cinemaFx'))
   const stationMedia = createStationMedia(find, () => schedule(600), signal)
 
+  const visitTrail = []
   let selected = -1
   let entered = false
+  let openingAutoStart = true
   let autoplay = false
   let route = null
   let timer
@@ -46,6 +50,7 @@ export function mountExperience(host) {
   function showOverview() {
     stationMedia.clear()
     cancelAnimationFrame(sceneFrame)
+    visitTrail.length = 0
     selected = -1
     route = null
     panel.classList.remove('open')
@@ -87,13 +92,9 @@ export function mountExperience(host) {
     evidencePanel.hidden = false
   }
 
-  function focus(index, manual = false) {
+  function focus(index) {
     const station = stations[index]
     if (!station) return
-    if (manual) {
-      setAuto(false)
-      route = null
-    }
     clearTimeout(timer)
     selected = index
     effects.setChapter(index)
@@ -158,6 +159,12 @@ export function mountExperience(host) {
     if (index === LAST_STATION) setAuto(false)
   }
 
+  function visit(index, nextRoute = route) {
+    visitTrail.push({ index: selected, route })
+    route = nextRoute
+    focus(index)
+  }
+
   function schedule(delay) {
     clearTimeout(timer)
     if (autoplay && !document.hidden && selected < LAST_STATION) {
@@ -183,7 +190,7 @@ export function mountExperience(host) {
       return
     }
     if (selected === 6 && route !== null) {
-      focus(8)
+      visit(8)
       return
     }
     if (selected >= LAST_STATION) {
@@ -191,22 +198,50 @@ export function mountExperience(host) {
       showOverview()
       return
     }
-    focus(selected + 1)
+    visit(selected + 1)
+  }
+
+  function setEntered(value) {
+    entered = value
+    opening.classList.toggle('hidden', value)
+    opening.inert = value
+    for (const control of tourControls) control.classList.toggle('active', value)
   }
 
   function enter(withRoute) {
     clearTimeout(openingTimer)
-    entered = true
-    find('#opening').classList.add('hidden')
-    for (const id of ['topline', 'transport', 'hint']) find('#' + id).classList.add('active')
+    const fromOpening = !entered
+    setEntered(true)
     setAuto(withRoute)
-    if (withRoute) focus(0)
-    else showOverview()
+    if (!withRoute) showOverview()
+    else if (fromOpening) focus(0)
+    else visit(0, null)
+  }
+
+  function goBack() {
+    setAuto(false)
+    if (branch.classList.contains('open')) {
+      focus(selected)
+      return
+    }
+    const previous = visitTrail.pop()
+    if (previous?.index >= 0) {
+      route = previous.route
+      focus(previous.index)
+    } else if (previous) {
+      showOverview()
+    } else {
+      showOverview()
+      setEntered(false)
+      openingAutoStart = false
+      queueOpening()
+      find('#enter').focus({ preventScroll: true })
+    }
   }
 
   function queueOpening() {
     clearTimeout(openingTimer)
-    const automatic = !reducedMotion.matches
+    const automatic = openingAutoStart && !reducedMotion.matches
     find('#openingStatus').textContent = automatic
       ? '约 5 秒后自动开始 · 最后一站可打开 3D 全景'
       : '选择「从第一站开始」即可自动播放 · 最后一站可打开 3D 全景'
@@ -223,6 +258,7 @@ export function mountExperience(host) {
   }
   onClick('#overview', leaveStation)
   onClick('#back', leaveStation)
+  onClick('#previous', goBack)
   onClick('#sceneAction', () => {
     effects.regenerate()
     const action = find('#sceneAction')
@@ -240,7 +276,6 @@ export function mountExperience(host) {
       return
     }
     if (selected < 0 || selected === LAST_STATION) {
-      route = null
       enter(true)
       return
     }
@@ -251,13 +286,14 @@ export function mountExperience(host) {
   for (const button of host.querySelectorAll('[data-stop]')) {
     button.addEventListener('click', () => {
       if (!entered) enter(false)
-      focus(Number(button.dataset.stop), true)
+      setAuto(false)
+      visit(Number(button.dataset.stop), null)
     }, { signal })
   }
   for (const button of host.querySelectorAll('[data-branch]')) {
     button.addEventListener('click', () => {
-      route = Number(button.dataset.branch)
-      focus(route)
+      const choice = Number(button.dataset.branch)
+      visit(choice, choice)
     }, { signal })
   }
   onClick('#sound', stationMedia.toggleSound)

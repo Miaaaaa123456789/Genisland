@@ -26,3 +26,8 @@
 .header-right .film-sound {
   width: auto; min-height: 40px; padding: 5px 11px; font-size: 13px; white-space: nowrap;
 }
+.transport button { min-width: 44px; min-height: 44px; }
+@media (max-width: 480px) {
+  .transport { width: calc(100vw - 20px); gap: 4px; padding-inline: 6px; }
+  .transport button { padding-inline: 5px; }
+}
