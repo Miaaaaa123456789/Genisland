@@ -12,6 +12,7 @@ export function createStationMedia(find, onFinish, signal, onPlayback = () => {}
   let pending = false
   let soundEnabled = true
   let soundBlocked = false
+  let playbackFailed = false
   let playbackAttempt = 0
   let resumeOnReturn = false
 
@@ -25,6 +26,8 @@ export function createStationMedia(find, onFinish, signal, onPlayback = () => {}
     current = null
     pending = false
     soundBlocked = false
+    playbackFailed = false
+    enableAudio.textContent = '开启原声并继续 ▶'
     enableAudio.hidden = true
     playbackAttempt += 1
     resumeOnReturn = false
@@ -55,7 +58,15 @@ export function createStationMedia(find, onFinish, signal, onPlayback = () => {}
   function play() {
     const attempt = ++playbackAttempt
     void video.play().catch((error) => {
-      if (attempt !== playbackAttempt || error.name !== 'NotAllowedError') return
+      if (attempt !== playbackAttempt || !current || !pending) return
+      if (error.name !== 'NotAllowedError') {
+        playbackFailed = true
+        soundBlocked = true
+        enableAudio.textContent = '重试播放并继续 ▶'
+        enableAudio.hidden = false
+        note.textContent = '影片未能启动，请点按「重试播放并继续」；也可以点「下一站」继续浏览。'
+        return
+      }
       if (video.muted) {
         note.textContent = '此浏览器限制自动播放，请点击影片的播放键。'
         return
@@ -90,6 +101,8 @@ export function createStationMedia(find, onFinish, signal, onPlayback = () => {}
     const wasBlocked = soundBlocked
     const resumeWithSound = wasBlocked && Boolean(current)
     soundBlocked = false
+    playbackFailed = false
+    enableAudio.textContent = '开启原声并继续 ▶'
     enableAudio.hidden = true
     video.muted = !soundEnabled || Boolean(current?.silentFilm)
     if (soundEnabled && video.volume === 0) video.volume = 1
@@ -104,7 +117,7 @@ export function createStationMedia(find, onFinish, signal, onPlayback = () => {}
   }
 
   enableAudio.addEventListener('click', () => {
-    soundEnabled = true
+    if (!playbackFailed) soundEnabled = true
     applySound()
   }, { signal })
   // A native replay/seek starts a new viewing cycle. Cancel the old reading
@@ -119,6 +132,8 @@ export function createStationMedia(find, onFinish, signal, onPlayback = () => {}
   video.addEventListener('playing', () => {
     beginPlayback()
     soundBlocked = false
+    playbackFailed = false
+    enableAudio.textContent = '开启原声并继续 ▶'
     enableAudio.hidden = true
     if (current) showFilmNote()
     updateSoundButton()
@@ -133,6 +148,8 @@ export function createStationMedia(find, onFinish, signal, onPlayback = () => {}
   video.addEventListener('error', () => {
     if (!current || !video.error) return
     soundBlocked = false
+    playbackFailed = false
+    enableAudio.textContent = '开启原声并继续 ▶'
     enableAudio.hidden = true
     note.textContent = '影片暂时无法播放，可继续看本站说明。'
     finish()
@@ -147,6 +164,7 @@ export function createStationMedia(find, onFinish, signal, onPlayback = () => {}
   }
 
   function openModel() {
+    playbackAttempt += 1
     video.pause()
     model.src = modelPath
     dialog.showModal()
@@ -157,6 +175,7 @@ export function createStationMedia(find, onFinish, signal, onPlayback = () => {}
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) {
       resumeOnReturn = pending && !video.paused
+      playbackAttempt += 1
       video.pause()
     } else if (resumeOnReturn && pending) {
       resumeOnReturn = false
@@ -171,9 +190,10 @@ export function createStationMedia(find, onFinish, signal, onPlayback = () => {}
     toggleSound,
     isPending: () => pending,
     reconcileEnd,
-    playbackStatus: () => soundBlocked ? '请先点按影片下方「开启原声并继续」'
+    playbackStatus: () => playbackFailed ? '影片未能启动 · 请重试播放或选择下一站' : soundBlocked ? '请先点按影片下方「开启原声并继续」'
       : pending ? (video.paused ? '影片已暂停，点播放键继续' : '正在播放本站影片 · 播完自动前往下一站') : '',
     pause() {
+      playbackAttempt += 1
       resumeOnReturn = false
       video.pause()
     },

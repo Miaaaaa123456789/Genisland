@@ -13,7 +13,7 @@ class Element extends EventTarget {
   load() {}
   play() {
     this.calls.push(this.muted)
-    if (this.rejectPlay) return Promise.reject(Object.assign(new Error(), { name: 'NotAllowedError' }))
+    if (this.rejectPlay) return Promise.reject(Object.assign(new Error(), { name: this.rejectPlay === true ? 'NotAllowedError' : this.rejectPlay }))
     this.paused = false
     this.dispatchEvent(new Event('playing'))
     return Promise.resolve()
@@ -113,4 +113,20 @@ test('missing ended event is recovered only at the end, never mid-clip or while 
   video.currentTime=10;video.seeking=true;media.reconcileEnd();assert.equal(finished,0)
   video.seeking=false;media.reconcileEnd();assert.equal(finished,1)
   media.reconcileEnd();assert.equal(finished,1)
+})
+
+test('other play failures offer retry without changing explicit mute choice', async () => {
+  const {media,video,fallback}=setup()
+  media.toggleSound();video.rejectPlay='NotSupportedError';media.show(film,true)
+  await Promise.resolve()
+  assert.equal(fallback.hidden,false);assert.match(fallback.textContent,/重试/)
+  assert.match(media.playbackStatus(),/未能启动/)
+  video.rejectPlay=false;fallback.dispatchEvent(new Event('click'))
+  assert.equal(video.paused,false);assert.equal(video.muted,true);assert.equal(fallback.hidden,true)
+})
+test('intentional pause invalidates pending play rejection', async () => {
+  const {media,video,fallback}=setup()
+  video.rejectPlay='AbortError';media.show(film,true);media.pause()
+  await Promise.resolve()
+  assert.equal(fallback.hidden,true)
 })

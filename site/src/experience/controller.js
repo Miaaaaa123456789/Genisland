@@ -7,7 +7,7 @@ import { sitePath } from '../site-paths'
 const OPENING_DELAY = 5000
 const READING_DELAY = 12000
 const FILM_END_DELAY = 0
-const BRANCH_DELAY = 5200
+const BRANCH_DELAY = 0
 const LAST_STATION = stations.length - 1
 
 const formatNumber = (number) => String(number).padStart(2, '0')
@@ -193,7 +193,7 @@ export function mountExperience(host) {
   }
 
   function advance() {
-    if (selected === 5 && !branch.classList.contains('open')) {
+    if (selected === 5 && !autoplay && !branch.classList.contains('open')) {
       stationMedia.clear()
       panel.classList.remove('open')
       evidencePanel.hidden = true

@@ -41,7 +41,7 @@ test('automatic tour visits all twelve nodes, waits for films, opens 3D, and res
       assert.equal(find('#facts').classList.contains('expanded'),true)
       if(stations[i].film){assert.equal(timers.size,0,'must wait for full film');finish()}
       tick(stations[i].film ? 0 : 12000)
-      if(i===5){assert.equal(find('#branchChoice').classList.contains('open'),true);tick(5200)}
+      if(i===5){assert.equal(find('#branchChoice').classList.contains('open'),false,'automatic tour must not stop at branch selection');assert.equal(find('#world').dataset.chapter,'6')}
     }
     assert.equal(opened,1)
     assert.equal(find('#play').attributes['aria-pressed'],'false')
@@ -49,7 +49,7 @@ test('automatic tour visits all twelve nodes, waits for films, opens 3D, and res
     click(find('#play'));finish();assert.equal(timers.size,0)
     click(stops[7]);assert.equal(find('#play').attributes['aria-pressed'],'false');assert.equal(timers.size,0)
     click(find('#play'));tick(12000);assert.equal(find('#world').dataset.chapter,'8')
-    click(stops[5]);finish();tick(0);click(branches[0]);tick(12000);assert.equal(find('#world').dataset.chapter,'8','explicit branch choice remains respected')
+    click(stops[5]);click(find('#play'));click(find('#next'));assert.equal(find('#branchChoice').classList.contains('open'),true);click(branches[0]);click(find('#play'));tick(12000);assert.equal(find('#world').dataset.chapter,'8','explicit branch choice remains respected')
     click(stops[9]);document.hidden=true;document.dispatchEvent(new Event('visibilitychange'));assert.equal(timers.size,0)
     document.hidden=false;document.dispatchEvent(new Event('visibilitychange'));tick(12000);assert.equal(find('#world').dataset.chapter,'10')
     click(find('#overview'));assert.equal(timers.size,0)
