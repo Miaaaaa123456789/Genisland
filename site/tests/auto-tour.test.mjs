@@ -34,6 +34,8 @@ test('automatic tour visits all twelve nodes, waits for films, opens 3D, and res
   try {
     cleanup=mountExperience(host)
     tick(5000)
+    click(find('#detailToggle'));assert.equal(find('#play').attributes['aria-pressed'],'true','reading details must not turn automatic playback off')
+    click(find('#detailToggle'))
     for(let i=0;i<stations.length;i++){
       assert.equal(find('#world').dataset.chapter,String(i))
       assert.equal(find('#facts').classList.contains('expanded'),true)

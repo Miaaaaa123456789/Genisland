@@ -19,12 +19,12 @@ class Element extends EventTarget {
     return Promise.resolve()
   }
 }
-function setup() {
+function setup(onFinish = () => {}, onPlayback = () => {}) {
   globalThis.document = new Element()
   document.hidden = false
   const elements = new Map()
   const find = k => { if (!elements.has(k)) elements.set(k, new Element()); return elements.get(k) }
-  const media = createStationMedia(find, () => {}, new AbortController().signal)
+  const media = createStationMedia(find, onFinish, new AbortController().signal, onPlayback)
   return { media, video: find('#stationVideo'), fallback: find('#enableAudio'), sound: find('#sound') }
 }
 const film = { film: 'test', name: 'test' }
@@ -80,4 +80,27 @@ test('silent films remain muted without a misleading autoplay fallback', () => {
   media.show({...film, silentFilm:true}, true)
   assert.equal(video.muted, true)
   assert.equal(fallback.hidden, true)
+})
+
+test('native replay cancels reading countdown and completes a fresh cycle', () => {
+  let finished = 0; let started = 0
+  const {media, video} = setup(() => finished++, () => started++)
+  media.show(film, true)
+  video.ended = true; video.dispatchEvent(new Event('ended'))
+  assert.equal(finished, 1); assert.equal(media.isPending(), false)
+  video.ended = false; video.dispatchEvent(new Event('play'))
+  assert.equal(started, 2); assert.equal(media.isPending(), true)
+  video.ended = true; video.dispatchEvent(new Event('ended'))
+  assert.equal(finished, 2)
+})
+test('native seeking cancels old countdown and native mute survives a station change', () => {
+  let started = 0
+  const {media, video} = setup(() => {}, () => started++)
+  media.show(film, true)
+  video.ended = true; video.dispatchEvent(new Event('ended'))
+  video.ended = false; video.dispatchEvent(new Event('seeking'))
+  assert.equal(started, 2); assert.equal(media.isPending(), true)
+  video.muted = true; video.dispatchEvent(new Event('volumechange'))
+  media.show({...film, film:'next'}, true)
+  assert.equal(video.muted, true)
 })

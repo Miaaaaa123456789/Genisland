@@ -33,7 +33,7 @@ export function mountExperience(host) {
   const detailToggle = find('#detailToggle')
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)')
   const effects = createEffects(find('#cinemaFx'))
-  const stationMedia = createStationMedia(find, () => schedule(READING_DELAY), signal)
+  const stationMedia = createStationMedia(find, () => schedule(READING_DELAY), signal, () => clearTimeout(timer))
 
   const visitTrail = []
   let selected = -1
@@ -275,8 +275,6 @@ export function mountExperience(host) {
     action.classList.add('activated')
   })
   onClick('#detailToggle', () => {
-    autoPausedByUser = true
-    setAuto(false)
     setDetails(!facts.classList.contains('expanded'))
   })
   onClick('#advance', advance)

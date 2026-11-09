@@ -1,6 +1,6 @@
 import { modelPath, sitePath } from '../site-paths'
 
-export function createStationMedia(find, onFinish, signal) {
+export function createStationMedia(find, onFinish, signal, onPlayback = () => {}) {
   const film = find('#stationFilm')
   const video = find('#stationVideo')
   const note = find('#filmNote')
@@ -107,13 +107,26 @@ export function createStationMedia(find, onFinish, signal) {
     soundEnabled = true
     applySound()
   }, { signal })
+  // A native replay/seek starts a new viewing cycle. Cancel the old reading
+  // timer immediately, or it can cut off a replay halfway through.
+  function beginPlayback() {
+    if (!current || video.ended) return
+    pending = true
+    onPlayback()
+  }
+  video.addEventListener('play', beginPlayback, { signal })
+  video.addEventListener('seeking', beginPlayback, { signal })
   video.addEventListener('playing', () => {
+    beginPlayback()
     soundBlocked = false
     enableAudio.hidden = true
     if (current) showFilmNote()
     updateSoundButton()
   }, { signal })
-  video.addEventListener('volumechange', updateSoundButton, { signal })
+  video.addEventListener('volumechange', () => {
+    if (current && !current.silentFilm) soundEnabled = !video.muted && video.volume > 0
+    updateSoundButton()
+  }, { signal })
   video.addEventListener('ended', () => {
     if (video.ended) finish()
   }, { signal })
