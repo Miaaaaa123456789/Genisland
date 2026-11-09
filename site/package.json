@@ -12,7 +12,11 @@
     "build": "vite build",
     "preview": "vite preview",
     "deploy": "npm run build && wrangler deploy",
-    "build:pages": "vite build --config vite.pages.config.ts --mode pages"
+    "build:pages": "vite build --config vite.pages.config.ts --mode pages",
+    "prepare:films": "python3 scripts/balance-film-audio.py",
+    "predev": "npm run prepare:films",
+    "prebuild": "npm run prepare:films",
+    "prebuild:pages": "npm run prepare:films"
   },
   "dependencies": {
     "@tanstack/react-router": "^1.169.0",

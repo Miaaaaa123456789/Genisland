@@ -41,3 +41,7 @@ npm run deploy
 原声默认开启，浏览器若阻止有声自动播放，会显示一次音频启动入口，不强制静音或跳过影片。标签页隐藏时暂停计时和影片。
 
 回归检查：`node --test tests/*.test.mjs`。
+
+## 影片响度
+
+本机开发与发布构建需要 Python 3 和 FFmpeg。`npm run prepare:films` 会以首段原片实测响度为基准，为后续七段生成 `-balanced-v1` 副本；开发与构建会自动执行。首段及所有源文件保留不动，画面流直接复制，只有音频以 192 kbps AAC 重新编码。逐段检查响度误差不超过 0.15 LU、真峰值不超过 -1 dBTP，并核对视频流哈希。测量记录位于生成的 `assets/films/audio-balance-report.json`。

@@ -8,3 +8,8 @@ spatial/dist/
 *.aiff
 *.wav
 !assets/narration/audio/*
+
+# Generated loudness-matched web films (original media stays unchanged).
+site/public/assets/films/*-balanced-v1.mp4
+site/public/assets/films/*-balanced-v1.webp
+site/public/assets/films/audio-balance-report.json

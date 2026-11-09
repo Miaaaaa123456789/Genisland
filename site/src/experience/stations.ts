@@ -126,7 +126,7 @@ export const stations = [
       "summary": "自选形象、匿名或跳过，参照儿少就医中的共同决策与隐私保护。虚拟形象为来访者提供一种参与方式。",
       "sources": [clinicalSources.childHealthcare],
     },
-    "film": "02-avatar"
+    "film": "02-avatar-balanced-v1"
   },
   {
     "name": "情绪感知与个人岛",
@@ -157,7 +157,7 @@ export const stations = [
       "summary": "参考青少年辩证行为疗法（DBT-A）的情绪调节技能，所引机制研究针对有自伤风险的青少年。绘画和声音用于表达，心率变异性（HRV）为可选生理线索，情绪含义由本人确认。",
       "sources": [clinicalSources.adolescentDbt, clinicalSources.emotionRegulation, clinicalSources.emotionMeasurement, clinicalSources.childHealthcare],
     },
-    "film": "03-emotion"
+    "film": "03-emotion-balanced-v1"
   },
   {
     "name": "生成式成长走廊",
@@ -188,7 +188,7 @@ export const stations = [
       "summary": "参考叙事治疗中的经历梳理和重新讲述。所引随机试验纳入抑郁伴非自杀性自伤的青少年。AI 依据本人认可的线索提出回顾问题，具体效果待验证。",
       "sources": [clinicalSources.adolescentNarrative],
     },
-    "film": "04-growth-corridor-4066"
+    "film": "04-growth-corridor-4066-balanced-v1"
   },
   {
     "name": "圆桌 VR 剧本体验",
@@ -219,7 +219,7 @@ export const stations = [
       "summary": "参考青少年人际心理治疗技能训练（IPT-AST）的沟通练习和角色扮演，以及儿少社交焦虑 CBT 的社交技能排演。VR 圆桌用于练习倾听、表达与协商，耐受性和效果待验证。个体创伤暴露证据见第 06 站。",
       "sources": [clinicalSources.interpersonalSkills, clinicalSources.socialAnxiety, clinicalSources.vrSafety],
     },
-    "film": "05-roundtable"
+    "film": "05-roundtable-balanced-v1"
   },
   {
     "name": "分叉路",
@@ -250,7 +250,7 @@ export const stations = [
       "summary": "个人练习与共创均由本人选择，选择可以撤回。两条路径体现儿少就医中尊重本人偏好与参与意愿的原则。",
       "sources": [clinicalSources.childHealthcare],
     },
-    "film": "06-branch-with-audio"
+    "film": "06-branch-with-audio-balanced-v1"
   },
   {
     "name": "隐秘个人岛",
@@ -341,7 +341,7 @@ export const stations = [
       "summary": "借鉴接纳与承诺疗法（ACT）的认知解离，练习观察自己的想法和感受。青少年 ACT 研究提示心理灵活性与症状改善有关，相关研究偏倚风险较高，虚拟镜映的效果待验证。",
       "sources": [clinicalSources.adolescentAct],
     },
-    "film": "07-mirror"
+    "film": "07-mirror-balanced-v1"
   },
   {
     "name": "回到日常",
@@ -403,7 +403,7 @@ export const stations = [
       "summary": "自述、量表、生理信号、AI 整理与专业判断分层呈现，分别标注来源和时间。临床判断由专业人员负责。",
       "sources": [clinicalSources.clinicalAssessment, clinicalSources.healthAi],
     },
-    "film": "08-report"
+    "film": "08-report-balanced-v1"
   },
   {
     "name": "下一次航程",

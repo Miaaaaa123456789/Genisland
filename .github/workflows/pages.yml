@@ -29,6 +29,8 @@ jobs:
           cache-dependency-path: site/package-lock.json
       - uses: actions/configure-pages@v5
         id: pages
+      - name: Ensure FFmpeg is available
+        run: command -v ffmpeg || (sudo apt-get update && sudo apt-get install -y ffmpeg)
       - name: Build site
         working-directory: site
         env:
