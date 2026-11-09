@@ -13,7 +13,7 @@ export const Route = createFileRoute('/')({
     ],
     links: [
       { rel: 'stylesheet', href: sitePath('style.css') },
-      { rel: 'stylesheet', href: sitePath('films.css') },
+      { rel: 'stylesheet', href: sitePath('films.css?v=2') },
       { rel: 'stylesheet', href: evidenceStyles },
     ],
   }),
