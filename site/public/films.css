@@ -7,7 +7,9 @@
 .station-film { margin: 12px 0 16px; }
 .station-film video { display: block; width: 100%; aspect-ratio: 16 / 9; background: #02080d; border-radius: 6px; }
 .station-film p { margin: 5px 0 0; font-size: 13px; color: #d0e5e2; }
-.model-button { width: 100%; margin: 10px 0; font-weight: 650; }
+.model-button { width: 100%; margin: 10px 0; font-weight: 700; border-color: #f0c96a; background: linear-gradient(135deg, #f5d889, #cda447); color: #241b08; box-shadow: 0 0 22px #d8af4d35; }
+.model-button:hover { background: linear-gradient(135deg, #ffe8a5, #e3bd60); }
+.model-button:focus-visible { outline: 3px solid #fff0bd; outline-offset: 3px; }
 #modelDialog {
   width: min(1180px, 97vw); max-width: 97vw; height: min(850px, 95dvh); max-height: 95dvh;
   padding: 0; border: 1px solid #629a99; border-radius: 10px; background: #0b171c; color: #e9f7f5;
