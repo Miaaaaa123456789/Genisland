@@ -138,6 +138,14 @@ export function createStationMedia(find, onFinish, signal, onPlayback = () => {}
     finish()
   }, { signal })
 
+  function reconcileEnd() {
+    // Some mobile media engines omit ended after a seek, suspension or decode tail.
+    // Never advance a buffering clip or an explicitly paused mid-film frame.
+    if (current && pending && !video.seeking && (video.ended ||
+      (video.paused && Number.isFinite(video.duration) && video.duration > 0 &&
+       video.currentTime >= video.duration - 0.05))) finish()
+  }
+
   function openModel() {
     video.pause()
     model.src = modelPath
@@ -162,6 +170,9 @@ export function createStationMedia(find, onFinish, signal, onPlayback = () => {}
     openModel,
     toggleSound,
     isPending: () => pending,
+    reconcileEnd,
+    playbackStatus: () => soundBlocked ? '请先点按影片下方「开启原声并继续」'
+      : pending ? (video.paused ? '影片已暂停，点播放键继续' : '正在播放本站影片 · 播完自动前往下一站') : '',
     pause() {
       resumeOnReturn = false
       video.pause()

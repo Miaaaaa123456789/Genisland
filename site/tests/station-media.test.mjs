@@ -104,3 +104,13 @@ test('native seeking cancels old countdown and native mute survives a station ch
   media.show({...film, film:'next'}, true)
   assert.equal(video.muted, true)
 })
+
+test('missing ended event is recovered only at the end, never mid-clip or while seeking', () => {
+  let finished=0
+  const {media,video}=setup(()=>finished++)
+  media.show(film,true);video.duration=10;video.currentTime=5;video.paused=true
+  media.reconcileEnd();assert.equal(finished,0)
+  video.currentTime=10;video.seeking=true;media.reconcileEnd();assert.equal(finished,0)
+  video.seeking=false;media.reconcileEnd();assert.equal(finished,1)
+  media.reconcileEnd();assert.equal(finished,1)
+})

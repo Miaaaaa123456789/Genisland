@@ -33,3 +33,6 @@
   .transport { width: calc(100vw - 20px); gap: 4px; padding-inline: 6px; }
   .transport button { padding-inline: 5px; }
 }
+
+.autoplay-status { position: fixed; z-index: 24; bottom: calc(84px + env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%); width: max-content; max-width: calc(100vw - 28px); padding: 7px 12px; border: 1px solid #779d9a66; border-radius: 8px; background: #071b24ee; color: #e5f6ee; font-size: 13px; text-align: center; pointer-events: none; }
+.autoplay-status[hidden] { display: none; }

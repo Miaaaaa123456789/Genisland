@@ -13,7 +13,7 @@ export const Route = createFileRoute('/')({
     ],
     links: [
       { rel: 'stylesheet', href: sitePath('style.css') },
-      { rel: 'stylesheet', href: sitePath('films.css?v=3') },
+      { rel: 'stylesheet', href: sitePath('films.css?v=4') },
       { rel: 'stylesheet', href: evidenceStyles },
     ],
   }),
@@ -50,6 +50,7 @@ function Experience() {
         </div>
         <ChapterPanel />
         <BranchChoice />
+        <div id="autoplayStatus" className="autoplay-status" hidden />
         <nav className="transport" id="transport" aria-label="动线控制">
           <button id="previous" type="button"><span aria-hidden="true">←</span> 返回</button>
           <button id="overview" type="button">◇ <span>全景</span></button>

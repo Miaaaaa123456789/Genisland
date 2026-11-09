@@ -6,6 +6,7 @@ import { sitePath } from '../site-paths'
 
 const OPENING_DELAY = 5000
 const READING_DELAY = 12000
+const FILM_END_DELAY = 3000
 const BRANCH_DELAY = 5200
 const LAST_STATION = stations.length - 1
 
@@ -33,7 +34,7 @@ export function mountExperience(host) {
   const detailToggle = find('#detailToggle')
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)')
   const effects = createEffects(find('#cinemaFx'))
-  const stationMedia = createStationMedia(find, () => schedule(READING_DELAY), signal, () => clearTimeout(timer))
+  const stationMedia = createStationMedia(find, () => schedule(FILM_END_DELAY), signal, () => { clearTimeout(timer); deadline = 0 })
 
   const visitTrail = []
   let selected = -1
@@ -43,6 +44,7 @@ export function mountExperience(host) {
   let autoPausedByUser = false
   let route = null
   let timer
+  let deadline = 0
   let openingTimer
   let sceneFrame
   let scale = 1
@@ -97,6 +99,7 @@ export function mountExperience(host) {
     const station = stations[index]
     if (!station) return
     clearTimeout(timer)
+    deadline = 0
     selected = index
     effects.setChapter(index)
     setDetails(autoplay)
@@ -167,8 +170,11 @@ export function mountExperience(host) {
 
   function schedule(delay) {
     clearTimeout(timer)
+    deadline = 0
     if (autoplay && !document.hidden && selected <= LAST_STATION) {
+      deadline = Date.now() + delay
       timer = setTimeout(() => {
+        deadline = 0
         if (selected === LAST_STATION) {
           setAuto(false)
           stationMedia.openModel()
@@ -180,6 +186,7 @@ export function mountExperience(host) {
   function setAuto(enabled) {
     autoplay = enabled
     clearTimeout(timer)
+    deadline = 0
     const play = find('#play')
     play.textContent = enabled ? '暂停自动播放' : '自动播放'
     play.setAttribute('aria-pressed', String(enabled))
@@ -323,7 +330,7 @@ export function mountExperience(host) {
     if (!entered) queueOpening()
     else if (document.hidden) clearTimeout(timer)
     else if (autoplay && !stationMedia.isPending()) {
-      schedule(branch.classList.contains('open') ? BRANCH_DELAY : READING_DELAY)
+      schedule(branch.classList.contains('open') ? BRANCH_DELAY : stations[selected]?.film ? FILM_END_DELAY : READING_DELAY)
     }
   }, { signal })
   reducedMotion.addEventListener('change', queueOpening, { signal })
@@ -366,10 +373,21 @@ export function mountExperience(host) {
     if (event.key === 'ArrowRight' && entered) advance()
   }, { signal })
 
+  const statusTimer = setInterval(() => {
+    stationMedia.reconcileEnd?.()
+    const status = find('#autoplayStatus')
+    status.hidden = !entered || selected < 0
+    status.textContent = !autoplay ? '自动航行已暂停 · 点「自动播放」继续'
+      : document.hidden ? '返回页面后继续自动航行'
+      : deadline ? `${selected === LAST_STATION ? '自动打开全景' : '自动下一站'} · ${Math.max(1, Math.ceil((deadline - Date.now()) / 1000))} 秒`
+      : stationMedia.playbackStatus?.() || '自动航行中'
+  }, 250)
+
   void startAtmosphere(find('#atmosphere'), signal)
 
   return () => {
     lifecycle.abort()
+    clearInterval(statusTimer)
     clearTimeout(timer)
     clearTimeout(openingTimer)
     cancelAnimationFrame(sceneFrame)
