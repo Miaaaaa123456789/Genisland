@@ -1,0 +1,33 @@
+{
+  "name": "genisland-ai-center",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "vite dev",
+    "typecheck": "tsc --noEmit",
+    "build": "vite build",
+    "preview": "vite preview",
+    "deploy": "npm run build && wrangler deploy",
+    "build:pages": "vite build --config vite.pages.config.ts --mode pages"
+  },
+  "dependencies": {
+    "@tanstack/react-router": "^1.169.0",
+    "@tanstack/react-start": "1.169.5",
+    "react": "19.3.1",
+    "react-dom": "19.3.1"
+  },
+  "devDependencies": {
+    "@cloudflare/vite-plugin": "1.67.0",
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@vitejs/plugin-react": "6.2.1",
+    "typescript": "~5.9.3",
+    "vite": "8.3.6",
+    "wrangler": "4.158.0"
+  }
+}

@@ -1,0 +1,8 @@
+node_modules/
+dist/
+dist-pages/
+.wrangler/
+.tanstack/
+.env*
+.dev.vars*
+*.log

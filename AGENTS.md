@@ -1,5 +1,7 @@
 # 接手规则：先消除“能跑”和“完成”的混淆
 
+当前电影化动线与 GitHub Pages 的维护入口在 `site/`，构建方式见 `site/README.md`。以下是根目录早期宣传页和 `spatial/` 三维原型的接手规则。
+
 1. 根目录是已上线宣传页，`tour/` 是已嵌在地图下的三维发布包，`spatial/` 是唯一三维源码。改动源码后同步发布包并验证同源 iframe、移动端、音频互斥；不要只提交一份无人加载的 demo。
 2. 开始前读 `README.md`、`spatial/docs/PRODUCTION_PROMPT.md`、`spatial/docs/INTERACTION_WORLD_SPEC.md`、`spatial/docs/ASSET_SPEC.md`；九站顺序以 `spatial/src/stations.js` 和宣传页地图为当前网页原型，最终物理位置需实地视频与 CAD 核对。旧文档中不同的顺序不可延用。
 3. 现有 `spatial/src/world.js` 的重复控制台是**替换对象**，不是可复制的设计语言。缺少正式 GLB，不许用圆盘、几何棚、平面照片、漂浮粒子或鼠标热区充作最终场景。

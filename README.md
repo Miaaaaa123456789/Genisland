@@ -1,6 +1,24 @@
-# 梓笙园 AI 体验中心 · 动线全景
+# 梓笙园 AI 体验中心
 
-根目录 `index.html` 是唯一主入口。`atlas/app.js` 用 Three.js 构造连续的三维建筑动线；`atlas/styles.css` 为界面。浏览器打开根目录即可看到一幅可拖动、旋转、缩放的全景，点击真实场景几何体或下方站点查看每一处的具体功能，点击「开始导览」按顺序自动走访。没有旧版 `genesis/` 的嵌入或旧版 `tour/` 白模入口。
+## 当前电影化动线
+
+在线体验 [GitHub Pages](https://miaaaaa123456789.github.io/Genisland/) · [Cloudflare Workers](https://genisland-ai-center.genisland-ai-center.workers.dev/)
+
+最新版位于 [`site/`](site/)。目录包含 TanStack Start 源码、依赖锁文件、12 站动线、8 段视频和可运行的 3D 全景。第 03 站使用新的生成式成长走廊视频和原声。
+
+使用 Node.js 22.12 或更新版本运行。
+
+```sh
+cd site
+npm ci
+npm run dev
+```
+
+GitHub Pages 从 `main` 自动构建此目录。Cloudflare Workers 的构建与部署命令见 [site/README.md](site/README.md)。
+
+## 早期静态全景版
+
+根目录 `index.html` 是早期全景版入口。`atlas/app.js` 用 Three.js 构造连续的三维建筑动线，`atlas/styles.css` 提供界面样式。浏览器打开根目录即可看到一幅可拖动、旋转、缩放的全景，点击真实场景几何体或下方站点查看各处功能，点击「开始导览」按顺序走访。
 
 ## 本轮动线
 

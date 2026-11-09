@@ -1,0 +1,286 @@
+/**
+ * 版本: 2026.11.08-islands
+ * 文件来源: 梓笙园动线网页工作区 /workspace/src/styles.css
+ * 文件内容: 界面样式。动线页面的面板、地图和控件外观。
+ * 说明: 本文件是该版本的源码存档，不替代仓库根目录 index.html 与 atlas/ 静态入口。
+ */
+
+
+:root {
+  --font-sans: "Noto Sans SC", "WenQuanYi Zen Hei", "PingFang SC", sans-serif;
+  --font-serif: "Noto Serif SC", "Songti SC", "WenQuanYi Zen Hei", serif;
+  --color-bg: #101216;
+  --color-surface: #171b20;
+  --color-fg: #e7e4dc;
+  --color-muted: #a3a79e;
+  --color-cyan: #6ecfc6;
+  --color-amber: #d0a06a;
+  --color-line: #2c3338;
+  --radius-sm: 2px;
+}
+
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  html,
+  body {
+    height: 100%;
+    overflow: hidden;
+    background: var(--color-bg);
+    color: var(--color-fg);
+    font-family: var(--font-sans);
+  }
+}
+
+.zs {
+  position: fixed;
+  inset: 0;
+  background: var(--color-bg);
+  color: var(--color-fg);
+}
+
+.zs-static {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.zs-canvas[hidden] { display: none; }
+
+.zs-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  touch-action: none;
+}
+
+.zs-ui {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.zs-ui button,
+.zs-ui .zs-map,
+.zs-ui .zs-panel {
+  pointer-events: auto;
+}
+
+.zs-title {
+  position: absolute;
+  top: 1.25rem;
+  left: 1.25rem;
+  max-width: 22rem;
+}
+
+.zs-title h1 {
+  margin: 0.15rem 0 0.35rem;
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  font-weight: 560;
+  letter-spacing: 0.12em;
+  line-height: 1.1;
+}
+
+.zs-title p,
+.zs-kicker,
+.zs-status,
+.zs-map span {
+  color: var(--color-muted);
+}
+
+.zs-kicker {
+  margin: 0;
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+}
+
+.zs-title p:last-child {
+  margin: 0;
+  max-width: 18rem;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.zs-controls {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.4rem;
+  max-width: 28rem;
+}
+
+.zs-controls button,
+.zs-panel button,
+.zs-row button,
+.zs-route button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 2.75rem;
+  padding: 0.4rem 0.75rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--color-surface) 88%, transparent);
+  color: var(--color-fg);
+  font: inherit;
+  font-size: 0.85rem;
+  backdrop-filter: blur(10px);
+}
+
+.zs-controls svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.zs-controls button[aria-pressed="true"],
+.zs-route button[aria-pressed="true"],
+.zs-panel button:hover,
+.zs-controls button:hover,
+.zs-route button:hover {
+  border-color: var(--color-cyan);
+  color: var(--color-cyan);
+}
+
+.zs-panel button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.zs-route {
+  position: absolute;
+  left: 1.25rem;
+  right: 14rem;
+  bottom: 1.1rem;
+  display: flex;
+  gap: 0.4rem;
+  overflow-x: auto;
+  padding-bottom: 0.2rem;
+  pointer-events: auto;
+}
+
+.zs-route button {
+  flex: 0 0 auto;
+  min-width: 4.75rem;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+.zs-panel {
+  position: absolute;
+  top: 5.5rem;
+  right: 1.25rem;
+  width: min(22rem, calc(100vw - 2.5rem));
+  max-height: calc(100vh - 8rem);
+  overflow: auto;
+  padding: 1rem 1rem 0.85rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--color-surface) 92%, transparent);
+  backdrop-filter: blur(12px);
+}
+
+.zs-panel h2 {
+  margin: 0.2rem 0 0.6rem;
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  font-weight: 560;
+  line-height: 1.25;
+}
+
+.zs-panel p {
+  margin: 0 0 0.55rem;
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.zs-panel strong {
+  display: block;
+  margin-bottom: 0.1rem;
+  color: var(--color-cyan);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+}
+
+.zs-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.35rem;
+}
+
+.zs-hover {
+  position: absolute;
+  transform: translate(12px, 14px);
+  padding: 0.25rem 0.45rem;
+  border: 1px solid var(--color-line);
+  background: var(--color-surface);
+  color: var(--color-fg);
+  font-size: 0.75rem;
+  pointer-events: none;
+}
+
+.zs-status {
+  position: absolute;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  margin: 0;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+}
+
+@media (max-width: 800px) {
+  .zs-title h1 {
+    font-size: 1.45rem;
+  }
+
+  .zs-title p:last-child {
+    display: none;
+  }
+
+  .zs-controls {
+    top: auto;
+    right: 0.75rem;
+    bottom: 0.75rem;
+    left: 0.75rem;
+    max-width: none;
+    justify-content: stretch;
+  }
+
+  .zs-controls button {
+    flex: 1 1 40%;
+    justify-content: center;
+  }
+
+  .zs-route {
+    top: 4.6rem;
+    right: 0.75rem;
+    bottom: auto;
+    left: 0.75rem;
+  }
+
+  .zs-status {
+    display: none;
+  }
+
+  .zs-panel {
+    top: auto;
+    right: 0.75rem;
+    bottom: 6.5rem;
+    left: 0.75rem;
+    width: auto;
+    max-height: 34vh;
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; } body { margin: 0; } button { font: inherit; }
