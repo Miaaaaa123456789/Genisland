@@ -45,10 +45,28 @@ export function mountExperience(host) {
   let route = null
   let timer
   let deadline = 0
+  let remainingDelay = null
   let openingTimer
   let sceneFrame
   let scale = 1
   let drag = null
+
+  const warmedImages = new Map()
+  function warmStation(index) {
+    const station = stations[index]
+    if (!station || typeof Image === 'undefined') return
+    const paths = ['assets/' + station.img, station.secondaryImg && 'assets/' + station.secondaryImg,
+      station.film && 'assets/films/' + station.film + '.webp'].filter(Boolean)
+    for (const path of paths) {
+      if (warmedImages.has(path)) continue
+      const image = new Image()
+      image.src = sitePath(path)
+      warmedImages.set(path, image)
+      image.decode?.().catch(() => {})
+    }
+  }
+  const readingDelay = () => stations[selected]?.dwellMs ?? READING_DELAY
+  warmStation(0)
 
   function showOverview() {
     stationMedia.clear()
@@ -101,6 +119,9 @@ export function mountExperience(host) {
     clearTimeout(timer)
     deadline = 0
     selected = index
+    remainingDelay = null
+    warmStation(index)
+    warmStation(index === 6 && route !== null ? 8 : index + 1)
     effects.setChapter(index)
     setDetails(autoplay)
     world.classList.add('focused')
@@ -159,7 +180,7 @@ export function mountExperience(host) {
     panorama.style.backgroundPosition = station.pan
     panel.scrollTop = 0
     find('#openModel').hidden = index !== LAST_STATION
-    if (!stationMedia.show(station, autoplay || !reducedMotion.matches)) schedule(READING_DELAY)
+    if (!stationMedia.show(station, autoplay || !reducedMotion.matches)) schedule(readingDelay())
   }
 
   function visit(index, nextRoute = route) {
@@ -169,6 +190,7 @@ export function mountExperience(host) {
   }
 
   function schedule(delay) {
+    remainingDelay = null
     clearTimeout(timer)
     deadline = 0
     if (autoplay && !document.hidden && selected <= LAST_STATION) {
@@ -185,6 +207,7 @@ export function mountExperience(host) {
 
   function setAuto(enabled) {
     autoplay = enabled
+    remainingDelay = null
     clearTimeout(timer)
     deadline = 0
     const play = find('#play')
@@ -301,7 +324,7 @@ export function mountExperience(host) {
     setAuto(true)
     setDetails(true)
     if (branch.classList.contains('open')) schedule(BRANCH_DELAY)
-    else if (!stationMedia.resume()) schedule(READING_DELAY)
+    else if (!stationMedia.resume()) schedule(readingDelay())
   })
   for (const button of host.querySelectorAll('[data-stop]')) {
     button.addEventListener('click', () => {
@@ -328,9 +351,13 @@ export function mountExperience(host) {
 
   document.addEventListener('visibilitychange', () => {
     if (!entered) queueOpening()
-    else if (document.hidden) clearTimeout(timer)
+    else if (document.hidden) {
+      remainingDelay = deadline ? Math.max(0, deadline - Date.now()) : null
+      clearTimeout(timer)
+      deadline = 0
+    }
     else if (autoplay && !stationMedia.isPending()) {
-      schedule(branch.classList.contains('open') ? BRANCH_DELAY : stations[selected]?.film ? FILM_END_DELAY : READING_DELAY)
+      schedule(remainingDelay ?? (branch.classList.contains('open') ? BRANCH_DELAY : stations[selected]?.film ? FILM_END_DELAY : readingDelay()))
     }
   }, { signal })
   reducedMotion.addEventListener('change', queueOpening, { signal })

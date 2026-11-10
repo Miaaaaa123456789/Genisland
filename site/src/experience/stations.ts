@@ -254,6 +254,7 @@ export const stations = [
   },
   {
     "name": "隐秘个人岛",
+    "dwellMs": 5000,
     "loc": "可选支路 · 私密",
     "lead": "将一个经本人确认的情境放到可以控制的距离。",
     "img": "rest-capsule-research.webp",
@@ -284,6 +285,7 @@ export const stations = [
   },
   {
     "name": "共创空间",
+    "dwellMs": 5000,
     "loc": "可选支路 · 开放",
     "lead": "个人岛的一部分可以带到共享空间，也可以只与他人并肩创作。",
     "img": "route/07-cocreation.webp",

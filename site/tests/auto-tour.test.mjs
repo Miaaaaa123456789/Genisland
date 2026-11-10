@@ -13,6 +13,9 @@ class Element extends EventTarget {
   replaceChildren(){} append(){} focus(){}
 }
 test('automatic tour visits all twelve nodes, waits for films, opens 3D, and respects pause/navigation', async () => {
+  const realNow = Date.now
+  let now = 100000
+  Date.now = () => now
   const old = Object.fromEntries(['document','matchMedia','requestAnimationFrame','cancelAnimationFrame','setTimeout','clearTimeout'].map(k=>[k,globalThis[k]]))
   let id=0; const timers=new Map(); const elements=new Map(); let onFinish; let pending=false; let opened=0
   const find=k=>{if(!elements.has(k)) elements.set(k,new Element());return elements.get(k)}
@@ -40,7 +43,7 @@ test('automatic tour visits all twelve nodes, waits for films, opens 3D, and res
       assert.equal(find('#world').dataset.chapter,String(i))
       assert.equal(find('#facts').classList.contains('expanded'),true)
       if(stations[i].film){assert.equal(timers.size,0,'must wait for full film');finish()}
-      tick(stations[i].film ? 0 : 12000)
+      tick(stations[i].film ? 0 : stations[i].dwellMs ?? 12000)
       if(i===5){assert.equal(find('#branchChoice').classList.contains('open'),false,'automatic tour must not stop at branch selection');assert.equal(find('#world').dataset.chapter,'6')}
     }
     assert.equal(opened,1)
@@ -48,10 +51,22 @@ test('automatic tour visits all twelve nodes, waits for films, opens 3D, and res
     click(stops[2]);assert.equal(find('#play').attributes['aria-pressed'],'true')
     click(find('#play'));finish();assert.equal(timers.size,0)
     click(stops[7]);assert.equal(find('#play').attributes['aria-pressed'],'false');assert.equal(timers.size,0)
-    click(find('#play'));tick(12000);assert.equal(find('#world').dataset.chapter,'8')
-    click(stops[5]);click(find('#play'));click(find('#next'));assert.equal(find('#branchChoice').classList.contains('open'),true);click(branches[0]);click(find('#play'));tick(12000);assert.equal(find('#world').dataset.chapter,'8','explicit branch choice remains respected')
+    click(find('#play'));tick(5000);assert.equal(find('#world').dataset.chapter,'8')
+    click(stops[5]);click(find('#play'));click(find('#next'));assert.equal(find('#branchChoice').classList.contains('open'),true);click(branches[0]);click(find('#play'));tick(5000);assert.equal(find('#world').dataset.chapter,'8','explicit branch choice remains respected')
+    click(stops[6]);now += 2000;document.hidden=true;document.dispatchEvent(new Event('visibilitychange'));assert.equal(timers.size,0)
+    now += 60000;document.hidden=false;document.dispatchEvent(new Event('visibilitychange'));tick(3000);assert.equal(find('#world').dataset.chapter,'7','hidden time must not consume or reset five-second dwell')
     click(stops[9]);document.hidden=true;document.dispatchEvent(new Event('visibilitychange'));assert.equal(timers.size,0)
     document.hidden=false;document.dispatchEvent(new Event('visibilitychange'));tick(12000);assert.equal(find('#world').dataset.chapter,'10')
     click(find('#overview'));assert.equal(timers.size,0)
-  } finally {cleanup?.();Object.assign(globalThis,old);delete globalThis.tourDependencies}
+  } finally {Date.now = realNow;cleanup?.();Object.assign(globalThis,old);delete globalThis.tourDependencies}
+})
+
+test('only the two branch reading stops use five seconds; transition mask is 650ms', async () => {
+  assert.deepEqual(stations.filter(s => s.dwellMs).map(s => [s.name, s.dwellMs]), [
+    ['隐秘个人岛', 5000], ['共创空间', 5000],
+  ])
+  assert.ok(stations.filter(s => s.dwellMs).every(s => !s.film), 'never truncate a film')
+  const css = await readFile(new URL('../public/style.css', import.meta.url), 'utf8')
+  assert.match(css, /portalReveal \.65s/)
+  assert.match(css, /opacity \.55s ease/)
 })
