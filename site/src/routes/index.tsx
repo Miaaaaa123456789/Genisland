@@ -56,8 +56,8 @@ function Experience() {
           <button id="overview" type="button">◇ <span>全景</span></button>
           <div className="progress"><div id="progressFill" /></div>
           <span id="counter">00 / {stations.length - 1}</span>
-          <button id="play" type="button" aria-pressed="false">自动播放</button>
-          <button id="next" type="button" aria-label="下一站">→</button>
+          <button id="play" type="button">从头开始</button>
+          <button id="next" type="button" aria-label="下一页">下一页 →</button>
         </nav>
         <div className="hint" id="hint">拖动全景 · 滚轮缩放 · 点击站点</div>
       </main>
@@ -119,7 +119,7 @@ function Opening() {
         <button className="opening-map" id="enterMap" type="button">先看动线图</button>
       </div>
       <div className="opening-note">
-        <span id="openingStatus">约 5 秒后自动开始 · 逐站播放原声与介绍 · 最后自动进入 3D 全景</span>
+        <span id="openingStatus">点击开始播放第一站 · 点击下一页播放下一站 · 不会自动翻页</span>
       </div>
     </div>
   )
@@ -158,7 +158,7 @@ function ChapterPanel() {
       <button id="openModel" className="model-button" type="button" hidden>打开完整 3D 全景 ↗</button>
       <div className="panel-actions">
         <button id="back" type="button">返回全景</button>
-        <button id="advance" type="button">继续航行 <span>→</span></button>
+        <button id="advance" type="button">下一页 <span>→</span></button>
       </div>
     </section>
   )
@@ -169,7 +169,7 @@ function BranchChoice() {
     <div className="branch-choice" id="branchChoice" role="group" aria-label="选择体验支路">
       <div className="eyebrow">THE ROUTE SPLITS HERE</div>
       <h2>在这里，航线分开。</h2>
-      <p>两条路径会在镜映空间再次相遇。自动播放会依次展示两条支路，也可以选一条先看。</p>
+      <p>两条路径会在镜映空间再次相遇。请选择一条支路，或点击下一页依次浏览。</p>
       <div className="branch-buttons">
         <button type="button" data-branch="6">隐秘个人岛 <small>情境练习 / 舒缓调节</small></button>
         <button type="button" data-branch="7">共创空间 <small>留下作品 / 与人连接</small></button>

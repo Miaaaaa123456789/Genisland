@@ -28,7 +28,7 @@ function setup(onFinish = () => {}, onPlayback = () => {}) {
   return { media, video: find('#stationVideo'), fallback: find('#enableAudio'), sound: find('#sound') }
 }
 const film = { film: 'test', name: 'test' }
-test('automatically attempts original audio without any interaction', () => {
+test('explicit station navigation starts playback with original audio', () => {
   const {media, video, fallback} = setup()
   media.show(film, true)
   assert.deepEqual(video.calls, [false])
@@ -129,4 +129,15 @@ test('intentional pause invalidates pending play rejection', async () => {
   video.rejectPlay='AbortError';media.show(film,true);media.pause()
   await Promise.resolve()
   assert.equal(fallback.hidden,true)
+})
+
+test('hidden page pauses audio and returning does not restart playback', () => {
+  const {media,video}=setup()
+  media.show(film,true)
+  document.hidden=true;document.dispatchEvent(new Event('visibilitychange'))
+  assert.equal(video.paused,true)
+  document.hidden=false;document.dispatchEvent(new Event('visibilitychange'))
+  assert.equal(video.paused,true);assert.equal(video.calls.length,1)
+  media.resume();assert.equal(video.paused,false)
+  media.clear();assert.equal(video.paused,true)
 })

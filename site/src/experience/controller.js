@@ -4,10 +4,6 @@ import { createStationMedia } from './station-media.js'
 import { stations } from './stations'
 import { sitePath } from '../site-paths'
 
-const OPENING_DELAY = 5000
-const READING_DELAY = 12000
-const FILM_END_DELAY = 0
-const BRANCH_DELAY = 0
 const LAST_STATION = stations.length - 1
 
 const formatNumber = (number) => String(number).padStart(2, '0')
@@ -32,21 +28,13 @@ export function mountExperience(host) {
   const tourControls = ['#topline', '#transport', '#hint'].map(find)
   const facts = find('#facts')
   const detailToggle = find('#detailToggle')
-  const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)')
   const effects = createEffects(find('#cinemaFx'))
-  const stationMedia = createStationMedia(find, () => schedule(FILM_END_DELAY), signal, () => { clearTimeout(timer); deadline = 0 })
+  const stationMedia = createStationMedia(find, () => {}, signal)
 
   const visitTrail = []
   let selected = -1
   let entered = false
-  let openingAutoStart = true
-  let autoplay = false
-  let autoPausedByUser = false
   let route = null
-  let timer
-  let deadline = 0
-  let remainingDelay = null
-  let openingTimer
   let sceneFrame
   let scale = 1
   let drag = null
@@ -65,7 +53,6 @@ export function mountExperience(host) {
       image.decode?.().catch(() => {})
     }
   }
-  const readingDelay = () => stations[selected]?.dwellMs ?? READING_DELAY
   warmStation(0)
 
   function showOverview() {
@@ -87,6 +74,7 @@ export function mountExperience(host) {
     find('#counter').textContent = '00 / ' + formatNumber(LAST_STATION)
     panorama.style.backgroundPosition = 'center'
     panorama.style.transform = 'scale(' + scale + ')'
+    updateNavigation()
   }
 
   function setDetails(expanded) {
@@ -116,14 +104,11 @@ export function mountExperience(host) {
   function focus(index) {
     const station = stations[index]
     if (!station) return
-    clearTimeout(timer)
-    deadline = 0
     selected = index
-    remainingDelay = null
     warmStation(index)
     warmStation(index === 6 && route !== null ? 8 : index + 1)
     effects.setChapter(index)
-    setDetails(autoplay)
+    setDetails(false)
     world.classList.add('focused')
     panel.classList.add('open')
     branch.classList.remove('open')
@@ -180,7 +165,9 @@ export function mountExperience(host) {
     panorama.style.backgroundPosition = station.pan
     panel.scrollTop = 0
     find('#openModel').hidden = index !== LAST_STATION
-    if (!stationMedia.show(station, autoplay || !reducedMotion.matches)) schedule(readingDelay())
+    // Navigation is always user initiated; play only the selected station.
+    stationMedia.show(station, true)
+    updateNavigation()
   }
 
   function visit(index, nextRoute = route) {
@@ -189,39 +176,19 @@ export function mountExperience(host) {
     focus(index)
   }
 
-  function schedule(delay) {
-    remainingDelay = null
-    clearTimeout(timer)
-    deadline = 0
-    if (autoplay && !document.hidden && selected <= LAST_STATION) {
-      deadline = Date.now() + delay
-      timer = setTimeout(() => {
-        deadline = 0
-        if (selected === LAST_STATION) {
-          setAuto(false)
-          stationMedia.openModel()
-        } else advance()
-      }, delay)
-    }
-  }
-
-  function setAuto(enabled) {
-    autoplay = enabled
-    remainingDelay = null
-    clearTimeout(timer)
-    deadline = 0
-    const play = find('#play')
-    play.textContent = enabled ? '暂停自动播放' : '自动播放'
-    play.setAttribute('aria-pressed', String(enabled))
+  function updateNavigation() {
+    const label = selected === LAST_STATION ? '返回全景' : '下一页'
+    find('#next').textContent = label + ' →'
+    find('#next').setAttribute('aria-label', label)
+    find('#advance').textContent = label + ' →'
   }
 
   function advance() {
-    if (selected === 5 && !autoplay && !branch.classList.contains('open')) {
+    if (selected === 5 && !branch.classList.contains('open')) {
       stationMedia.clear()
       panel.classList.remove('open')
       evidencePanel.hidden = true
       branch.classList.add('open')
-      schedule(BRANCH_DELAY)
       return
     }
     if (selected === 6 && route !== null) {
@@ -229,7 +196,6 @@ export function mountExperience(host) {
       return
     }
     if (selected >= LAST_STATION) {
-      setAuto(false)
       showOverview()
       return
     }
@@ -244,19 +210,14 @@ export function mountExperience(host) {
   }
 
   function enter(withRoute) {
-    clearTimeout(openingTimer)
     const fromOpening = !entered
     setEntered(true)
-    autoPausedByUser = !withRoute
-    setAuto(withRoute)
     if (!withRoute) showOverview()
     else if (fromOpening) focus(0)
     else visit(0, null)
   }
 
   function goBack() {
-    autoPausedByUser = true
-    setAuto(false)
     if (branch.classList.contains('open')) {
       focus(selected)
       return
@@ -270,28 +231,15 @@ export function mountExperience(host) {
     } else {
       showOverview()
       setEntered(false)
-      openingAutoStart = false
-      queueOpening()
       find('#enter').focus({ preventScroll: true })
     }
   }
 
-  function queueOpening() {
-    clearTimeout(openingTimer)
-    const automatic = openingAutoStart && !reducedMotion.matches
-    find('#openingStatus').textContent = automatic
-      ? '约 5 秒后自动开始 · 逐站播放原声与介绍 · 最后自动进入 3D 全景'
-      : '选择「从第一站开始」即可逐站自动播放 · 最后自动进入 3D 全景'
-    if (!entered && !document.hidden && automatic) {
-      openingTimer = setTimeout(() => enter(true), OPENING_DELAY)
-    }
-  }
+  find('#openingStatus').textContent = '点击开始播放第一站 · 点击下一页播放下一站 · 不会自动翻页'
 
   onClick('#enter', () => enter(true))
   onClick('#enterMap', () => enter(false))
   function leaveStation() {
-    autoPausedByUser = true
-    setAuto(false)
     showOverview()
   }
   onClick('#overview', leaveStation)
@@ -309,30 +257,12 @@ export function mountExperience(host) {
   })
   onClick('#advance', advance)
   onClick('#next', advance)
-  onClick('#play', () => {
-    if (autoplay) {
-      autoPausedByUser = true
-      setAuto(false)
-      stationMedia.pause()
-      return
-    }
-    if (selected < 0 || selected === LAST_STATION) {
-      enter(true)
-      return
-    }
-    autoPausedByUser = false
-    setAuto(true)
-    setDetails(true)
-    if (branch.classList.contains('open')) schedule(BRANCH_DELAY)
-    else if (!stationMedia.resume()) schedule(readingDelay())
-  })
+  onClick('#play', () => enter(true))
   for (const button of host.querySelectorAll('[data-stop]')) {
     button.addEventListener('click', () => {
       if (!entered) {
-        clearTimeout(openingTimer)
         setEntered(true)
       }
-      setAuto(!autoPausedByUser)
       visit(Number(button.dataset.stop), null)
     }, { signal })
   }
@@ -344,24 +274,8 @@ export function mountExperience(host) {
   }
   onClick('#sound', stationMedia.toggleSound)
   onClick('#openModel', () => {
-    autoPausedByUser = true
-    setAuto(false)
     stationMedia.openModel()
   })
-
-  document.addEventListener('visibilitychange', () => {
-    if (!entered) queueOpening()
-    else if (document.hidden) {
-      remainingDelay = deadline ? Math.max(0, deadline - Date.now()) : null
-      clearTimeout(timer)
-      deadline = 0
-    }
-    else if (autoplay && !stationMedia.isPending()) {
-      schedule(remainingDelay ?? (branch.classList.contains('open') ? BRANCH_DELAY : stations[selected]?.film ? FILM_END_DELAY : readingDelay()))
-    }
-  }, { signal })
-  reducedMotion.addEventListener('change', queueOpening, { signal })
-  queueOpening()
 
   world.addEventListener('pointerdown', (event) => {
     if (event.target.closest('button')) return
@@ -404,10 +318,8 @@ export function mountExperience(host) {
     stationMedia.reconcileEnd?.()
     const status = find('#autoplayStatus')
     status.hidden = !entered || selected < 0
-    status.textContent = !autoplay ? '自动航行已暂停 · 点「自动播放」继续'
-      : document.hidden ? '返回页面后继续自动航行'
-      : deadline ? `${selected === LAST_STATION ? '自动打开全景' : '自动下一站'} · ${Math.max(1, Math.ceil((deadline - Date.now()) / 1000))} 秒`
-      : stationMedia.playbackStatus?.() || '自动航行中'
+    status.textContent = stationMedia.playbackStatus?.() || (selected === LAST_STATION
+      ? '已到最后一页 · 可点击打开 3D 全景' : '点击「下一页」继续 · 不会自动翻页')
   }, 250)
 
   void startAtmosphere(find('#atmosphere'), signal)
@@ -415,8 +327,6 @@ export function mountExperience(host) {
   return () => {
     lifecycle.abort()
     clearInterval(statusTimer)
-    clearTimeout(timer)
-    clearTimeout(openingTimer)
     cancelAnimationFrame(sceneFrame)
     stationMedia.clear()
     effects.dispose()

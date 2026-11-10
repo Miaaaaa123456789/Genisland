@@ -14,7 +14,6 @@ export function createStationMedia(find, onFinish, signal, onPlayback = () => {}
   let soundBlocked = false
   let playbackFailed = false
   let playbackAttempt = 0
-  let resumeOnReturn = false
 
   function finish() {
     if (!pending) return
@@ -30,7 +29,6 @@ export function createStationMedia(find, onFinish, signal, onPlayback = () => {}
     enableAudio.textContent = '开启原声并继续 ▶'
     enableAudio.hidden = true
     playbackAttempt += 1
-    resumeOnReturn = false
     film.hidden = true
     video.pause()
     if (video.hasAttribute('src')) {
@@ -74,7 +72,7 @@ export function createStationMedia(find, onFinish, signal, onPlayback = () => {}
       // Keep original audio enabled: never silently replace it with muted playback.
       soundBlocked = true
       enableAudio.hidden = false
-      note.textContent = '原声默认已开启，但浏览器阻止了有声自动播放。只需点按「开启原声并继续」，后续节点将按顺序播放。'
+      note.textContent = '原声默认已开启，但浏览器阻止了有声自动播放。只需点按「开启原声并继续」，之后点击「下一页」播放下一站。'
       updateSoundButton()
     })
   }
@@ -120,8 +118,7 @@ export function createStationMedia(find, onFinish, signal, onPlayback = () => {}
     if (!playbackFailed) soundEnabled = true
     applySound()
   }, { signal })
-  // A native replay/seek starts a new viewing cycle. Cancel the old reading
-  // timer immediately, or it can cut off a replay halfway through.
+  // A native replay/seek starts a new viewing cycle without changing stations.
   function beginPlayback() {
     if (!current || video.ended) return
     pending = true
@@ -174,12 +171,8 @@ export function createStationMedia(find, onFinish, signal, onPlayback = () => {}
   dialog.addEventListener('close', () => model.removeAttribute('src'), { signal })
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) {
-      resumeOnReturn = pending && !video.paused
       playbackAttempt += 1
       video.pause()
-    } else if (resumeOnReturn && pending) {
-      resumeOnReturn = false
-      play()
     }
   }, { signal })
 
@@ -191,10 +184,9 @@ export function createStationMedia(find, onFinish, signal, onPlayback = () => {}
     isPending: () => pending,
     reconcileEnd,
     playbackStatus: () => playbackFailed ? '影片未能启动 · 请重试播放或选择下一站' : soundBlocked ? '请先点按影片下方「开启原声并继续」'
-      : pending ? (video.paused ? '影片已暂停，点播放键继续' : '正在播放本站影片 · 播完自动前往下一站') : '',
+      : pending ? (video.paused ? '影片已暂停，点播放键继续' : '正在播放本站影片 · 点击「下一页」继续') : '',
     pause() {
       playbackAttempt += 1
-      resumeOnReturn = false
       video.pause()
     },
     resume() {
